@@ -1,11 +1,6 @@
 var AVBUObservers = (function ($) {
     'use strict';
 
-    var settings = AVBUSettings;
-    var utils = AVBUUtils;
-    var constants = AVBUConstants;
-    var request = AVBURequest;
-
     var module = {};
 
     /** Mutation observer for the currency page tooltip */
@@ -104,4 +99,4 @@ var AVBUObservers = (function ($) {
 
     return module;
 
-}());
+});

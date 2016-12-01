@@ -1,36 +1,4 @@
-// ==UserScript==
-// @name           Avabur Improved
-// @namespace      org.craiel.avaburimproved
-// @author         Craiel
-// @homepage       https://github.com/Craiel/RoAExt
-// @description    Some welcome additions to Avabur's UI choices
-// @include        https://avabur.com/game.php
-// @include        http://avabur.com/game.php
-// @include        https://www.avabur.com/game.php
-// @include        http://www.avabur.com/game.php
-// @version        0.7
-// @icon           https://cdn.rawgit.com/Craiel/RoAExt/0.7/res/img/logo-16.png
-// @icon64         https://cdn.rawgit.com/Craiel/RoAExt/0.7/res/img/logo-64.png
-// @run-at         document-end
-// @grant          GM_getValue
-// @grant          GM_setValue
-// @grant          GM_deleteValue
-// @grant          GM_notification
-// @grant          GM_listValues
-// @grant          GM_xmlhttpRequest
-// @connect        self
-// @require        https://cdn.rawgit.com/Craiel/RoAExt/0.7/lib/toastmessage/jquery.toastmessage.min.js
-// @require        https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js
-// @require        https://cdn.rawgit.com/Craiel/RoAExt/0.7/lib/jalc-1.0.1.min.js
-// @require        https://cdn.rawgit.com/Alorel/alo-timer/master/src/alotimer.min.js
-
-// @noframes
-// ==/UserScript==
-'use strict';
-
-var toast = AVBUToast(jquery);
-var cache = AVBUCache(jquery);
-cache.init(window.sessionStorage, MutationObserver, buzz, AloTimer);
+var toast = AVBUToast;
 
 //Check if the user can even support the bot
 if (typeof(window.sessionStorage) === "undefined") {
@@ -38,6 +6,20 @@ if (typeof(window.sessionStorage) === "undefined") {
 } else if (typeof(MutationObserver) === "undefined") {
     toast.incompatibility("MutationObserver");
 } else {
+    var cache = AVBUCache(jQuery);
+    cache.init(window.sessionStorage, MutationObserver, buzz, AloTimer);
+
+    var constants = AVBUConstants(jQuery);
+    var demo = AVBUDemo(jQuery);
+    var handlers = AVBUHandlers(jQuery);
+    var interval = AVBUInterval(jQuery);
+    var load = AVBULoad(jQuery);
+    var observers = AVBUObservers(jQuery);
+    var request = AVBURequest(jQuery);
+    var settings = AVBUSettings(jQuery);
+    var toast = AVBUToast(jQuery);
+    var utils = AVBUUtils(jQuery);
+
     var main = AVBU(jQuery);
     main.start();
 }

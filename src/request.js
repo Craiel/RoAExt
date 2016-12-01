@@ -8,7 +8,7 @@ var AVBURequest = (function ($) {
      * @param {Function} [errorCallback]  A custom error callback
      * @constructor
      */
-    var module = function (url, cacheTime, errorCallback) {
+    const Request = function (url, cacheTime, errorCallback) {
         /** The URL we're calling */
         this.url = url;
         /** OnError callback */
@@ -28,29 +28,29 @@ var AVBURequest = (function ($) {
             success: {
                 /** Successful callback for the currency tooltip market info lookup */
                 currency_tooltip: function (r) {
-                    const analysis = fn.analysePrice(r.l);
+                    const analysis = utils.analysePrice(r.l);
 
-                    fn.toggleVisibility($AJAX_SPINNERS.currency_tooltip, false);
-                    $DOM.currency_tooltip.market_low.text(fn.numberWithCommas(analysis.low));
-                    $DOM.currency_tooltip.market_avg.text(fn.numberWithCommas(analysis.avg));
-                    $DOM.currency_tooltip.market_high.text(fn.numberWithCommas(analysis.high));
+                    utils.toggleVisibility(constants.$AJAX_SPINNERS.currency_tooltip, false);
+                    constants.$DOM.currency_tooltip.market_low.text(fn.numberWithCommas(analysis.low));
+                    constants.$DOM.currency_tooltip.market_avg.text(fn.numberWithCommas(analysis.avg));
+                    constants.$DOM.currency_tooltip.market_high.text(fn.numberWithCommas(analysis.high));
                 },
                 house_requery: function (evt, r, opts) {
                     if (opts.url.indexOf("house") !== -1 &&
                         typeof(r.responseJSON) !== "undefined" &&
                         typeof(r.responseJSON.m) !== "undefined") {
-                        fn.handle_house_status_update(r.responseJSON.m);
+                        utils.handle_house_status_update(r.responseJSON.m);
                     }
                 },
                 house_state_refresh: function (r) {
-                    fn.handle_house_status_update(r.m);
+                    utils.handle_house_status_update(r.m);
                 }
             },
             /** Error callbacks */
             error: {
                 /** Generic error callback */
                 generic: function (xhr, textStatus, errorThrown) {
-                    Toast.error("[" + textStatus + "] " + xhr.responseText);
+                    toast.error("[" + textStatus + "] " + xhr.responseText);
                     console.error({
                         xhr: xhr,
                         textStatus: textStatus,
@@ -103,6 +103,6 @@ var AVBURequest = (function ($) {
         }
     };
 
-    return module;
+    return Request;
 
-}());
+});

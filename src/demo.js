@@ -16,7 +16,7 @@ var AVBUDemo = (function ($) {
     Demo.prototype.scenarios = {
         "whisper-sound": {
             kind: Demo.prototype.kinds.SOUND,
-            src: SFX.msg_ding
+            src: constants.SFX.msg_ding
         },
         "whisper-gm": {
             kind: Demo.prototype.kinds.GM_NOTIFICATION,
@@ -24,7 +24,7 @@ var AVBUDemo = (function ($) {
         },
         "construction-sound": {
             kind: Demo.prototype.kinds.SOUND,
-            src: SFX.circ_saw
+            src: constants.SFX.circ_saw
         },
         "construction-gm": {
             kind: Demo.prototype.kinds.GM_NOTIFICATION,
@@ -38,21 +38,22 @@ var AVBUDemo = (function ($) {
             switch (scenario.kind) {
                 case Demo.prototype.kinds.SOUND:
                     if (!buzz.isWAVSupported()) {
-                        Toast.incompatibility("WAV sounds");
+                        toast.incompatibility("WAV sounds");
                     } else {
                         scenario.src.play();
                     }
                     break;
                 case Demo.prototype.kinds.GM_NOTIFICATION:
-                    fn.notification(scenario.src);
+                    utils.notification(scenario.src);
                     break;
                 default:
-                    Toast.error("Misconfigured demo scenario: " + this.kind);
+                    toast.error("Misconfigured demo scenario: " + this.kind);
             }
         } else {
-            Toast.error("Invalid demo scenario picked: " + this.kind);
+            toast.error("Invalid demo scenario picked: " + this.kind);
         }
     };
 
     return Demo;
-})
+
+});

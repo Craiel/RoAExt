@@ -3,20 +3,6 @@ var AVBUUtils = (function($) {
 
     var module = {};
 
-    /**
-     * Creates a GitHub CDN URL
-     * @param {String} path Path to the file without leading slashes
-     * @param {String} [author] The author. Defaults to Alorel
-     * @param {String} [repo] The repository. Defaults to avabur-improved
-     * @returns {String} The URL
-     */
-    module.gitHubUrl = function (path, author, repo) {
-        author = author || "Craiel";
-        repo = repo || "RoAExt";
-
-        return "https://cdn.rawgit.com/" + author + "/" + repo + "/" + GM_info.script.version + "/" + path;
-    };
-
     module.parseTimeStringLong = function (str) {
         var time = 0;
         const match = str.match(/([0-9]+\s+(hours?|minutes?|seconds?))/g);
@@ -40,7 +26,7 @@ var AVBUUtils = (function($) {
     };
 
     module.svg = function ($this, url) {
-        $this.html('<img src="' + URLS.img.ajax_loader + '" alt="Loading"/>');
+        $this.html('<img src="' + constants.URLS.img.ajax_loader + '" alt="Loading"/>');
         $.get(url).done(function (r) {
             $this.html($(r).find("svg"));
         });
@@ -49,18 +35,18 @@ var AVBUUtils = (function($) {
 
     module.house_status_update_end = function (interval) {
         interval.clear();
-        $DOM.house_monitor.status.addClass("avi-highlight").html(
+        constants.$DOM.house_monitor.status.addClass("avi-highlight").html(
             $('<span data-delegate-click="#header_house" style="cursor:pointer;text-decoration:underline;padding-right:5px">Ready!</span>')
-                .click($HANDLERS.click.delegate_click)
+                .click(handlers.click.delegate_click)
         )
             .append(
-                $("<a href='javascript:;'>(refresh)</a>").click($HANDLERS.click.house_state_refresh)
+                $("<a href='javascript:;'>(refresh)</a>").click(handlers.click.house_state_refresh)
             );
-        if (Settings.settings.notifications.construction.gm && Settings.settings.notifications.all.gm) {
-            fn.notification(Demo.prototype.gm_texts.construction);
+        if (settings.settings.notifications.construction.gm && settings.settings.notifications.all.gm) {
+            this.notification(demo.prototype.gm_texts.construction);
         }
-        if (Settings.settings.notifications.construction.sound && Settings.settings.notifications.all.sound) {
-            SFX.circ_saw.play();
+        if (settings.settings.notifications.construction.sound && settings.settings.notifications.all.sound) {
+            constants.SFX.circ_saw.play();
         }
     };
 
@@ -74,13 +60,13 @@ var AVBUUtils = (function($) {
                 const timer = new AloTimer(fn.parseTimeStringLong(text));
                 interval.set(function () {
                     if (timer.isFinished()) {
-                        fn.house_status_update_end(interval);
+                        this.house_status_update_end(interval);
                     } else {
-                        $DOM.house_monitor.status.removeClass("avi-highlight").text(timer.toString());
+                        constants.$DOM.house_monitor.status.removeClass("avi-highlight").text(timer.toString());
                     }
                 }, 1000);
             } else if (text.indexOf("are available")) {
-                fn.house_status_update_end(interval);
+                this.house_status_update_end(interval);
             } else {
                 setTimeout(function () {
                     $.get("/house.php")
@@ -113,13 +99,13 @@ var AVBUUtils = (function($) {
         const $openCategory = function (evt, xhr, opts) {
             if (opts.url === "market.php") {
                 $document.unbind("ajaxComplete", $openCategory);
-                $DOM.market.navlinks.removeClass("active")
+                constants.$DOM.market.navlinks.removeClass("active")
                     .filter("a:contains('" + type + "')").addClass("active").click();
             }
         };
 
         $document.ajaxComplete($openCategory);
-        $DOM.nav.market.click();
+        constants.$DOM.nav.market.click();
     };
 
     module.analysePrice = function (arr) {
@@ -172,8 +158,8 @@ var AVBUUtils = (function($) {
         }
 
         $el.show().siblings().hide();
-        $DOM.modal.modal_background.fadeIn();
-        $DOM.modal.modal_wrapper.fadeIn();
+        constants.$DOM.modal.modal_background.fadeIn();
+        constants.$DOM.modal.modal_wrapper.fadeIn();
     };
 
     /**
@@ -231,4 +217,4 @@ var AVBUUtils = (function($) {
     };
 
     return module;
-}());
+});

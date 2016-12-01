@@ -1,4 +1,4 @@
-var AVBUToast = (function () {
+var AVBUToast = (function ($) {
     'use strict';
 
     /** Create toast messages */
@@ -34,4 +34,4 @@ var AVBUToast = (function () {
     };
 
     return module;
-}());
+});

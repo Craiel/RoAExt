@@ -46,4 +46,4 @@ var AVBUSettings = (function($) {
     };
 
     return new SettingsHandler();
-}());
+});

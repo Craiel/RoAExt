@@ -5,22 +5,22 @@ var AVBUHandlers = (function ($) {
 
     module.click = {
         demo: function () {
-            (new Demo($(this).attr("data-demo"))).play();
+            (new demo($(this).attr("data-demo"))).play();
         },
         house_state_refresh: function () {
-            $.post("/house.php", {}, Request.prototype.callbacks.success.house_state_refresh);
+            $.post("/house.php", {}, request.callbacks.success.house_state_refresh);
         },
         topbar_currency: function () {
             const type = $(this).find(">td:first").text().trim();
-            fn.openMarket(type.substring(0, type.length - 1));
+            utils.openMarket(type.substring(0, type.length - 1));
         },
         ingredient: function () {
-            $DOM.modal.modal_background.click();
-            fn.openMarket("Ingredients");
+            constants.$DOM.modal.modal_background.click();
+            utils.openMarket("Ingredients");
         },
         script_menu: function () {
-            $DOM.modal.modal_title.text(GM_info.script.name + " " + GM_info.script.version);
-            fn.openStdModal($DOM.modal.script_settings);
+            constants.$DOM.modal.modal_title.text(GM_info.script.name + " " + GM_info.script.version);
+            utils.openStdModal($DOM.modal.script_settings);
         },
         delegate_click: function () {
             $($(this).data("delegate-click")).click();
@@ -30,13 +30,13 @@ var AVBUHandlers = (function ($) {
     module.change = {
         settings_notification: function () {
             const $this = $(this);
-            Settings.settings.notifications[$this.data("notification")][$this.data("type")] = $this.is(":checked");
-            Settings.save();
+            settings.settings.notifications[$this.data("notification")][$this.data("type")] = $this.is(":checked");
+            settings.save();
         },
         settings_feature: function () {
             const $this = $(this);
-            Settings.settings.features[$this.data("feature")] = $this.is(":checked");
-            Settings.save();
+            settings.settings.features[$this.data("feature")] = $this.is(":checked");
+            settings.save();
         }
     };
 
@@ -46,9 +46,9 @@ var AVBUHandlers = (function ($) {
                 ingredient = $this.text().trim();
 
             if (typeof(TRADESKILL_MATS[ingredient]) === "undefined") {
-                Toast.error("Failed to lookup " + ingredient + ": ID not found");
+                toast.error("Failed to lookup " + ingredient + ": ID not found");
             } else {
-                (new Request("/market.php", CACHE_TTL.market))
+                (new Request("/market.php", constants.CACHE_TTL.market))
                     .post({
                         type: "ingredient",
                         page: 0,
@@ -61,12 +61,12 @@ var AVBUHandlers = (function ($) {
                         $describedBy = $("#" + describedBy);
 
                     if (describedBy && $describedBy.length) {
-                        const analysis = fn.analysePrice(r.l),
+                        const analysis = utils.analysePrice(r.l),
                             $tds = $describedBy.find("tr[data-id=prices]>td");
 
-                        $tds.first().text(fn.numberWithCommas(analysis.low))
-                            .next().text(fn.numberWithCommas(analysis.avg))
-                            .next().text(fn.numberWithCommas(analysis.high));
+                        $tds.first().text(utils.numberWithCommas(analysis.low))
+                            .next().text(utils.numberWithCommas(analysis.avg))
+                            .next().text(utils.numberWithCommas(analysis.high));
                     }
                 });
             }
@@ -77,11 +77,11 @@ var AVBUHandlers = (function ($) {
         settings_notification: function () {
             const $this = $(this);
 
-            $this.prop("checked", Settings.settings.notifications[$this.data("notification")][$this.data("type")]);
+            $this.prop("checked", settings.settings.notifications[$this.data("notification")][$this.data("type")]);
         },
         settings_features: function () {
             const $this = $(this);
-            $this.prop("checked", Settings.settings.features[$this.data("feature")]);
+            $this.prop("checked", settings.settings.features[$this.data("feature")]);
         },
         inventory_table_ingredients: function () {
             const $this = $(this),
@@ -96,12 +96,12 @@ var AVBUHandlers = (function ($) {
                 container: "body",
                 viewport: {"selector": "body", "padding": 0},
                 placement: "auto right",
-                content: $DOM.market.market_tooltip
+                content: constants.$DOM.market.market_tooltip
             });
 
-            $span.mouseenter($HANDLERS.mouseenter.inventory_table_ingredient)
+            $span.mouseenter(this.mouseenter.inventory_table_ingredient)
                 .css("cursor", "pointer")
-                .click($HANDLERS.click.ingredient);
+                .click(this.click.ingredient);
         }
     };
 

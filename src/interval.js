@@ -1,5 +1,9 @@
-var AVBUInterval = (function () {
+var AVBUInterval = (function ($) {
     'use strict';
+
+    const Interval = function (name) {
+        this.name = name;
+    };
 
     Interval.prototype = {
         _intervals: {},
@@ -22,8 +26,6 @@ var AVBUInterval = (function () {
         }
     };
 
-    return function (name) {
-        this.name = name;
-    }
+    return Interval;
 
-}());
+});

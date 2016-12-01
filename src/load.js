@@ -4,25 +4,25 @@ var AVBULoad = (function ($) {
     var module = {};
 
     module["Registering market tooltip users"] = function () {
-        $.get(URLS.html.market_tooltip).done(function (r) {
-            $DOM.market.market_tooltip = r;
+        $.get(constants.URLS.html.market_tooltip).done(function (r) {
+            constants.$DOM.market.market_tooltip = r;
 
             const $tooltipTable = $(r);
 
-            $tooltipTable.find("th[colspan]").append($AJAX_SPINNERS.currency_tooltip);
-            $DOM.currency_tooltip.table_row = $tooltipTable.find("tr[data-id=prices]");
-            $DOM.currency_tooltip.market_low = $DOM.currency_tooltip.table_row.find(">td").first();
-            $DOM.currency_tooltip.market_avg = $DOM.currency_tooltip.market_low.next();
-            $DOM.currency_tooltip.market_high = $DOM.currency_tooltip.market_avg.next();
+            $tooltipTable.find("th[colspan]").append(constants.$AJAX_SPINNERS.currency_tooltip);
+            constants.$DOM.currency_tooltip.table_row = $tooltipTable.find("tr[data-id=prices]");
+            constants.$DOM.currency_tooltip.market_low = constants.$DOM.currency_tooltip.table_row.find(">td").first();
+            constants.$DOM.currency_tooltip.market_avg = constants.$DOM.currency_tooltip.market_low.next();
+            constants.$DOM.currency_tooltip.market_high = constants.$DOM.currency_tooltip.market_avg.next();
 
             //Add our stuff to the currency tooltips
-            $DOM.currency_tooltip.the_tooltip.append($tooltipTable);
+            constants.$DOM.currency_tooltip.the_tooltip.append($tooltipTable);
 
-            OBSERVERS.currency_tooltips.observe($DOM.currency_tooltip.the_tooltip[0], {
+            observers.currency_tooltips.observe(constants.$DOM.currency_tooltip.the_tooltip[0], {
                 attributes: true
             });
 
-            OBSERVERS.inventory_table.observe(document.querySelector("#inventoryTable"), {
+            observers.inventory_table.observe(document.querySelector("#inventoryTable"), {
                 childList: true,
                 characterData: true
             });
@@ -37,16 +37,16 @@ var AVBULoad = (function ($) {
     };
 
     module["Applying house monitor"] = function () {
-        if (Settings.settings.features.house_timer) {
-            $.get(URLS.html.house_timers).done(function (r) {
+        if (settings.settings.features.house_timer) {
+            $.get(constants.URLS.html.house_timers).done(function (r) {
                 const $timer = $(r),
                     $body = $("body");
 
                 $("#houseTimerInfo").addClass("avi-force-block");
                 $body.append("<style>#constructionNotifier,#houseTimerTable [data-typeid='Construction']{display:none!important}</style>");
                 $("#houseTimerTable").prepend($timer);
-                $DOM.house_monitor.status = $("#avi-house-construction").click($HANDLERS.click.house_state_refresh);
-                OBSERVERS.house_status.observe(document.querySelector("#house_notification"), {
+                constants.$DOM.house_monitor.status = $("#avi-house-construction").click($HANDLERS.click.house_state_refresh);
+                observers.house_status.observe(document.querySelector("#house_notification"), {
                     childList: true,
                     characterData: true
                 });
@@ -59,7 +59,7 @@ var AVBULoad = (function ($) {
     };
 
     module["Checking if the script has been updated"] = function () {
-        if (fn.versionCompare(GM_getValue("last_ver") || "999999", GM_info.script.version) < 0) {
+        if (utils.versionCompare(GM_getValue("last_ver") || "999999", GM_info.script.version) < 0) {
             $().toastmessage('showToast', {
                 text: GM_info.script.name + " has been updated! See the changelog " +
                 "<a href='https://github.com/Alorel/avabur-improved/releases' target='_blank'>here</a>",
@@ -73,29 +73,29 @@ var AVBULoad = (function ($) {
 
     module["Loading script CSS"] = function () {
         const $head = $("head"),
-            keys = Object.keys(URLS.css);
+            keys = Object.keys(constants.URLS.css);
 
         for (var i = 0; i < keys.length; i++) {
-            $head.append("<link type='text/css' rel='stylesheet' href='" + URLS.css[keys[i]] + "'/>");
+            $head.append("<link type='text/css' rel='stylesheet' href='" + constants.URLS.css[keys[i]] + "'/>");
         }
     };
 
     module["Configuring script modal"] = function () {
-        $.get(URLS.html.settings_modal).done(function (r) {
-            $DOM.modal.script_settings = $(r);
-            $("#modalContent").append($DOM.modal.script_settings);
-            fn.tabify($DOM.modal.script_settings);
-            $DOM.modal.script_settings.find("[data-demo]").click($HANDLERS.click.demo);
+        $.get(constants.URLS.html.settings_modal).done(function (r) {
+            constants.$DOM.modal.script_settings = $(r);
+            $("#modalContent").append(constants.$DOM.modal.script_settings);
+            utils.tabify(constants.$DOM.modal.script_settings);
+            constants.$DOM.modal.script_settings.find("[data-demo]").click(handlers.click.demo);
 
-            $DOM.modal.script_settings.find('[data-setting="notifications"]')
-                .each($HANDLERS.each.settings_notification)
-                .change($HANDLERS.change.settings_notification);
+            constants.$DOM.modal.script_settings.find('[data-setting="notifications"]')
+                .each(handlers.each.settings_notification)
+                .change(handlers.change.settings_notification);
 
-            $DOM.modal.script_settings.find('[data-setting="features"]')
-                .each($HANDLERS.each.settings_features)
-                .change($HANDLERS.change.settings_feature);
+            constants.$DOM.modal.script_settings.find('[data-setting="features"]')
+                .each(handlers.each.settings_features)
+                .change(handlers.change.settings_feature);
 
-            OBSERVERS.script_settings.observe($DOM.modal.modal_wrapper[0], {attributes: true});
+            observers.script_settings.observe(constants.$DOM.modal.modal_wrapper[0], {attributes: true});
         });
     };
 
@@ -103,7 +103,7 @@ var AVBULoad = (function ($) {
         const $helpSection = $("#helpSection"),
             $menuLink = $('<a href="javascript:;"/>')
                 .html('<li class="active">' + GM_info.script.name + " " + GM_info.script.version + '</li>')
-                .click($HANDLERS.click.script_menu),
+                .click(handlers.click.script_menu),
             $appends = {
                 battle: $("<a href='javascript:;' data-delegate-click='#loadMobList' class='avi-tip avi-menu-shortcut' title='Open Battles'/>"),
                 fishing: $("<a href='javascript:;' data-delegate-click='#loadFishing' class='avi-tip avi-menu-shortcut' title='Open Fishing'/>"),
@@ -123,20 +123,20 @@ var AVBULoad = (function ($) {
                     .append($appends.quarry)
             );
 
-        fn.svg($appends.battle, URLS.svg.sword_clash);
-        fn.svg($appends.fishing, URLS.svg.fishing);
-        fn.svg($appends.wc, URLS.svg.log);
-        fn.svg($appends.mine, URLS.svg.metal_bar);
-        fn.svg($appends.quarry, URLS.svg.stone_block);
+        utils.svg($appends.battle, constants.URLS.svg.sword_clash);
+        utils.svg($appends.fishing, constants.URLS.svg.fishing);
+        utils.svg($appends.wc, constants.URLS.svg.log);
+        utils.svg($appends.mine, constants.URLS.svg.metal_bar);
+        utils.svg($appends.quarry, constants.URLS.svg.stone_block);
     };
 
     module["Registering market shortcuts"] = function () {
         $("#allThemTables").find(".currencyWithTooltip:not(:contains(Gold))").css("cursor", "pointer")
-            .click($HANDLERS.click.topbar_currency);
+            .click(handlers.click.topbar_currency);
     };
 
     module["Staring whisper monitor"] = function () {
-        OBSERVERS.chat_whispers.observe(document.querySelector("#chatMessageList"), {
+        observers.chat_whispers.observe(document.querySelector("#chatMessageList"), {
             childList: true
         });
     };
@@ -171,7 +171,7 @@ var AVBULoad = (function ($) {
             container: "body",
             viewport: {"selector": "body", "padding": 0}
         });
-        $("[data-delegate-click]").click($HANDLERS.click.delegate_click);
+        $("[data-delegate-click]").click(handlers.click.delegate_click);
     };
 
     module.loadAll = function () {
