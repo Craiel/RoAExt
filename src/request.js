@@ -1,6 +1,8 @@
 var AVBURequest = (function ($) {
     'use strict';
 
+    var module = {};
+
     /**
      * Represents an AJAX request to be used with cache
      * @param {String} url The URL we're calling
@@ -103,6 +105,12 @@ var AVBURequest = (function ($) {
         }
     };
 
-    return Request;
+    module.create = function (url, cacheTime, errorCallback) {
+        return new Request(url, cacheTime, errorCallback);
+    };
+
+    module.proto = Request.prototype;
+
+    return module;
 
 });

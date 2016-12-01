@@ -23,11 +23,11 @@ var AVBUObservers = (function ($) {
                     $allTDs.text(" ");
                     utils.toggleVisibility(constants.$AJAX_SPINNERS.currency_tooltip, true);
 
-                    (new Request("/market.php", constants.CACHE_TTL.market)).post({
+                    (request.create("/market.php", constants.CACHE_TTL.market)).post({
                         type: "currency",
                         page: 0,
                         st: marketID
-                    }).done(request.callbacks.success.currency_tooltip);
+                    }).done(request.proto.callbacks.success.currency_tooltip);
                 }
             }
     });

@@ -53,20 +53,20 @@ var AVBUUtils = (function($) {
     module.handle_house_status_update = function (text) {
         if (text !== constants.FUNCTION_PERSISTENT_VARS.house_update_last_msg) {
             constants.FUNCTION_PERSISTENT_VARS.house_update_last_msg = text;
-            const interval = interval("house_status");
-            interval.clear();
+            const intervalFunc = interval("house_status");
+            intervalFunc.clear();
 
             if (text.indexOf("available again") !== -1) { // Working
                 const timer = new AloTimer(fn.parseTimeStringLong(text));
-                interval.set(function () {
+                intervalFunc.set(function () {
                     if (timer.isFinished()) {
-                        this.house_status_update_end(interval);
+                        this.house_status_update_end(intervalFunc);
                     } else {
                         constants.$DOM.house_monitor.status.removeClass("avi-highlight").text(timer.toString());
                     }
                 }, 1000);
             } else if (text.indexOf("are available")) {
-                this.house_status_update_end(interval);
+                this.house_status_update_end(intervalFunc);
             } else {
                 setTimeout(function () {
                     $.get("/house.php")

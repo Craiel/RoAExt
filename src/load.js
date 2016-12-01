@@ -50,7 +50,7 @@ var AVBULoad = (function ($) {
                     childList: true,
                     characterData: true
                 });
-                $(document).ajaxComplete(request.callbacks.success.house_requery);
+                $(document).ajaxComplete(request.proto.callbacks.success.house_requery);
                 $.get("/house.php")
             });
         } else {

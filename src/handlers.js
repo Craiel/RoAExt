@@ -8,7 +8,7 @@ var AVBUHandlers = (function ($) {
             (new demo($(this).attr("data-demo"))).play();
         },
         house_state_refresh: function () {
-            $.post("/house.php", {}, request.callbacks.success.house_state_refresh);
+            $.post("/house.php", {}, request.proto.callbacks.success.house_state_refresh);
         },
         topbar_currency: function () {
             const type = $(this).find(">td:first").text().trim();
@@ -48,7 +48,7 @@ var AVBUHandlers = (function ($) {
             if (typeof(TRADESKILL_MATS[ingredient]) === "undefined") {
                 toast.error("Failed to lookup " + ingredient + ": ID not found");
             } else {
-                (new Request("/market.php", constants.CACHE_TTL.market))
+                (request.create("/market.php", constants.CACHE_TTL.market))
                     .post({
                         type: "ingredient",
                         page: 0,

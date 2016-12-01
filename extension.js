@@ -12,7 +12,7 @@ if (typeof(window.sessionStorage) === "undefined") {
     var constants = AVBUConstants(jQuery);
     var demo = AVBUDemo(jQuery);
     var handlers = AVBUHandlers(jQuery);
-    var interval = AVBUInterval(jQuery);
+    var interval = AVBUInterval();
     var load = AVBULoad(jQuery);
     var observers = AVBUObservers(jQuery);
     var request = AVBURequest(jQuery);
