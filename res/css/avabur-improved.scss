@@ -1,0 +1,112 @@
+.avi {
+  &-margin-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &-highlight {
+    animation: pulsate-inner 0.5s infinite alternate;
+  }
+
+  &-force {
+    &-hide {
+      display: none !important;
+    }
+    &-block {
+      display: block !important;
+    }
+  }
+
+  &-table {
+    display: table;
+
+    > * {
+      display: table-row;
+
+      > * {
+        display: table-cell;
+        padding: 2px;
+      }
+    }
+  }
+
+  &-link {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  &-tip {
+    border-bottom: 1px dotted;
+  }
+
+  &-menu-shortcut {
+    line-height: initial !important;
+
+    > svg {
+      border: 1px solid;
+      padding: 2px;
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+table.avi {
+  @extend .avi-margin-auto;
+  border-collapse: collapse;
+  font-size: small;
+  font-weight: normal;
+  width: auto;
+
+  > thead, > tbody {
+    > tr > * {
+      border: 1px solid;
+      padding: 2px;
+      text-align: center;
+    }
+  }
+}
+
+ul.avi {
+  list-style: none;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+  -webkit-margin-start: 0;
+  -webkit-margin-end: 0;
+  -webkit-padding-start: 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.toast-item {
+  &-close {
+    cursor: pointer;
+  }
+
+  p {
+    margin-right: 25px;
+  }
+}
+
+.popover {
+  background-color: rgba(0, 0, 0, 0.8);
+
+  > .arrow {
+    display: none
+  }
+}
+
+.avi-menu {
+  text-align: center;
+
+  > :not(:last-child) {
+    margin-right: 5px;
+  }
+
+  a {
+    display: inline-block !important;
+    width: auto;
+  }
+}
