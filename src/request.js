@@ -12,7 +12,7 @@ var AVBURequest = (function ($) {
         /** The URL we're calling */
         this.url = url;
         /** OnError callback */
-        this.errorCallback = errorCallback || Request.prototype.callbacks.error.generic;
+        this.errorCallback = errorCallback || this.callbacks.error.generic;
 
         /**
          * How long the request should be cached for

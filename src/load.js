@@ -45,12 +45,12 @@ var AVBULoad = (function ($) {
                 $("#houseTimerInfo").addClass("avi-force-block");
                 $body.append("<style>#constructionNotifier,#houseTimerTable [data-typeid='Construction']{display:none!important}</style>");
                 $("#houseTimerTable").prepend($timer);
-                constants.$DOM.house_monitor.status = $("#avi-house-construction").click($HANDLERS.click.house_state_refresh);
+                constants.$DOM.house_monitor.status = $("#avi-house-construction").click(handlers.click.house_state_refresh);
                 observers.house_status.observe(document.querySelector("#house_notification"), {
                     childList: true,
                     characterData: true
                 });
-                $(document).ajaxComplete(Request.prototype.callbacks.success.house_requery);
+                $(document).ajaxComplete(request.callbacks.success.house_requery);
                 $.get("/house.php")
             });
         } else {

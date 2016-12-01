@@ -27,7 +27,7 @@ var AVBUObservers = (function ($) {
                         type: "currency",
                         page: 0,
                         st: marketID
-                    }).done(request.prototype.callbacks.success.currency_tooltip);
+                    }).done(request.callbacks.success.currency_tooltip);
                 }
             }
     });
@@ -86,7 +86,7 @@ var AVBUObservers = (function ($) {
                             const $tbody = $(records[i].addedNodes[n]);
 
                             if ($tbody.find("th:contains(Ingredient)").length) { //Bingo!
-                                $tbody.find(">tr>[data-th=Item]").each($HANDLERS.each.inventory_table_ingredients);
+                                $tbody.find(">tr>[data-th=Item]").each(handlers.each.inventory_table_ingredients);
                             }
                             break;
                         }

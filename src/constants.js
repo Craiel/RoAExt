@@ -14,7 +14,7 @@ var AVBUConstants = (function($) {
         author = author || "Craiel";
         repo = repo || "RoAExt";
 
-        return "https://cdn.rawgit.com/" + author + "/" + repo + "/" + GM_info.script.version + "/" + path;
+        return "https://raw.githubusercontent.com/" + author + "/" + repo + "/" + GM_info.script.version + "/" + path;
     };
 
     module.URLS = {
