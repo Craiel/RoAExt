@@ -19,7 +19,7 @@
 // @grant          GM_listValues
 // @grant          GM_xmlhttpRequest
 // @connect        self
-// @require        http://akquinet.github.io/jquery-toastmessage-plugin/demo/jquery.toastmessage-min.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/lib/jquery.toastmessage/javascript/jquery.toastmessage.js
 // @require        https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js
 // @require        https://cdn.rawgit.com/SaneMethod/jquery-ajax-localstorage-cache/master/dist/jalc.min.js
 // @require        https://cdn.rawgit.com/Alorel/alo-timer/master/src/alotimer.min.js

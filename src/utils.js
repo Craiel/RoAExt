@@ -51,9 +51,9 @@ var AVBUUtils = (function($) {
     };
 
     module.handle_house_status_update = function (text) {
-        if (text !== FUNCTION_PERSISTENT_VARS.house_update_last_msg) {
-            FUNCTION_PERSISTENT_VARS.house_update_last_msg = text;
-            const interval = new Interval("house_status");
+        if (text !== constants.FUNCTION_PERSISTENT_VARS.house_update_last_msg) {
+            constants.FUNCTION_PERSISTENT_VARS.house_update_last_msg = text;
+            const interval = interval("house_status");
             interval.clear();
 
             if (text.indexOf("available again") !== -1) { // Working

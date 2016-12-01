@@ -23,7 +23,7 @@ var AVBUConstants = (function($) {
             message_ding: gitHubUrl("res/sfx/message_ding.wav")
         },
         css: {
-            toast: gitHubUrl("lib/toastmessage/jquery.toastmessage.min.css"),
+            toast: gitHubUrl("lib/jquery.toastmessage/resources/css/jquery.toastmessage.css"),
             script: gitHubUrl("res/css/avabur-improved.min.css")
         },
         img: {
