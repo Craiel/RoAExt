@@ -23,6 +23,17 @@
 // @require        https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js
 // @require        https://cdn.rawgit.com/SaneMethod/jquery-ajax-localstorage-cache/master/dist/jalc.min.js
 // @require        https://cdn.rawgit.com/Alorel/alo-timer/master/src/alotimer.min.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/cache.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/constants.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/demo.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/handlers.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/interval.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/load.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/main.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/observers.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/request.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/settings.js
+// @require        https://raw.githubusercontent.com/Craiel/RoAExt/master/src/toast.js
 
 
 // @noframes

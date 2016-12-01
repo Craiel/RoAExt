@@ -57,9 +57,9 @@ var AVBUUtils = (function($) {
             intervalFunc.clear();
 
             if (text.indexOf("available again") !== -1) { // Working
-                const timer = new AloTimer(fn.parseTimeStringLong(text));
+                const timer = new AloTimer(this.parseTimeStringLong(text));
                 intervalFunc.set(function () {
-                    if (timer.isFinished()) {
+                    if (timer.isFinished) {
                         this.house_status_update_end(intervalFunc);
                     } else {
                         constants.$DOM.house_monitor.status.removeClass("avi-highlight").text(timer.toString());

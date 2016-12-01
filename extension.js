@@ -19,6 +19,8 @@ if (typeof(window.sessionStorage) === "undefined") {
     var settings = AVBUSettings(jQuery);
     var toast = AVBUToast(jQuery);
     var utils = AVBUUtils(jQuery);
+    var combat = AVBUCombat(jQuery);
+    combat.enable();
 
     var main = AVBU(jQuery);
     main.start();

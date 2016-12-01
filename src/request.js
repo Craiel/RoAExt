@@ -33,9 +33,9 @@ var AVBURequest = (function ($) {
                     const analysis = utils.analysePrice(r.l);
 
                     utils.toggleVisibility(constants.$AJAX_SPINNERS.currency_tooltip, false);
-                    constants.$DOM.currency_tooltip.market_low.text(fn.numberWithCommas(analysis.low));
-                    constants.$DOM.currency_tooltip.market_avg.text(fn.numberWithCommas(analysis.avg));
-                    constants.$DOM.currency_tooltip.market_high.text(fn.numberWithCommas(analysis.high));
+                    constants.$DOM.currency_tooltip.market_low.text(utils.numberWithCommas(analysis.low));
+                    constants.$DOM.currency_tooltip.market_avg.text(utils.numberWithCommas(analysis.avg));
+                    constants.$DOM.currency_tooltip.market_high.text(utils.numberWithCommas(analysis.high));
                 },
                 house_requery: function (evt, r, opts) {
                     if (opts.url.indexOf("house") !== -1 &&
