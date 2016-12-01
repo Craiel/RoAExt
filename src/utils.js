@@ -11,11 +11,10 @@ var AVBUUtils = (function($) {
      * @returns {String} The URL
      */
     module.gitHubUrl = function (path, author, repo) {
-        author = author || "Alorel";
-        repo = repo || "avabur-improved";
+        author = author || "Craiel";
+        repo = repo || "RoAExt";
 
-        return "https://cdn.rawgit.com/" + author + "/" + repo + "/" +
-            (is_dev ? dev_hash : GM_info.script.version) + "/" + path;
+        return "https://cdn.rawgit.com/" + author + "/" + repo + "/" + GM_info.script.version + "/" + path;
     };
 
     module.parseTimeStringLong = function (str) {
