@@ -23,16 +23,17 @@ var AVBUCombat = (function ($) {
         {
             updateAutoState(jsonres.p);
             if(!allowAuto) {
-                allowAuto = autoMax > 0 && autoCurr > 0 && autoCurr >= autoMax - 1;
+                allowAuto = autoMax > 5 && autoCurr > 0 && autoCurr >= autoMax - 1;
             }
         }
 
-        if(req.url != "autobattle.php")
+        if(req.url != "autobattle.php" && req.url != "autoevent.php")
         {
+            console.info(req.url);
             return;
         }
 
-        if(!captcha && allowAuto && autoMax > 0 && autoCurr > 0 && autoCurr < autoMax && autoCurr < autoMax / 2)
+        if(!captcha && allowAuto && autoMax > 5 && autoCurr > 0 && autoCurr < autoMax && autoCurr < 3)
         {
             allowAuto = false;
 
