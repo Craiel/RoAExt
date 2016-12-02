@@ -44,12 +44,14 @@ var AVBUClan = (function ($) {
             addClanDonationMod();
     }
 
-    initialize();
+    module.enable = function () {
+        initialize();
 
-    $( document ).ajaxComplete(function( event, xhr, settings ) {
-        if (settings.url == "clan_donations.php" && constants.ENABLE_CLAN_DONATION_TABLE_MOD)
-            parseClanDonationsPhp();
-    });
+        $( document ).ajaxComplete(function( event, xhr, settings ) {
+            if (settings.url == "clan_donations.php" && constants.ENABLE_CLAN_DONATION_TABLE_MOD)
+                parseClanDonationsPhp();
+        });
+    };
 
     return module;
 

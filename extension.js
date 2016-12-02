@@ -9,6 +9,7 @@ if (typeof(window.sessionStorage) === "undefined") {
     var cache = AVBUCache(jQuery);
     var constants = AVBUConstants(jQuery);
     var chat = AVBUChat(jQuery);
+    var chatTabs = AVBUChatTabs(jQuery);
     var handlers = AVBUHandlers(jQuery);
     var interval = AVBUInterval();
     var load = AVBULoad(jQuery);
@@ -20,8 +21,15 @@ if (typeof(window.sessionStorage) === "undefined") {
     var tracker = AVBUTrackers(jQuery);
     var clan = AVBUClan(jQuery);
     var auto = AVBUAuto(jQuery);
+    var dungeon = AVBUDungeon(jQuery);
+
+    chat.enable();
+    chatTabs.enable();
+    clan.enable();
+    dungeon.enable();
+    tracker.enable();
     auto.enable();
 
-    var main = AVBU(jQuery);
-    main.start();
+    // Has to go last, this activates the default AVBU Features
+    load.loadAll()
 }

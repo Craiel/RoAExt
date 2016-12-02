@@ -1,4 +1,4 @@
-var AVBUDungeon = (function () {
+var AVBUDungeon = (function ($) {
     'use strict';
 
     var module = {};
@@ -211,6 +211,14 @@ var AVBUDungeon = (function () {
         dmctx.closePath();
     }
 
-    $(document).on("ajaxSuccess", x);
+    module.enable = function () {
+        $(document).on("ajaxSuccess", x);
+    };
 
-}());
+    module.disable = function () {
+        $(document).off("ajaxSuccess", x);
+    };
+
+    return module;
+
+});

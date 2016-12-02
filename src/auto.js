@@ -6,7 +6,6 @@ var AVBUAuto = (function ($) {
     var autoMax = 0;
     var autoCurr = 0;
     var allowAuto = true;
-    var captcha = false;
 
     function updateAutoState(json)
     {
@@ -25,19 +24,19 @@ var AVBUAuto = (function ($) {
             }
         }
 
-        if(req.url != "autobattle.php" && req.url != "autoevent.php" && req.url != "autotrade.php")
+        if(req.url != "autobattle.php" && req.url != "autoevent.php" && req.url != "autotrade.php" && req.url != "autocraft.php")
         {
             console.info(req.url);
             return;
         }
 
-        if(!captcha && allowAuto && autoMax > 5 && autoCurr > 0 && autoCurr < autoMax && autoCurr < 3)
+        if(allowAuto && autoMax > 5 && autoCurr > 0 && autoCurr < autoMax && autoCurr < 3)
         {
             allowAuto = false;
 
             $.post('stamina_replenish.php', {}).done(function(x) {
                 if (x.captcha) {
-                    captcha = true;
+                    toast.warn("Captcha required!");
                 }
             });
         }

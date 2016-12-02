@@ -127,7 +127,7 @@ var AVBUTrackers = (function () {
             return;
         }
 
-        if(constants.ENABLE_QUEST_COMPLETE_NOTICE && battle.b.qf.indexOf("You have completed your quest!  Visit the") > -1)
+        if(constants.ENABLE_QUEST_COMPLETE_NOTICE && battle.b.qf != null && battle.b.qf.indexOf("You have completed your quest!  Visit the") > -1)
             fadeOutNonQuest();
         else if(questNoticeOn)
             fadeInNonQuest();
@@ -449,19 +449,21 @@ var AVBUTrackers = (function () {
         }
     }
 
-    initialize();
+    module.enable = function() {
+        initialize();
 
-    // THIS SECTION IS RUN EVERY TIME THE BROWSER RECEIVES A DYNAMIC UPDATE USING AJAX
-    $( document ).ajaxComplete(function( event, xhr, settings ) {
-        if (settings.url == "autobattle.php" && (constants.ENABLE_BATTLE_TRACKER || constants.ENABLE_INGREDIENT_TRACKER))
-            parseAutobattlePhp(JSON.parse(xhr.responseText));
-        else if (settings.url == "autotrade.php" && constants.ENABLE_INGREDIENT_TRACKER)
-            parseAutoTradePhp(JSON.parse(xhr.responseText));
-        else if (settings.url == "reset_session_stats.php" && constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR)
-            parseResetSessionStatsPhp();
-        else if (settings.url == "boosts.php")
-            parseBoostsPhp(JSON.parse(xhr.responseText));
-    });
+        // THIS SECTION IS RUN EVERY TIME THE BROWSER RECEIVES A DYNAMIC UPDATE USING AJAX
+        $( document ).ajaxComplete(function( event, xhr, settings ) {
+            if (settings.url == "autobattle.php" && (constants.ENABLE_BATTLE_TRACKER || constants.ENABLE_INGREDIENT_TRACKER))
+                parseAutobattlePhp(JSON.parse(xhr.responseText));
+            else if (settings.url == "autotrade.php" && constants.ENABLE_INGREDIENT_TRACKER)
+                parseAutoTradePhp(JSON.parse(xhr.responseText));
+            else if (settings.url == "reset_session_stats.php" && constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR)
+                parseResetSessionStatsPhp();
+            else if (settings.url == "boosts.php")
+                parseBoostsPhp(JSON.parse(xhr.responseText));
+        });
+    }
 
     return module;
 });

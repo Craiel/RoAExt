@@ -108,7 +108,9 @@ var AVBUChat = (function($) {
             addChatColorPicker();
     }
 
-    initialize();
+    module.enable = function () {
+        initialize();
+    };
 
     return module;
 
