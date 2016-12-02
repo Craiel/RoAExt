@@ -1,4 +1,4 @@
-var AVBUCombat = (function ($) {
+var AVBUAuto = (function ($) {
     'use strict';
 
     var module = {};
@@ -17,8 +17,6 @@ var AVBUCombat = (function ($) {
     }
 
     function onAjaxSuccess(e, res, req, jsonres) {
-        console.info("AJAX_SUCC: " + e);
-
         if(jsonres != null && jsonres.p != null && jsonres.p.autosMax != null)
         {
             updateAutoState(jsonres.p);
@@ -27,7 +25,7 @@ var AVBUCombat = (function ($) {
             }
         }
 
-        if(req.url != "autobattle.php" && req.url != "autoevent.php")
+        if(req.url != "autobattle.php" && req.url != "autoevent.php" && req.url != "autotrade.php")
         {
             console.info(req.url);
             return;
@@ -43,20 +41,9 @@ var AVBUCombat = (function ($) {
                 }
             });
         }
-
-        /*console.info(res);
-        console.info(req);
-        console.info(jsonres);*/
     }
 
     function onAjaxSendPending(event, jqxhr, settings) {
-        //console.info("AJAX_SEND: " + event)
-        //console.info(jqxhr);
-        //console.info(settings);
-    }
-
-    module.resetAuto = function () {
-        allowAuto = true;
     }
 
     module.enable = function() {

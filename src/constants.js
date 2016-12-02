@@ -10,12 +10,25 @@ var AVBUConstants = (function($) {
      * @param {String} [repo] The repository. Defaults to avabur-improved
      * @returns {String} The URL
      */
-    const gitHubUrl = function (path, author, repo) {
+    const gitHubUrl = function (path, author, repo, ver) {
         author = author || "Craiel";
         repo = repo || "RoAExt";
+        var version = ver || "master"; // GM_info.script.version
 
-        return "https://raw.githubusercontent.com/" + author + "/" + repo + "/" + GM_info.script.version + "/" + path;
+        return "https://cdn.rawgit.com/" + author + "/" + repo + "/" + version + "/" + path;
     };
+
+    module.ENABLE_QUEST_COMPLETE_NOTICE = true;
+    module.ENABLE_XP_GOLD_RESOURCE_PER_HOUR = true;
+    module.ENABLE_BATTLE_TRACKER = true;
+    module.ENABLE_CLAN_DONATION_TABLE_MOD = true;
+    module.ENABLE_INGREDIENT_TRACKER = true;
+    module.ENABLE_DROP_TRACKER = true;
+    module.ENABLE_QUEST_BOOST_REAL_REDUCTION = true;
+    module.ENABLE_CHAT_BATTLE_SWAP = true;
+    module.ENABLE_CHAT_USER_COLOR_PICKER = true;
+    module.perHourColor = "99cc99";
+    module.perHourSize = "12";     // Default is 14
 
     module.URLS = {
         sfx: {

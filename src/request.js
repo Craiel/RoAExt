@@ -86,7 +86,7 @@ var AVBURequest = (function ($) {
 
             if (this.cacheTime !== false && !isNaN(this.cacheTime)) {
                 methodArgs.cacheTTL = this.cacheTime;
-                methodArgs.localCache = CACHE_STORAGE;
+                methodArgs.localCache = window.sessionStorage;
             }
 
             return $.ajax(this.url, methodArgs);

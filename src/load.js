@@ -29,12 +29,12 @@ var AVBULoad = (function ($) {
         });
     };
 
-    module["Fixing some game CSS"] = function () {
+    /*module["Fixing some game CSS"] = function () {
         $("head").append('<style>.materials{color:' +
             $("#crafting_materials").css("color") +
             '}.fragments{color:' +
             $("#gem_fragments").css("color") + '}</style>');
-    };
+    };*/
 
     module["Applying house monitor"] = function () {
         if (settings.settings.features.house_timer) {
@@ -85,7 +85,6 @@ var AVBULoad = (function ($) {
             constants.$DOM.modal.script_settings = $(r);
             $("#modalContent").append(constants.$DOM.modal.script_settings);
             utils.tabify(constants.$DOM.modal.script_settings);
-            constants.$DOM.modal.script_settings.find("[data-demo]").click(handlers.click.demo);
 
             constants.$DOM.modal.script_settings.find('[data-setting="notifications"]')
                 .each(handlers.each.settings_notification)

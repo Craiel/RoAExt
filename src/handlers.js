@@ -4,9 +4,6 @@ var AVBUHandlers = (function ($) {
     var module = {};
 
     module.click = {
-        demo: function () {
-            (new demo($(this).attr("data-demo"))).play();
-        },
         house_state_refresh: function () {
             $.post("/house.php", {}, request.proto.callbacks.success.house_state_refresh);
         },
@@ -20,7 +17,7 @@ var AVBUHandlers = (function ($) {
         },
         script_menu: function () {
             constants.$DOM.modal.modal_title.text(GM_info.script.name + " " + GM_info.script.version);
-            utils.openStdModal($DOM.modal.script_settings);
+            utils.openStdModal(constants.$DOM.modal.script_settings);
         },
         delegate_click: function () {
             $($(this).data("delegate-click")).click();

@@ -12,9 +12,9 @@ var AVBUObservers = (function ($) {
                     marketID = cssClass.replace("crystals", "premium")
                         .replace("materials", "weapon_scraps")
                         .replace("fragments", "gem_fragments"),
-                    $allTDs = utils.$DOM.currency_tooltip.table_row.find(">td");
+                    $allTDs = constants.$DOM.currency_tooltip.table_row.find(">td");
 
-                utils.$DOM.currency_tooltip.table_row.attr("class", cssClass);
+                constants.$DOM.currency_tooltip.table_row.attr("class", cssClass);
 
                 if (cssClass === "gold") {
                     $allTDs.text("N/A");

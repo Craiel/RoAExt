@@ -7,10 +7,8 @@ if (typeof(window.sessionStorage) === "undefined") {
     toast.incompatibility("MutationObserver");
 } else {
     var cache = AVBUCache(jQuery);
-    cache.init(window.sessionStorage, MutationObserver, buzz, AloTimer);
-
     var constants = AVBUConstants(jQuery);
-    var demo = AVBUDemo(jQuery);
+    var chat = AVBUChat(jQuery);
     var handlers = AVBUHandlers(jQuery);
     var interval = AVBUInterval();
     var load = AVBULoad(jQuery);
@@ -19,8 +17,10 @@ if (typeof(window.sessionStorage) === "undefined") {
     var settings = AVBUSettings(jQuery);
     var toast = AVBUToast(jQuery);
     var utils = AVBUUtils(jQuery);
-    var combat = AVBUCombat(jQuery);
-    combat.enable();
+    var tracker = AVBUTrackers(jQuery);
+    var clan = AVBUClan(jQuery);
+    var auto = AVBUAuto(jQuery);
+    auto.enable();
 
     var main = AVBU(jQuery);
     main.start();

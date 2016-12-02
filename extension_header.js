@@ -8,9 +8,9 @@
 // @include        http://avabur.com/game.php
 // @include        https://www.avabur.com/game.php
 // @include        http://www.avabur.com/game.php
-// @version        master
-// @icon           https://cdn.rawgit.com/Craiel/RoAExt/0.7/res/img/logo-16.png
-// @icon64         https://cdn.rawgit.com/Craiel/RoAExt/0.7/res/img/logo-64.png
+// @version        0.7
+// @icon           https://cdn.rawgit.com/Craiel/RoAExt/master/res/img/logo-16.png
+// @icon64         https://cdn.rawgit.com/Craiel/RoAExt/master/res/img/logo-64.png
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -23,6 +23,7 @@
 // @require        https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js
 // @require        https://cdn.rawgit.com/SaneMethod/jquery-ajax-localstorage-cache/master/dist/jalc.min.js
 // @require        https://cdn.rawgit.com/Alorel/alo-timer/master/src/alotimer.min.js
+// @require        https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js
 
 
 // @noframes

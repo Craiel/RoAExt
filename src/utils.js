@@ -42,9 +42,6 @@ var AVBUUtils = (function($) {
             .append(
                 $("<a href='javascript:;'>(refresh)</a>").click(handlers.click.house_state_refresh)
             );
-        if (settings.settings.notifications.construction.gm && settings.settings.notifications.all.gm) {
-            this.notification(demo.prototype.gm_texts.construction);
-        }
         if (settings.settings.notifications.construction.sound && settings.settings.notifications.all.sound) {
             constants.SFX.circ_saw.play();
         }
