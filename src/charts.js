@@ -104,6 +104,10 @@ var AVBUCharts = (function ($) {
 
         toggleButton.insertAfter('#showGameStats');
 
+        // Initialize the tabs
+        $('#gameChartCategoryTabs').tabs();
+        $('#gameChartStatsTabs').tabs();
+
         window.setTimeout(refreshStats, initialUpdateDelay);
     }
 
