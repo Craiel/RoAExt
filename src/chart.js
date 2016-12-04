@@ -51,11 +51,12 @@ var AVBUChart = (function ($) {
             return null;
         },
         show: function () {
-            if(this.visible) {
+            if(this.visible === true) {
                 return;
             }
 
             console.log("Showing Chart " + this.id);
+            this.visible = true;
             this.updateControlState();
 
             if(this.onBecameVisible) {
@@ -63,11 +64,12 @@ var AVBUChart = (function ($) {
             }
         },
         hide: function () {
-            if(!this.visible) {
+            if(this.visible === false) {
                 return;
             }
 
             console.log("Hiding Chart " + this.id);
+            this.visible = false;
             this.updateControlState();
         },
         updateData: function (dataPoint) {
@@ -99,7 +101,7 @@ var AVBUChart = (function ($) {
             this.elementDataPoint = dataPoint;
         },
         updateControlState: function() {
-            if(!this.visible) {
+            if(this.visible === false) {
                 this.targetDiv.hide();
                 return;
             }

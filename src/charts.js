@@ -24,7 +24,7 @@ var AVBUCharts = (function ($) {
             }
         }
 
-        if(visibleChart) {
+        if (visibleChart) {
             visibleChart.render();
         }
 
@@ -36,8 +36,6 @@ var AVBUCharts = (function ($) {
     function beginRefreshStats() {
         console.log("Refreshing Stats...");
 
-
-
         $.post('game_stats.php', {}).done(refreshStats);
     }
 
@@ -46,7 +44,9 @@ var AVBUCharts = (function ($) {
     }
 
     function redrawCharts() {
-        currentChartControl.render();
+        if (visibleChart) {
+            visibleChart.render();
+        }
     }
     
     function resetCharts() {
@@ -99,12 +99,12 @@ var AVBUCharts = (function ($) {
                 return;
             }
 
-            if(visibleChart) {
+            if (visibleChart) {
                 visibleChart.hide();
             }
 
             visibleChart = activeCharts[id];
-        }
+        };
 
         return chart;
     }
@@ -112,7 +112,8 @@ var AVBUCharts = (function ($) {
     function setupChartWindow(template) {
 
         $("<style>").text("" +
-            ".chartWindow{width: auto; height: 400px}")
+            ".chartWindow{width: 100%; height: 500px}\n" +
+            ".chartCategoryWindow{width: 100%; height: 300px}")
             .appendTo("body");
 
         chartWindow = $(template);
@@ -144,7 +145,7 @@ var AVBUCharts = (function ($) {
         setupChart("toggleChartBattleXP", "chartBattleXP", "Battle XP");
         setupChart("toggleChartHarvestXP", "chartHarvestXP", "Harvest XP");
         setupChart("toggleChartCraftingXP", "chartCraftingXP", "Crafting XP");
-        setupChart("toggleChartGold", "chartGold", "Gold").asElementChart("");
+        setupChart("toggleChartGold", "chartGold", "Gold").asElementChart("gold");
         setupChart("toggleChartPlatinum", "chartPlatinum", "Platinum").asElementChart("platinum");
         setupChart("toggleChartCrystals", "chartCrystals", "Crystals").asElementChart("premium");
         setupChart("toggleChartMaterial", "chartMaterial", "Material").asElementChart("crafting_materials");
