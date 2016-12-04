@@ -86,8 +86,8 @@ var AVBUTrackers = (function () {
             var diffSec = Math.round((Date.now() - Number($('#battleGains .timeCounter').first().attr('title'))) / 1000);
 
             var xpHourValue = Math.floor(Number($('#gainsXP').attr('data-value'))/(diffSec / 3600));
-            var xpCurrent = parseInt($('#currentXP').text().replace(/\,/g, ''));
-            var xpRequired = parseInt($('#levelCost').text().replace(/\,/g, ''));
+            var xpCurrent = utils.getElementIntValue("currentXP");
+            var xpRequired = utils.getElementIntValue("levelCost");
             var ttl = ((xpRequired - xpCurrent) / xpHourValue).toFixed(2);
             var ttlh = Math.floor(ttl);
             var ttlm = Math.floor((ttl % 1).toFixed(2) * 60);

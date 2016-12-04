@@ -213,5 +213,9 @@ var AVBUUtils = (function($) {
         return 0;
     };
 
+    module.getElementIntValue = function (elementId) {
+        return parseInt($('#' + elementId).text().replace(/\,/g, ''));
+    }
+
     return module;
 });

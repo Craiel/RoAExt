@@ -10,83 +10,39 @@ var AVBUCharts = (function ($) {
     var chartWindow;
     var currentChartControl;
 
-    function refreshStats() {
+    var visibleChart = null;
+    var activeCharts = {};
+
+    function refreshStats(gameStatData) {
+        console.log(gameStatData);
+
+        for (var id in activeCharts) {
+            if (activeCharts[id].isGameStatChart) {
+                activeCharts[id].updateDataFromGameStats(gameStatData);
+            } else if (activeCharts[id].isElementChart) {
+                activeCharts[id].updateDataFromElement();
+            }
+        }
+
+        if(visibleChart) {
+            visibleChart.render();
+        }
+
+        autoSaveChartData();
+
+        window.setTimeout(beginRefreshStats, statUpdateDelay);
+    }
+
+    function beginRefreshStats() {
         console.log("Refreshing Stats...");
 
-        $.post('game_stats.php', {}).done(function(x) {
-            /*AllTimeClans
-             :
-             209
-             AllTimeCurrentFrags
-             :
-             33144716
-             AllTimeCurrentGold
-             :
-             323696328524
-             AllTimeCurrentMats
-             :
-             47820483
-             AllTimeCurrentPlat
-             :
-             50589553
-             AllTimeCurrentRes
-             :
-             2707205627
-             AllTimeGoldLooted
-             :
-             1265557523392
-             AllTimeHarvests
-             :
-             675158189
-             AllTimeItemsFound
-             :
-             11623284
-             AllTimeKills
-             :
-             1210917936
-             AllTimeOnline
-             :
-             1167
-             AllTimeQuestsCompleted
-             :
-             632661
-             AllTimeResources
-             :
-             19686784134
-             AllTimeSignups
-             :
-             11683
-             TodayActive
-             :
-             1015
-             TodayClans
-             :
-             0
-             TodayGoldLooted
-             :
-             9971050872
-             TodayHarvests
-             :
-             1438139
-             TodayKills
-             :
-             2696551
-             TodayResources
-             :
-             85867247
-             TodaySignups
-             :
-             5
-             next
-             :
-             "57 seconds"*/
 
-            console.log(x);
-        });
 
-        currentChartControl.render();
+        $.post('game_stats.php', {}).done(refreshStats);
+    }
 
-        window.setTimeout(refreshStats, statUpdateDelay);
+    function autoSaveChartData() {
+
     }
 
     function redrawCharts() {
@@ -113,6 +69,46 @@ var AVBUCharts = (function ($) {
         
     }
 
+    function toggleGameChartPlayerTabs() {
+        hideTabCategories();
+        $('#gameChartPlayerTabs').show();
+    }
+
+    function toggleGameChartStatsTabs() {
+        hideTabCategories();
+        $('#gameChartStatsTabs').show();
+    }
+
+    function toggleGameChartMarketTabs() {
+        hideTabCategories();
+        $('#gameChartMarketTabs').show();
+    }
+
+    function hideTabCategories() {
+        $('#gameChartPlayerTabs').hide();
+        $('#gameChartStatsTabs').hide();
+        $('#gameChartMarketTabs').hide();
+    }
+
+    function setupChart(toggleDiv, targetDiv, title) {
+        var chart = chartControl.create(toggleDiv, targetDiv, title);
+        activeCharts[chart.id] = chart;
+
+        chart.onBecameVisible = function (id) {
+            if(visibleChart == activeCharts[id]) {
+                return;
+            }
+
+            if(visibleChart) {
+                visibleChart.hide();
+            }
+
+            visibleChart = activeCharts[id];
+        }
+
+        return chart;
+    }
+
     function setupChartWindow(template) {
 
         $("<style>").text("" +
@@ -137,39 +133,48 @@ var AVBUCharts = (function ($) {
         $('#gameChartTimeWeek').click(setChartTimeWeek);
         $('#gameChartTimeMonth').click(setChartTimeMonth);
 
+        $('#toggleGameChartPlayer').click(toggleGameChartPlayerTabs);
+        $('#toggleGameChartStats').click(toggleGameChartStatsTabs);
+        $('#toggleGameChartMarket').click(toggleGameChartMarketTabs);
+
+        // Toggle the default tab view
+        toggleGameChartPlayerTabs();
+
         // Create the chart controls
-        chartControl.create("chartBattleXP", "Battle XP");
-        chartControl.create("chartHarvestXP", "Harvest XP");
-        chartControl.create("chartCraftingXP", "Crafting XP");
-        chartControl.create("chartGold", "Gold XP");
-        chartControl.create("chartPlatinum", "Platinum");
-        chartControl.create("chartCrystals", "Crystals");
-        chartControl.create("chartFood", "Food");
-        chartControl.create("chartWood", "Wood");
-        chartControl.create("chartIron", "Iron");
-        chartControl.create("chartStone", "Stone");
+        setupChart("toggleChartBattleXP", "chartBattleXP", "Battle XP");
+        setupChart("toggleChartHarvestXP", "chartHarvestXP", "Harvest XP");
+        setupChart("toggleChartCraftingXP", "chartCraftingXP", "Crafting XP");
+        setupChart("toggleChartGold", "chartGold", "Gold").asElementChart("");
+        setupChart("toggleChartPlatinum", "chartPlatinum", "Platinum").asElementChart("platinum");
+        setupChart("toggleChartCrystals", "chartCrystals", "Crystals").asElementChart("premium");
+        setupChart("toggleChartMaterial", "chartMaterial", "Material").asElementChart("crafting_materials");
+        setupChart("toggleChartFragment", "chartFragment", "Fragments").asElementChart("gem_fragments");
+        setupChart("toggleChartFood", "chartFood", "Food").asElementChart("food");
+        setupChart("toggleChartWood", "chartWood", "Wood").asElementChart("wood");
+        setupChart("toggleChartIron", "chartIron", "Iron").asElementChart("iron");
+        setupChart("toggleChartStone", "chartStone", "Stone").asElementChart("stone");
 
-        chartControl.create("chartMonsterSlain", "Monsters Slain");
-        chartControl.create("chartGoldLooted", "Gold Looted");
-        chartControl.create("chartGoldInGame", "Gold in Game");
-        chartControl.create("chartResourcesInGame", "Resources in Game");
-        chartControl.create("chartPlatinumInGame", "Platinum in Game");
-        chartControl.create("chartCraftingMatsInGame", "Crafting Materials in Game");
-        chartControl.create("chartGemFragmentsInGame", "Gem Fragments in Game");
-        chartControl.create("chartHarvests", "Harvests");
-        chartControl.create("chartResourcesHarvested", "Resources Harvested");
-        chartControl.create("chartItemsFound", "Items found");
+        setupChart("toggleChartMonsterSlain", "chartMonsterSlain", "Monsters Slain").asGameStatChart("AllTimeKills");
+        setupChart("toggleChartGoldLooted", "chartGoldLooted", "Gold Looted").asGameStatChart("AllTimeGoldLooted");
+        setupChart("toggleChartGoldInGame", "chartGoldInGame", "Gold in Game").asGameStatChart("AllTimeCurrentGold");
+        setupChart("toggleChartResourcesInGame", "chartResourcesInGame", "Resources in Game").asGameStatChart("AllTimeCurrentRes");
+        setupChart("toggleChartPlatinumInGame", "chartPlatinumInGame", "Platinum in Game").asGameStatChart("AllTimeCurrentPlat");
+        setupChart("toggleChartMaterialInGame", "chartMaterialInGame", "Crafting Materials in Game").asGameStatChart("AllTimeCurrentMats");
+        setupChart("toggleChartFragmentInGame", "chartFragmentInGame", "Gem Fragments in Game").asGameStatChart("AllTimeCurrentFrags");
+        setupChart("toggleChartHarvests", "chartHarvests", "Harvests").asGameStatChart("AllTimeHarvests");
+        setupChart("toggleChartResourcesHarvested", "chartResourcesHarvested", "Resources Harvested").asGameStatChart("AllTimeResources");
+        setupChart("toggleChartItemsFound", "chartItemsFound", "Items found").asGameStatChart("AllTimeItemsFound");
 
-        chartControl.create("chartMarketCrystals", "Crystals");
-        chartControl.create("chartMarketPlatinum", "Platinum");
-        chartControl.create("chartMarketFood", "Food");
-        chartControl.create("chartMarketWood", "Wood");
-        chartControl.create("chartMarketIron", "Iron");
-        chartControl.create("chartMarketStone", "Stone");
-        chartControl.create("chartMarketCraftingMats", "Crafting Materials");
-        chartControl.create("chartMarketGemFragments", "Gem Fragments");
+        setupChart("toggleChartMarketCrystals", "chartMarketCrystals", "Crystals");
+        setupChart("toggleChartMarketPlatinum", "chartMarketPlatinum", "Platinum");
+        setupChart("toggleChartMarketFood", "chartMarketFood", "Food");
+        setupChart("toggleChartMarketWood", "chartMarketWood", "Wood");
+        setupChart("toggleChartMarketIron", "chartMarketIron", "Iron");
+        setupChart("toggleChartMarketStone", "chartMarketStone", "Stone");
+        setupChart("toggleChartMarketMaterial", "chartMarketMaterial", "Material");
+        setupChart("toggleChartMarketFragment", "chartMarketFragment", "Fragments");
 
-        window.setTimeout(refreshStats, initialUpdateDelay);
+        window.setTimeout(beginRefreshStats, initialUpdateDelay);
     }
 
     module.enable = function () {
