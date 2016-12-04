@@ -112,13 +112,14 @@ var AVBUCharts = (function ($) {
     function setupChartWindow(template) {
 
         $("<style>").text("" +
-            ".chartWindow{width: 100%; height: 500px}\n" +
-            ".chartCategoryWindow{width: 100%; height: 300px}")
+            ".chartWindow{width: 600px; height: 500px;position: absolute; top: 0; left: 0;}\n" +
+            ".chartTab{width: 100%; height: 300px}\n" +
+            ".chartCategoryTab{width: 100%; height: 400px}")
             .appendTo("body");
 
         chartWindow = $(template);
         chartWindow.appendTo("body");
-        chartWindow.draggable({handle:"#gameChartTitle"}).resizable({stop:function(e,d){$("#gameChartTitle").attr({width:d.size.width,height:d.size.height});redrawCharts();}});
+        chartWindow.draggable({handle:"#gameChartTitle"});
 
         var toggleButton = $('<a><div id="toggleGameCharts" class="bt1 center">Toggle Charts</div></a>');
         toggleButton.click(function () {
