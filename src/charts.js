@@ -112,9 +112,9 @@ var AVBUCharts = (function ($) {
     function setupChartWindow(template) {
 
         $("<style>").text("" +
-            ".chartWindow{width: 600px; height: 500px;position: absolute; top: 0; left: 0;}\n" +
-            ".chartTab{width: 100%; height: 300px}\n" +
-            ".chartCategoryTab{width: 100%; height: 400px}")
+            ".chartWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}\n" +
+            ".chartTab{width: 100%; height: 250px; top: 240px; position: absolute}\n" +
+            ".chartCategoryTab{width: 100%; height: 100%}")
             .appendTo("body");
 
         chartWindow = $(template);
