@@ -4,11 +4,10 @@ var AVBUCharts = (function ($) {
     var module = {};
 
     const initialUpdateDelay = 5000;
-    const statUpdateDelay = 60 * 5 * 1000; // 5 minutes
+    const statUpdateDelay = 60 * 1 * 1000; // 1 minutes
 
     var chartControl;
     var chartWindow;
-    var currentChartControl;
 
     var visibleChart = null;
     var activeCharts = {};
@@ -24,10 +23,7 @@ var AVBUCharts = (function ($) {
             }
         }
 
-        if (visibleChart) {
-            visibleChart.render();
-        }
-
+        redrawChart();
         autoSaveChartData();
 
         window.setTimeout(beginRefreshStats, statUpdateDelay);
@@ -43,16 +39,20 @@ var AVBUCharts = (function ($) {
 
     }
 
-    function redrawCharts() {
+    function resetCharts() {
+        
+    }
+
+    function redrawChart() {
         if (visibleChart) {
             visibleChart.render();
         }
     }
-    
-    function resetCharts() {
-        
+
+    function setChartTimeMinute() {
+
     }
-    
+
     function setChartTimeHour() {
         
     }
@@ -130,6 +130,8 @@ var AVBUCharts = (function ($) {
         
         // Hook buttons
         $('#gameChartReset').click(resetCharts);
+        $('#gameChartRedraw').click(redrawChart);
+        $('#gameChartTimeMinute').click(setChartTimeMinute);
         $('#gameChartTimeHour').click(setChartTimeHour);
         $('#gameChartTimeDay').click(setChartTimeDay);
         $('#gameChartTimeWeek').click(setChartTimeWeek);

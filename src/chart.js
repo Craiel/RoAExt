@@ -39,7 +39,14 @@ var AVBUChart = (function ($) {
                             { label: "grape",  y: 28  }*/
                         ]
                     }
-                ]
+                ],
+                axisX:{
+                    title : "Time",
+                },
+
+                axisY:{
+                    title : "Value",
+                },
             });
 
             this.updateControlState();
@@ -79,6 +86,27 @@ var AVBUChart = (function ($) {
             }
 
             console.log("CHART_UPDATE: " + dataPoint + " (" + this.id + ")");
+
+            // TODO: use proper data handler
+            var dataPointTime = new Date();
+            var controlData = this.control.options.data[0].dataPoints;
+
+            controlData.push({ label: dataPointTime.getHours() + ":" + dataPointTime.getMinutes(), y: dataPoint});
+            if(controlData.length > 500) {
+                controlData.shift();
+            }
+
+            // Rebuild min / max based on the new chart values
+            var min = 0;
+            var max = dataPoint;
+
+            for(var entry in controlData) {
+                min = min < entry.y ? min : entry.y;
+                max = max > entry.y ? max : entry.y;
+            }
+
+            this.control.options.axisY.minimum = min;
+            this.control.options.axisY.maximum = max;
         },
         updateDataFromGameStats: function (stats) {
             if(!this.isGameStatChart) {
