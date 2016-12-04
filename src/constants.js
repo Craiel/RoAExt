@@ -50,6 +50,7 @@ var AVBUConstants = (function($) {
             fishing: gitHubUrl("res/svg/fishing.svg")
         },
         html: {
+            charts: gitHubUrl("res/html/charts.html"),
             house_timers: gitHubUrl("res/html/house-timers.html"),
             settings_modal: gitHubUrl("res/html/script-settings.html"),
             market_tooltip: gitHubUrl("res/html/market-tooltip.html")

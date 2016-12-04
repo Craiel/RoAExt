@@ -24,6 +24,7 @@
 // @require        https://cdn.rawgit.com/SaneMethod/jquery-ajax-localstorage-cache/master/dist/jalc.min.js
 // @require        https://cdn.rawgit.com/Alorel/alo-timer/master/src/alotimer.min.js
 // @require        https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js
+// @require        https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/jquery.canvasjs.min.js
 
 
 // @noframes

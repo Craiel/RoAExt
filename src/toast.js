@@ -1,25 +1,41 @@
 var AVBUToast = (function ($) {
     'use strict';
 
-    /** Create toast messages */
+    var enabled = false;
+    var useChromeNotifications = false;
+
     var module = {};
+
+    function sendToast(type, msg) {
+        if(!enabled) {
+            return;
+        }
+
+        if(useChromeNotifications) {
+            new Notification('Relics of Avabur', {
+                body: "msg",
+            });
+        } else {
+            $().toastmessage(type, msg);
+        }
+    }
 
     module.error = function (msg) {
         console.error(msg);
-        $().toastmessage('showErrorToast', msg);
+        sendToast('showErrorToast', msg);
     };
 
     module.notice = function (msg) {
-        $().toastmessage('showNoticeToast', msg);
+        sendToast('showNoticeToast', msg);
     };
 
     module.success = function (msg) {
-        $().toastmessage('showSuccessToast', msg);
+        sendToast('showSuccessToast', msg);
     };
 
     module.warn = function (msg) {
         console.warn(msg);
-        $().toastmessage('showWarningToast', msg);
+        sendToast('showWarningToast', msg);
     };
 
     module.incompatibility = function (what) {
@@ -31,6 +47,11 @@ var AVBUToast = (function ($) {
             position: 'top-center',
             type: 'error'
         });
+    };
+
+    module.enable = function () {
+        if (Notification.permission !== "granted")
+            Notification.requestPermission();
     };
 
     return module;

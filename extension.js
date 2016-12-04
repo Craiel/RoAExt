@@ -22,13 +22,16 @@ if (typeof(window.sessionStorage) === "undefined") {
     var clan = AVBUClan(jQuery);
     var auto = AVBUAuto(jQuery);
     var dungeon = AVBUDungeon(jQuery);
+    var charts = AVBUCharts(jQuery);
 
+    toast.enable();
     chat.enable();
     chatTabs.enable();
     clan.enable();
     dungeon.enable();
     tracker.enable();
     auto.enable();
+    charts.enable();
 
     // Has to go last, this activates the default AVBU Features
     load.loadAll()

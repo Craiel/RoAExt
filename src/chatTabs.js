@@ -42,16 +42,8 @@ var AVBUChatTabs = (function ($) {
 
     var scriptChannels          = [ServerMessagesChannel, CMDResposeChannel, WhispersChannel, WiresChannel];
 
-    var showedMoTD              = false;
-    var lastMoTDContent         = "";
-
-    var showingReconnectMsg     = false;
-    var internalUpdateUrl       = "https://api.github.com/repos/edvordo/TabsOfAvabur/contents/TabsOfAvabur.user.js";
-
     var hovering;
     var hoveringOverTab;
-
-    var checkForUpdateTimer     = 0;
 
     function returnCustomID(channel, resolved, cname, on) {
         var obj =  {
@@ -991,26 +983,6 @@ var AVBUChatTabs = (function ($) {
         return v1.length - v2.length;
     }
 
-    function checkForUpdate() {
-        var version = "";
-        $.get(internalUpdateUrl).done(function(res){
-            var match = atob(res.content).match(/\/\/\s+@version\s+([^\n]+)/);
-            version = match[1];
-
-            if (versionCompare(options.version, version) < 0) {
-                var message = "<li class=\"chat_notification\">TabsOfAvabur has been updated to version "+version+"! <a href=\"https://github.com/edvordo/TabsOfAvabur/raw/master/TabsOfAvabur.user.js\" target=\"_blank\">Update</a> | <a href=\"https://github.com/edvordo/TabsOfAvabur/releases\" target=\"_blank\">Changelog</a></li>";
-                if (chatDirection === "up") {
-                    $("#chatMessageList").prepend(message);
-                } else {
-                    $("#chatMessageList").append(message);
-                    $("#chatMessageWrapper").mCustomScrollbar("scrollTo", "bottom");
-                }
-            } else {
-                checkForUpdateTimer = setTimeout(checkForUpdate, 24*60*60*1000);
-            }
-        });
-    }
-
     function loadMessages(t) {
         if ($("#chatChannel option").length > 2) {
             $("#chatMessageList li:not(.processed)").each(function(i,e){
@@ -1136,11 +1108,6 @@ var AVBUChatTabs = (function ($) {
                     $(e).html($(e).html().replace(/\/join\s+([^\s]+)\s*([^\s<]+)?/, "/join <a class=\"joinChannel\">$1</a> <span class=\"jcPWD\">$2</span>"));
                 }
 
-                if (plainText.match(/tabs\s+of\s+avabur/i) !== null) {
-                    clearTimeout(checkForUpdateTimer);
-                    checkForUpdateTimer = setTimeout(checkForUpdate, randomInt(30, 120) * 1000);
-                }
-
                 updateChannelList(channelLog[channelID]);
             });
         }
@@ -1164,7 +1131,6 @@ var AVBUChatTabs = (function ($) {
         $("#channelTabList").sortable({items:".channelTab",distance: 5});
         $("#channelTabList").disableSelection();
         setTimeout(function(){$("#channelTabList > div:nth-child(2)").click();},2000);
-        checkForUpdateTimer = setTimeout(checkForUpdate,30000);
     }
 
     $(document).on("ajaxSuccess", handleAjaxSuccess);
