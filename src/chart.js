@@ -71,6 +71,7 @@ var AVBUChart = (function ($) {
             console.log("Hiding Chart " + this.id);
             this.visible = false;
             this.updateControlState();
+            this.render();
         },
         updateData: function (dataPoint) {
             if(dataPoint == null || dataPoint == NaN) {

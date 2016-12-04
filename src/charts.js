@@ -148,7 +148,7 @@ var AVBUCharts = (function ($) {
         setupChart("toggleChartCraftingXP", "chartCraftingXP", "Crafting XP");
         setupChart("toggleChartGold", "chartGold", "Gold").asElementChart("gold");
         setupChart("toggleChartPlatinum", "chartPlatinum", "Platinum").asElementChart("platinum");
-        setupChart("toggleChartCrystals", "chartCrystals", "Crystals").asElementChart("premium");
+        setupChart("toggleChartCrystal", "chartCrystal", "Crystals").asElementChart("premium");
         setupChart("toggleChartMaterial", "chartMaterial", "Material").asElementChart("crafting_materials");
         setupChart("toggleChartFragment", "chartFragment", "Fragments").asElementChart("gem_fragments");
         setupChart("toggleChartFood", "chartFood", "Food").asElementChart("food");
