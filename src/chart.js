@@ -36,6 +36,12 @@ var AVBUChart = (function ($) {
         save: function () {
 
         },
+        show: function () {
+
+        },
+        hide: function () {
+
+        },
         update: function (dataPoint) {
 
         },

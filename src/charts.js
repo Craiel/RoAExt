@@ -114,6 +114,11 @@ var AVBUCharts = (function ($) {
     }
 
     function setupChartWindow(template) {
+
+        $("<style>").text("" +
+            ".chartWindow{width: auto; height: auto}")
+            .appendTo("body");
+
         chartWindow = $(template);
         chartWindow.appendTo("body");
         chartWindow.draggable({handle:"#gameChartTitle"}).resizable({stop:function(e,d){$("#gameChartTitle").attr({width:d.size.width,height:d.size.height});redrawCharts();}});
@@ -131,12 +136,6 @@ var AVBUCharts = (function ($) {
         $('#gameChartTimeDay').click(setChartTimeDay);
         $('#gameChartTimeWeek').click(setChartTimeWeek);
         $('#gameChartTimeMonth').click(setChartTimeMonth);
-
-        // Initialize the tabs
-        $('#gameChartCategoryTabs').tabs();
-        $('#gameChartPlayerTabs').tabs();
-        $('#gameChartStatsTabs').tabs();
-        $('#gameChartMarketTabs').tabs();
 
         // Create the chart controls
         chartControl.create("chartBattleXP", "Battle XP");
