@@ -116,7 +116,7 @@ var AVBUCharts = (function ($) {
     function setupChartWindow(template) {
 
         $("<style>").text("" +
-            ".chartWindow{width: auto; height: auto}")
+            ".chartWindow{width: auto; height: 400px}")
             .appendTo("body");
 
         chartWindow = $(template);
