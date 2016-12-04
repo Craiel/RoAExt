@@ -6,6 +6,7 @@ var AVBUCharts = (function ($) {
     const initialUpdateDelay = 5000;
     const statUpdateDelay = 60 * 5 * 1000; // 5 minutes
 
+    var chartControl;
     var chartWindow;
     var currentChartControl;
 
@@ -91,6 +92,26 @@ var AVBUCharts = (function ($) {
     function redrawCharts() {
         currentChartControl.render();
     }
+    
+    function resetCharts() {
+        
+    }
+    
+    function setChartTimeHour() {
+        
+    }
+    
+    function setChartTimeDay() {
+        
+    }
+    
+    function setChartTimeWeek() {
+        
+    }
+    
+    function setChartTimeMonth() {
+        
+    }
 
     function setupChartWindow(template) {
         chartWindow = $(template);
@@ -103,35 +124,58 @@ var AVBUCharts = (function ($) {
         });
 
         toggleButton.insertAfter('#showGameStats');
+        
+        // Hook buttons
+        $('#gameChartReset').click(resetCharts);
+        $('#gameChartTimeHour').click(setChartTimeHour);
+        $('#gameChartTimeDay').click(setChartTimeDay);
+        $('#gameChartTimeWeek').click(setChartTimeWeek);
+        $('#gameChartTimeMonth').click(setChartTimeMonth);
 
         // Initialize the tabs
         $('#gameChartCategoryTabs').tabs();
+        $('#gameChartPlayerTabs').tabs();
         $('#gameChartStatsTabs').tabs();
+        $('#gameChartMarketTabs').tabs();
+
+        // Create the chart controls
+        chartControl.create("chartBattleXP", "Battle XP");
+        chartControl.create("chartHarvestXP", "Harvest XP");
+        chartControl.create("chartCraftingXP", "Crafting XP");
+        chartControl.create("chartGold", "Gold XP");
+        chartControl.create("chartPlatinum", "Platinum");
+        chartControl.create("chartCrystals", "Crystals");
+        chartControl.create("chartFood", "Food");
+        chartControl.create("chartWood", "Wood");
+        chartControl.create("chartIron", "Iron");
+        chartControl.create("chartStone", "Stone");
+
+        chartControl.create("chartMonsterSlain", "Monsters Slain");
+        chartControl.create("chartGoldLooted", "Gold Looted");
+        chartControl.create("chartGoldInGame", "Gold in Game");
+        chartControl.create("chartResourcesInGame", "Resources in Game");
+        chartControl.create("chartPlatinumInGame", "Platinum in Game");
+        chartControl.create("chartCraftingMatsInGame", "Crafting Materials in Game");
+        chartControl.create("chartGemFragmentsInGame", "Gem Fragments in Game");
+        chartControl.create("chartHarvests", "Harvests");
+        chartControl.create("chartResourcesHarvested", "Resources Harvested");
+        chartControl.create("chartItemsFound", "Items found");
+
+        chartControl.create("chartMarketCrystals", "Crystals");
+        chartControl.create("chartMarketPlatinum", "Platinum");
+        chartControl.create("chartMarketFood", "Food");
+        chartControl.create("chartMarketWood", "Wood");
+        chartControl.create("chartMarketIron", "Iron");
+        chartControl.create("chartMarketStone", "Stone");
+        chartControl.create("chartMarketCraftingMats", "Crafting Materials");
+        chartControl.create("chartMarketGemFragments", "Gem Fragments");
 
         window.setTimeout(refreshStats, initialUpdateDelay);
     }
 
     module.enable = function () {
+        chartControl = chart;
         $.get(constants.URLS.html.charts).done(setupChartWindow);
-
-        /*currentChartControl = new CanvasJS.Chart("gameChartContent", {
-            title:{
-                text: "TODO"
-            },
-            data: [
-                {
-                    // Change type to "doughnut", "line", "splineArea", etc.
-                    type: "line",
-                    dataPoints: [
-                        { label: "apple",  y: 10  },
-                        { label: "orange", y: 15  },
-                        { label: "banana", y: 25  },
-                        { label: "mango",  y: 30  },
-                        { label: "grape",  y: 28  }
-                    ]
-                }
-            ]
-        });*/
     };
 
     return module;

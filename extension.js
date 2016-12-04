@@ -22,6 +22,7 @@ if (typeof(window.sessionStorage) === "undefined") {
     var clan = AVBUClan(jQuery);
     var auto = AVBUAuto(jQuery);
     var dungeon = AVBUDungeon(jQuery);
+    var chart = AVBUChart(jQuery);
     var charts = AVBUCharts(jQuery);
 
     toast.enable();

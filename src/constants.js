@@ -15,7 +15,12 @@ var AVBUConstants = (function($) {
         repo = repo || "RoAExt";
         var version = ver || "master"; // GM_info.script.version
 
-        return "https://cdn.rawgit.com/" + author + "/" + repo + "/" + version + "/" + path;
+        //var rawGitUrl = "https://cdn.rawgit.com/";
+
+        // For dev this is quicker updates
+        var rawGitUrl = "https://rawgit.com/";
+
+        return rawGitUrl + author + "/" + repo + "/" + version + "/" + path;
     };
 
     module.ENABLE_QUEST_COMPLETE_NOTICE = true;

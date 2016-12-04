@@ -2,60 +2,91 @@
     <div id="gameChartWindow" class="ui-element border2">
         <h5 id="gameChartTitle" class="center toprounder">Charts</h5>
         <div id="gameChartContent" class="mCSB_container">
+            <div id="gameChartControls" class="col-xs-12 col-md-12 center mt10" style="display: block">
+                <div id="gameChartReset" class="btn btn-primary"/>
+                <div id="gameChartTimeHour" class="btn btn-primary"/>
+                <div id="gameChartTimeDay" class="btn btn-primary"/>
+                <div id="gameChartTimeWeek" class="btn btn-primary"/>
+                <div id="gameChartTimeMonth" class="btn btn-primary"/>
+                <div id="gameChartStorageSizeWrapper">
+                    <span id="gameChartStorageSize"></span>
+                </div>
+            </div>
             <div id="gameChartCategoryTabs">
                 <ul>
-                    <li><a href="#gameChartPlayerTabs">Player Charts</a></li>
-                    <li><a href="#gameChartStatsTabs">Game Stats</a></li>
+                    <li class="border2 ui-element"><a href="#gameChartPlayerTabs">Player Charts</a></li>
+                    <li class="border2 ui-element"><a href="#gameChartStatsTabs">Game Stats</a></li>
                 </ul>
 
-                <div id="gameChartPlayerTabs">
+                <div id="gameChartPlayerTabs" class="mCSB_container">
                     <ul>
-                        <li><a href="#chartBattleXP">Battle XP</a></li>
-                        <li><a href="#chartHarvestXP">Harvest XP</a></li>
-                        <li><a href="#chartCraftingXP">Crafting XP</a></li>
-                        <li><a href="#chartGold">Gold</a></li>
-                        <li><a href="#chartPlatinum">Platinum</a></li>
-                        <li><a href="#chartCrystals">Crystals</a></li>
-                        <li><a href="#chartFood">Food</a></li>
-                        <li><a href="#chartWood">Wood</a></li>
-                        <li><a href="#chartIron">Iron</a></li>
-                        <li><a href="#chartStone">Stone</a></li>
+                        <li class="border2 ui-element"><a href="#chartBattleXP">Battle XP</a></li>
+                        <li class="border2 ui-element"><a href="#chartHarvestXP">Harvest XP</a></li>
+                        <li class="border2 ui-element"><a href="#chartCraftingXP">Crafting XP</a></li>
+                        <li class="border2 ui-element"><a href="#chartGold">Gold</a></li>
+                        <li class="border2 ui-element"><a href="#chartPlatinum">Platinum</a></li>
+                        <li class="border2 ui-element"><a href="#chartCrystals">Crystals</a></li>
+                        <li class="border2 ui-element"><a href="#chartFood">Food</a></li>
+                        <li class="border2 ui-element"><a href="#chartWood">Wood</a></li>
+                        <li class="border2 ui-element"><a href="#chartIron">Iron</a></li>
+                        <li class="border2 ui-element"><a href="#chartStone">Stone</a></li>
                     </ul>
-                    <div id="chartBattleXP"></div>
-                    <div id="chartHarvestXP"></div>
-                    <div id="chartCraftingXP"></div>
-                    <div id="chartGold"></div>
-                    <div id="chartPlatinum"></div>
-                    <div id="chartCrystals"></div>
-                    <div id="chartFood"></div>
-                    <div id="chartWood"></div>
-                    <div id="chartIron"></div>
-                    <div id="chartStone"></div>
+                    <div id="chartBattleXP" class="mCSB_container"></div>
+                    <div id="chartHarvestXP" class="mCSB_container"></div>
+                    <div id="chartCraftingXP" class="mCSB_container"></div>
+                    <div id="chartGold" class="mCSB_container"></div>
+                    <div id="chartPlatinum" class="mCSB_container"></div>
+                    <div id="chartCrystals" class="mCSB_container"></div>
+                    <div id="chartFood" class="mCSB_container"></div>
+                    <div id="chartWood" class="mCSB_container"></div>
+                    <div id="chartIron" class="mCSB_container"></div>
+                    <div id="chartStone" class="mCSB_container"></div>
                 </div>
 
-                <div id="gameChartStatsTabs">
+                <div id="gameChartStatsTabs" class="mCSB_container">
                     <ul>
-                        <li><a href="#chartMonsterSlain">Monsters Slain</a></li>
-                        <li><a href="#chartGoldLooted">Gold Looted</a></li>
-                        <li><a href="#chartGoldInGame">Gold in Game</a></li>
-                        <li><a href="#chartResourcesInGame">Resources in Game</a></li>
-                        <li><a href="#chartPlatinumInGame">Platinum in Game</a></li>
-                        <li><a href="#chartCraftingMatsInGame">Crafting Materials in Game</a></li>
-                        <li><a href="#chartGemFragmentsInGame">Gem Fragments in Game</a></li>
-                        <li><a href="#chartHarvests">Harvests</a></li>
-                        <li><a href="#chartResourcesHarvested">Resources Harvested</a></li>
-                        <li><a href="#chartItemsFound">Items Found</a></li>
+                        <li class="border2 ui-element"><a href="#chartMonsterSlain">Monsters Slain</a></li>
+                        <li class="border2 ui-element"><a href="#chartGoldLooted">Gold Looted</a></li>
+                        <li class="border2 ui-element"><a href="#chartGoldInGame">Gold in Game</a></li>
+                        <li class="border2 ui-element"><a href="#chartResourcesInGame">Resources in Game</a></li>
+                        <li class="border2 ui-element"><a href="#chartPlatinumInGame">Platinum in Game</a></li>
+                        <li class="border2 ui-element"><a href="#chartCraftingMatsInGame">Crafting Materials in Game</a></li>
+                        <li class="border2 ui-element"><a href="#chartGemFragmentsInGame">Gem Fragments in Game</a></li>
+                        <li class="border2 ui-element"><a href="#chartHarvests">Harvests</a></li>
+                        <li class="border2 ui-element"><a href="#chartResourcesHarvested">Resources Harvested</a></li>
+                        <li class="border2 ui-element"><a href="#chartItemsFound">Items Found</a></li>
                     </ul>
-                    <div id="chartMonsterSlain"></div>
-                    <div id="chartGoldLooted"></div>
-                    <div id="chartGoldInGame"></div>
-                    <div id="chartResourcesInGame"></div>
-                    <div id="chartPlatinumInGame"></div>
-                    <div id="chartCraftingMatsInGame"></div>
-                    <div id="chartGemFragmentsInGame"></div>
-                    <div id="chartHarvests"></div>
-                    <div id="chartResourcesHarvested"></div>
-                    <div id="chartItemsFound"></div>
+                    <div id="chartMonsterSlain" class="mCSB_container"></div>
+                    <div id="chartGoldLooted" class="mCSB_container"></div>
+                    <div id="chartGoldInGame" class="mCSB_container"></div>
+                    <div id="chartResourcesInGame" class="mCSB_container"></div>
+                    <div id="chartPlatinumInGame" class="mCSB_container"></div>
+                    <div id="chartCraftingMatsInGame" class="mCSB_container"></div>
+                    <div id="chartGemFragmentsInGame" class="mCSB_container"></div>
+                    <div id="chartHarvests" class="mCSB_container"></div>
+                    <div id="chartResourcesHarvested" class="mCSB_container"></div>
+                    <div id="chartItemsFound" class="mCSB_container"></div>
+                </div>
+
+                <div id="gameChartMarketTabs" class="mCSB_container">
+                    <ul>
+                        <li class="border2 ui-element"><a href="#chartMarketCrystals">Crystals</a></li>
+                        <li class="border2 ui-element"><a href="#chartMarketPlatinum">Platinum</a></li>
+                        <li class="border2 ui-element"><a href="#chartMarketFood">Food</a></li>
+                        <li class="border2 ui-element"><a href="#chartMarketWood">Wood</a></li>
+                        <li class="border2 ui-element"><a href="#chartMarketIron">Iron</a></li>
+                        <li class="border2 ui-element"><a href="#chartMarketStone">Stone</a></li>
+                        <li class="border2 ui-element"><a href="#chartMarketCraftingMats">Crafting Materials</a></li>
+                        <li class="border2 ui-element"><a href="#chartMarketGemFragments">Gem Fragments</a></li>
+                    </ul>
+                    <div id="chartMarketCrystals" class="mCSB_container"></div>
+                    <div id="chartMarketPlatinum" class="mCSB_container"></div>
+                    <div id="chartMarketFood" class="mCSB_container"></div>
+                    <div id="chartMarketWood" class="mCSB_container"></div>
+                    <div id="chartMarketIron" class="mCSB_container"></div>
+                    <div id="chartMarketStone" class="mCSB_container"></div>
+                    <div id="chartMarketCraftingMats" class="mCSB_container"></div>
+                    <div id="chartMarketGemFragments" class="mCSB_container"></div>
                 </div>
             </div>
         </div>
