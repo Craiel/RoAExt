@@ -22,17 +22,21 @@
             var dataPointDay = dataPointTime.getDay();
             var dataPointMonth = dataPointTime.getMonth();
 
-            this.addData("mi", modules.utils.pad(dataPointMinute, 2), dataPoint, 60 * 12); // 1/2 day
-            this.addData("h", modules.utils.pad(dataPointHour, 2), dataPoint, 24 * 30); // 30 days
-            this.addData("d", modules.utils.pad(dataPointDay, 2), dataPoint, 356); // 1 year
-            this.addData("mo", modules.utils.pad(dataPointMonth, 2), dataPoint, 12 * 5); // 5 years
+            this.addData("mi", dataPointMinute, dataPoint, 60 * 12); // 1/2 day
+            this.addData("h", dataPointHour, dataPoint, 24 * 30); // 30 days
+            this.addData("d", dataPointDay, dataPoint, 356); // 1 year
+            this.addData("mo", dataPointMonth, dataPoint, 12 * 5); // 5 years
         },
         addData: function (key, id, value, limit) {
             if(!this.storage[key]) {
                 this.storage[key] = [];
             }
 
-            this.storage[key].push({id: id, value: value});
+            if(this.storage[key].length > 0 && this.storage[key][this.storage[key].length - 1].x === id) {
+                return;
+            }
+
+            this.storage[key].push({label: modules.utils.pad(id, 2), x:id, y: value});
             if(this.storage[key].length > limit) {
                 this.storage[key].shift();
             }

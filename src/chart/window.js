@@ -51,7 +51,7 @@
         }
 
         localStorage.chartData = JSON.stringify(data);
-        $('#gameChartStorageSize').text(localStorage.chartData.length);
+        $('#gameChartStorageSize').text(localStorage.chartData.length * 2);
     }
 
     function resetCharts() {
