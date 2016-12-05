@@ -1,6 +1,61 @@
 (function ($) {
     'use strict';
 
+    modules.chartTimeScale = {
+        Minute: {title: "Minutes"},
+        Hour: {title: "Hours"},
+        Day: {title: "Days"},
+        Month: {title: "Months"}
+    };
+
+    const ChartData = function () {
+
+    };
+
+    ChartData.prototype = {
+        storage: {mi: [], h:[], d:[], mo:[]},
+        addDataPoint: function(dataPoint) {
+            var dataPointTime = new Date();
+
+            var dataPointMinute = dataPointTime.getMinutes();
+            var dataPointHour = dataPointTime.getHours();
+            var dataPointDay = dataPointTime.getDay();
+            var dataPointMonth = dataPointTime.getMonth();
+
+            this.addData("mi", modules.utils.pad(dataPointMinute, 2), dataPoint, 60 * 12); // 1/2 day
+            this.addData("h", modules.utils.pad(dataPointHour, 2), dataPoint, 24 * 30); // 30 days
+            this.addData("d", modules.utils.pad(dataPointDay, 2), dataPoint, 356); // 1 year
+            this.addData("mo", modules.utils.pad(dataPointMonth, 2), dataPoint, 12 * 5); // 5 years
+        },
+        addData: function (key, id, value, limit) {
+            if(!this.storage[key]) {
+                this.storage[key] = [];
+            }
+
+            this.storage[key].push({id: id, value: value});
+            if(this.storage[key].length > limit) {
+                this.storage[key].shift();
+            }
+        },
+        load: function (data) {
+            this.storage = JSON.parse(data);
+        },
+        save: function () {
+            return JSON.stringify(this.storage);
+        },
+        getData: function (scale) {
+            if(scale === modules.chartTimeScale.Minute) {
+                return this.storage.mi;
+            } else if (scale === modules.chartTimeScale.Hour) {
+                return this.storage.h;
+            } else if (scale === modules.chartTimeScale.Day) {
+                return this.storage.d;
+            } else if (scale === modules.chartTimeScale.Month) {
+                return this.storage.mo;
+            }
+        }
+    };
+
     const Chart = function (toggleDiv, targetDiv, title) {
         this.id = targetDiv;
         this.initialize(toggleDiv, targetDiv, title);
@@ -16,6 +71,8 @@
         isElementChart: false,
         gameStatDataPoint: null,
         elementDataPoint: null,
+        scale: modules.chartTimeScale.Minute,
+        data: new ChartData(),
         initialize: function (toggleDiv, targetDiv, title) {
             this.toggleDiv = $('#' + toggleDiv);
             this.toggleDiv.click({self: this}, function(evt) { evt.data.self.show(); });
@@ -29,13 +86,7 @@
                 data: [
                     {
                         type: "line",
-                        dataPoints: [
-                            /*{ label: "apple",  y: 10  },
-                            { label: "orange", y: 15  },
-                            { label: "banana", y: 25  },
-                            { label: "mango",  y: 30  },
-                            { label: "grape",  y: 28  }*/
-                        ]
+                        dataPoints: []
                     }
                 ],
                 axisX:{
@@ -50,10 +101,11 @@
             this.updateControlState();
         },
         load: function (data) {
-
+            this.data.load(data);
+            this.updateChartData();
         },
         save: function () {
-            return null;
+            return this.data.save();
         },
         show: function () {
             if(this.visible === true) {
@@ -79,38 +131,41 @@
             this.updateControlState();
             this.render();
         },
-        updateData: function (dataPoint) {
-            if(dataPoint == null || dataPoint == NaN) {
-                return
-            }
+        updateChartData: function () {
+            this.control.options.data[0] = this.storage.getData(this.scale);
 
-            console.log("CHART_UPDATE: " + dataPoint + " (" + this.id + ")");
-
-            // TODO: use proper data handler
-            var dataPointTime = new Date();
+            this.updateChartAxis();
+        },
+        updateChartAxis: function () {
             var controlData = this.control.options.data[0].dataPoints;
 
-            controlData.push({ label: dataPointTime.getHours() + ":" + dataPointTime.getMinutes(), y: dataPoint});
-            if(controlData.length > 500) {
-                controlData.shift();
-            }
-
             // Rebuild min / max based on the new chart values
-            var min = dataPoint;
-            var max = dataPoint;
+            var min = null;
+            var max = null;
 
             for (var i = 0; i < controlData.length; i++) {
-                if(min > controlData[i].y) {
+                if(min === null || min > controlData[i].y) {
                     min = controlData[i].y;
                 }
 
-                if(max < controlData[i].y) {
+                if(max === null || max < controlData[i].y) {
                     max = controlData[i].y;
                 }
             }
 
             this.control.options.axisY.minimum = min;
             this.control.options.axisY.maximum = max;
+
+            this.control.options.axisX.title = this.scale.title;
+        },
+        updateData: function (dataPoint) {
+            if(dataPoint == null || dataPoint == NaN) {
+                return
+            }
+
+            this.data.addDataPoint(dataPoint);
+
+            this.updateChartData();
         },
         updateDataFromGameStats: function (stats) {
             if(!this.isGameStatChart) {
@@ -143,6 +198,10 @@
         },
         render: function () {
             this.control.render();
+        },
+        setTimeScale: function (newScale) {
+            this.scale = newScale;
+            this.updateChartData();
         }
     };
 

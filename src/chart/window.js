@@ -3,7 +3,6 @@
 
     var module = {};
 
-    const initialUpdateDelay = 5000;
     const statUpdateDelay = 60 * 1 * 1000; // 1 minutes
 
     var chartWindow;
@@ -23,9 +22,7 @@
         }
 
         redrawChart();
-        autoSaveChartData();
-
-        window.setTimeout(beginRefreshStats, statUpdateDelay);
+        saveChartData();
     }
 
     function beginRefreshStats() {
@@ -34,8 +31,27 @@
         $.post('game_stats.php', {}).done(refreshStats);
     }
 
-    function autoSaveChartData() {
+    function loadChartData() {
+        if(!localStorage.chartData) {
+            return;
+        }
 
+        var data = JSON.parse(localStorage.chartData);
+        for (var id in data) {
+            if(activeCharts[id]) {
+                activeCharts[id].load(data[id]);
+            }
+        }
+    }
+
+    function saveChartData() {
+        var data = {};
+        for (var id in activeCharts) {
+            data[id] = activeCharts[id].save();
+        }
+
+        localStorage.chartData = JSON.stringify(data);
+        $('#gameChartStorageSize').text(localStorage.chartData.length);
     }
 
     function resetCharts() {
@@ -54,24 +70,10 @@
         }
     }
 
-    function setChartTimeMinute() {
-
-    }
-
-    function setChartTimeHour() {
-        
-    }
-    
-    function setChartTimeDay() {
-        
-    }
-    
-    function setChartTimeWeek() {
-        
-    }
-    
-    function setChartTimeMonth() {
-        
+    function setChartTimeScale(scale) {
+        for (var id in activeCharts) {
+            activeCharts[id].setTimeScale(scale);
+        }
     }
 
     function toggleGameChartPlayerTabs() {
@@ -137,11 +139,10 @@
         $('#gameChartReset').click(resetCharts);
         $('#gameChartRedraw').click(redrawChart);
         $('#gameChartDebugData').click(debugChart);
-        $('#gameChartTimeMinute').click(setChartTimeMinute);
-        $('#gameChartTimeHour').click(setChartTimeHour);
-        $('#gameChartTimeDay').click(setChartTimeDay);
-        $('#gameChartTimeWeek').click(setChartTimeWeek);
-        $('#gameChartTimeMonth').click(setChartTimeMonth);
+        $('#gameChartTimeMinute').click(function () { setChartTimeScale(modules.chartTimeScale.Minute); });
+        $('#gameChartTimeHour').click(function () { setChartTimeScale(modules.chartTimeScale.Hour); });
+        $('#gameChartTimeDay').click(function () { setChartTimeScale(modules.chartTimeScale.Day); });
+        $('#gameChartTimeMonth').click(function () { setChartTimeScale(modules.chartTimeScale.Month); });
 
         $('#toggleGameChartPlayer').click(toggleGameChartPlayerTabs);
         $('#toggleGameChartStats').click(toggleGameChartStatsTabs);
@@ -184,7 +185,9 @@
         setupChart("toggleChartMarketMaterial", "chartMarketMaterial", "Material");
         setupChart("toggleChartMarketFragment", "chartMarketFragment", "Fragments");
 
-        window.setTimeout(beginRefreshStats, initialUpdateDelay);
+        loadChartData();
+
+        modules.createInterval(beginRefreshStats, statUpdateDelay);
     }
 
     module.enable = function () {

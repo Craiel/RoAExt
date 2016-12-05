@@ -72,6 +72,12 @@
         }
     };
 
+    module.pad = function(value, width, padWith) {
+        padWith = padWith || '0';
+        value = value + '';
+        return value.length >= width ? value : new Array(width - value.length + 1).join(padWith) + value;
+    };
+
     /**
      * Creates a floaty notification
      * @param {String} text Text to display
