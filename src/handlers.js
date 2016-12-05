@@ -1,23 +1,23 @@
-var AVBUHandlers = (function ($) {
+(function ($) {
     'use strict';
 
     var module = {};
 
     module.click = {
         house_state_refresh: function () {
-            $.post("/house.php", {}, request.proto.callbacks.success.house_state_refresh);
+            $.post("/house.php", {}, modules.request.proto.callbacks.success.house_state_refresh);
         },
         topbar_currency: function () {
             const type = $(this).find(">td:first").text().trim();
-            utils.openMarket(type.substring(0, type.length - 1));
+            modules.utils.openMarket(type.substring(0, type.length - 1));
         },
         ingredient: function () {
-            constants.$DOM.modal.modal_background.click();
-            utils.openMarket("Ingredients");
+            modules.constants.$DOM.modal.modal_background.click();
+            modules.utils.openMarket("Ingredients");
         },
         script_menu: function () {
-            constants.$DOM.modal.modal_title.text(GM_info.script.name + " " + GM_info.script.version);
-            utils.openStdModal(constants.$DOM.modal.script_settings);
+            modules.constants.$DOM.modal.modal_title.text(GM_info.script.name + " " + GM_info.script.version);
+            modules.utils.openStdModal(modules.constants.$DOM.modal.script_settings);
         },
         delegate_click: function () {
             $($(this).data("delegate-click")).click();
@@ -27,13 +27,13 @@ var AVBUHandlers = (function ($) {
     module.change = {
         settings_notification: function () {
             const $this = $(this);
-            settings.settings.notifications[$this.data("notification")][$this.data("type")] = $this.is(":checked");
-            settings.save();
+            modules.settings.settings.notifications[$this.data("notification")][$this.data("type")] = $this.is(":checked");
+            modules.settings.save();
         },
         settings_feature: function () {
             const $this = $(this);
-            settings.settings.features[$this.data("feature")] = $this.is(":checked");
-            settings.save();
+            modules.settings.settings.features[$this.data("feature")] = $this.is(":checked");
+            modules.settings.save();
         }
     };
 
@@ -42,28 +42,28 @@ var AVBUHandlers = (function ($) {
             const $this = $(this),
                 ingredient = $this.text().trim();
 
-            if (typeof(TRADESKILL_MATS[ingredient]) === "undefined") {
+            if (typeof(modules.cache.TRADESKILL_MATS[ingredient]) === "undefined") {
                 toast.error("Failed to lookup " + ingredient + ": ID not found");
             } else {
-                (request.create("/market.php", constants.CACHE_TTL.market))
+                (modules.request.create("/market.php", modules.constants.CACHE_TTL.market))
                     .post({
                         type: "ingredient",
                         page: 0,
                         q: 0,
                         ll: 0,
                         hl: 0,
-                        st: TRADESKILL_MATS[ingredient]
+                        st: modules.cache.TRADESKILL_MATS[ingredient]
                     }).done(function (r) {
                     const describedBy = $this.attr("aria-describedby"),
                         $describedBy = $("#" + describedBy);
 
                     if (describedBy && $describedBy.length) {
-                        const analysis = utils.analysePrice(r.l),
+                        const analysis = modules.utils.analysePrice(r.l),
                             $tds = $describedBy.find("tr[data-id=prices]>td");
 
-                        $tds.first().text(utils.numberWithCommas(analysis.low))
-                            .next().text(utils.numberWithCommas(analysis.avg))
-                            .next().text(utils.numberWithCommas(analysis.high));
+                        $tds.first().text(modules.utils.numberWithCommas(analysis.low))
+                            .next().text(modules.utils.numberWithCommas(analysis.avg))
+                            .next().text(modules.utils.numberWithCommas(analysis.high));
                     }
                 });
             }
@@ -74,11 +74,11 @@ var AVBUHandlers = (function ($) {
         settings_notification: function () {
             const $this = $(this);
 
-            $this.prop("checked", settings.settings.notifications[$this.data("notification")][$this.data("type")]);
+            $this.prop("checked", modules.settings.settings.notifications[$this.data("notification")][$this.data("type")]);
         },
         settings_features: function () {
             const $this = $(this);
-            $this.prop("checked", settings.settings.features[$this.data("feature")]);
+            $this.prop("checked", modules.settings.settings.features[$this.data("feature")]);
         },
         inventory_table_ingredients: function () {
             const $this = $(this),
@@ -93,7 +93,7 @@ var AVBUHandlers = (function ($) {
                 container: "body",
                 viewport: {"selector": "body", "padding": 0},
                 placement: "auto right",
-                content: constants.$DOM.market.market_tooltip
+                content: modules.constants.$DOM.market.market_tooltip
             });
 
             $span.mouseenter(this.mouseenter.inventory_table_ingredient)
@@ -102,6 +102,6 @@ var AVBUHandlers = (function ($) {
         }
     };
 
-    return module;
+    modules.handlers = module;
 
-});
+})(modules.jQuery);

@@ -1,4 +1,5 @@
-var AVBUChatTabs = (function ($) {
+(function ($) {
+    'use strict';
 
     var module = {};
 
@@ -1619,6 +1620,6 @@ var AVBUChatTabs = (function ($) {
         init();
     };
 
-    return module;
+    modules.chatTabs = module;
 
-});
+})(modules.jQuery);

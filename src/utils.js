@@ -1,4 +1,4 @@
-var AVBUUtils = (function($) {
+(function($) {
     'use strict';
 
     var module = {};
@@ -26,7 +26,7 @@ var AVBUUtils = (function($) {
     };
 
     module.svg = function ($this, url) {
-        $this.html('<img src="' + constants.URLS.img.ajax_loader + '" alt="Loading"/>');
+        $this.html('<img src="' + modules.constants.URLS.img.ajax_loader + '" alt="Loading"/>');
         $.get(url).done(function (r) {
             $this.html($(r).find("svg"));
         });
@@ -35,22 +35,22 @@ var AVBUUtils = (function($) {
 
     module.house_status_update_end = function (interval) {
         interval.clear();
-        constants.$DOM.house_monitor.status.addClass("avi-highlight").html(
+        modules.constants.$DOM.house_monitor.status.addClass("avi-highlight").html(
             $('<span data-delegate-click="#header_house" style="cursor:pointer;text-decoration:underline;padding-right:5px">Ready!</span>')
-                .click(handlers.click.delegate_click)
+                .click(modules.handlers.click.delegate_click)
         )
             .append(
-                $("<a href='javascript:;'>(refresh)</a>").click(handlers.click.house_state_refresh)
+                $("<a href='javascript:;'>(refresh)</a>").click(modules.handlers.click.house_state_refresh)
             );
-        if (settings.settings.notifications.construction.sound && settings.settings.notifications.all.sound) {
-            constants.SFX.circ_saw.play();
+        if (modules.settings.settings.notifications.construction.sound && modules.settings.settings.notifications.all.sound) {
+            modules.constants.SFX.circ_saw.play();
         }
     };
 
     module.handle_house_status_update = function (text) {
-        if (text !== constants.FUNCTION_PERSISTENT_VARS.house_update_last_msg) {
-            constants.FUNCTION_PERSISTENT_VARS.house_update_last_msg = text;
-            const intervalFunc = interval("house_status");
+        if (text !== modules.constants.FUNCTION_PERSISTENT_VARS.house_update_last_msg) {
+            modules.constants.FUNCTION_PERSISTENT_VARS.house_update_last_msg = text;
+            const intervalFunc = modules.createInterval("house_status");
             intervalFunc.clear();
 
             if (text.indexOf("available again") !== -1) { // Working
@@ -59,7 +59,7 @@ var AVBUUtils = (function($) {
                     if (timer.isFinished) {
                         this.house_status_update_end(intervalFunc);
                     } else {
-                        constants.$DOM.house_monitor.status.removeClass("avi-highlight").text(timer.toString());
+                        modules.constants.$DOM.house_monitor.status.removeClass("avi-highlight").text(timer.toString());
                     }
                 }, 1000);
             } else if (text.indexOf("are available")) {
@@ -96,13 +96,13 @@ var AVBUUtils = (function($) {
         const $openCategory = function (evt, xhr, opts) {
             if (opts.url === "market.php") {
                 $document.unbind("ajaxComplete", $openCategory);
-                constants.$DOM.market.navlinks.removeClass("active")
+                modules.constants.$DOM.market.navlinks.removeClass("active")
                     .filter("a:contains('" + type + "')").addClass("active").click();
             }
         };
 
         $document.ajaxComplete($openCategory);
-        constants.$DOM.nav.market.click();
+        modules.constants.$DOM.nav.market.click();
     };
 
     module.analysePrice = function (arr) {
@@ -155,8 +155,8 @@ var AVBUUtils = (function($) {
         }
 
         $el.show().siblings().hide();
-        constants.$DOM.modal.modal_background.fadeIn();
-        constants.$DOM.modal.modal_wrapper.fadeIn();
+        modules.constants.$DOM.modal.modal_background.fadeIn();
+        modules.constants.$DOM.modal.modal_wrapper.fadeIn();
     };
 
     /**
@@ -215,7 +215,8 @@ var AVBUUtils = (function($) {
 
     module.getElementIntValue = function (elementId) {
         return parseInt($('#' + elementId).text().replace(/\,/g, ''));
-    }
+    };
 
-    return module;
-});
+    modules.utils = module;
+
+})(modules.jQuery);

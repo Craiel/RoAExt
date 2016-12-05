@@ -1,4 +1,4 @@
-var AVBUChat = (function($) {
+(function($) {
     'use strict';
 
     var module = {};
@@ -51,7 +51,7 @@ var AVBUChat = (function($) {
         observer.observe($('#profileOptionTooltip')[0], { attributes: true, characterData: true});
     }
 
-    function addChatSwap() {
+    /*function addChatSwap() {
         if(typeof Storage == "undefined")
             alert('Local Storage is not supported on this browser. Chat Swap preference will not be saved next session');
         var arrow = "?";
@@ -82,7 +82,7 @@ var AVBUChat = (function($) {
             e2.insertAfter('#navWrapper');
             $('#chatMessageListWrapper').height($('#bottomWrapper').offset().top - $('#chatMessageListWrapper').offset().top -2);
         });
-    }
+    }*/
 
     function modChatColors() {
         $('#chatMessageList').find('.profileLink').each(function() {
@@ -102,9 +102,9 @@ var AVBUChat = (function($) {
 
     function initialize() {
         $('head').append('<style>.ui-icon, .ui-widget-content .ui-icon {background-image: none;}.closeCustomWindow {position: absolute;right: -12px;top: -12px;font-size: 20px;text-align: center;border-radius: 40px;border: 1px solid black;background: transparent linear-gradient(to bottom, #008681 0%, #003533 100%) repeat scroll 0% 0%;width: 30px;}.closeCustomWindow a {text-decoration: none;}.customWindowWrapper {display: none;z-index: 99;position: absolute !important;top: 120px;left: 15%;}.customWindowContent {padding: 5px;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px}.customWindowContent table {width: 100%;font-size: 12px;}.customWindowContent tbody {border: 1px solid #01B0AA;border-top: none;}.customWindowContent th {text-align: center;color: #FF7;border: 1px solid #01B0AA;}.customWindowContent thead th {background-color: #01736D;font-size: 14px;}.customWindowContent td {text-align: center;}.customWindowContent .bRight {border-right: 1px solid #01B0AA;}</style>');
-        if(constants.ENABLE_CHAT_BATTLE_SWAP)
-            addChatSwap();
-        if(constants.ENABLE_CHAT_USER_COLOR_PICKER)
+        /*if(constants.ENABLE_CHAT_BATTLE_SWAP)
+            addChatSwap();*/
+        if(modules.constants.ENABLE_CHAT_USER_COLOR_PICKER)
             addChatColorPicker();
     }
 
@@ -112,6 +112,6 @@ var AVBUChat = (function($) {
         initialize();
     };
 
-    return module;
+    modules.chatPeopleColor = module;
 
-});
+})(modules.jQuery);

@@ -1,4 +1,4 @@
-var AVBUSettings = (function($) {
+(function($) {
     'use strict';
 
     const SettingsHandler = function () {
@@ -45,5 +45,6 @@ var AVBUSettings = (function($) {
         }
     };
 
-    return new SettingsHandler();
-});
+    modules.settings = new SettingsHandler();
+
+})(modules.jQuery);

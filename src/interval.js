@@ -1,4 +1,4 @@
-var AVBUInterval = (function () {
+(function ($) {
     'use strict';
 
     const Interval = function (n) {
@@ -26,8 +26,7 @@ var AVBUInterval = (function () {
         }
     };
 
-    return function (n) {
+    modules.createInterval = function (n) {
         return new Interval(n);
     };
-
-});
+})(modules.jQuery);

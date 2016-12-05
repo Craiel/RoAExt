@@ -1,4 +1,4 @@
-var AVBURequest = (function ($) {
+(function ($) {
     'use strict';
 
     var module = {};
@@ -30,22 +30,22 @@ var AVBURequest = (function ($) {
             success: {
                 /** Successful callback for the currency tooltip market info lookup */
                 currency_tooltip: function (r) {
-                    const analysis = utils.analysePrice(r.l);
+                    const analysis = modules.utils.analysePrice(r.l);
 
-                    utils.toggleVisibility(constants.$AJAX_SPINNERS.currency_tooltip, false);
-                    constants.$DOM.currency_tooltip.market_low.text(utils.numberWithCommas(analysis.low));
-                    constants.$DOM.currency_tooltip.market_avg.text(utils.numberWithCommas(analysis.avg));
-                    constants.$DOM.currency_tooltip.market_high.text(utils.numberWithCommas(analysis.high));
+                    modules.utils.toggleVisibility(modules.constants.$AJAX_SPINNERS.currency_tooltip, false);
+                    modules.constants.$DOM.currency_tooltip.market_low.text(modules.utils.numberWithCommas(analysis.low));
+                    modules.constants.$DOM.currency_tooltip.market_avg.text(modules.utils.numberWithCommas(analysis.avg));
+                    modules.constants.$DOM.currency_tooltip.market_high.text(modules.utils.numberWithCommas(analysis.high));
                 },
                 house_requery: function (evt, r, opts) {
                     if (opts.url.indexOf("house") !== -1 &&
                         typeof(r.responseJSON) !== "undefined" &&
                         typeof(r.responseJSON.m) !== "undefined") {
-                        utils.handle_house_status_update(r.responseJSON.m);
+                        modules.utils.handle_house_status_update(r.responseJSON.m);
                     }
                 },
                 house_state_refresh: function (r) {
-                    utils.handle_house_status_update(r.m);
+                    modules.utils.handle_house_status_update(r.m);
                 }
             },
             /** Error callbacks */
@@ -111,6 +111,6 @@ var AVBURequest = (function ($) {
 
     module.proto = Request.prototype;
 
-    return module;
+    modules.request = module;
 
-});
+})(modules.jQuery);

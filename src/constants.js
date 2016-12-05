@@ -1,4 +1,4 @@
-var AVBUConstants = (function($) {
+(function($) {
     'use strict';
 
     var module = {};
@@ -134,5 +134,5 @@ var AVBUConstants = (function($) {
         house_update_last_msg: null,
     };
 
-    return module;
-});
+    modules.constants = module;
+})(modules.jQuery);

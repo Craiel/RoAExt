@@ -1,4 +1,4 @@
-var AVBUDungeon = (function ($) {
+(function ($) {
     'use strict';
 
     var module = {};
@@ -219,6 +219,6 @@ var AVBUDungeon = (function ($) {
         $(document).off("ajaxSuccess", x);
     };
 
-    return module;
+    modules.dungeonMap = module;
 
-});
+})(modules.jQuery);

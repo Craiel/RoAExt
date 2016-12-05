@@ -1,4 +1,4 @@
-var AVBUTrackers = (function () {
+(function ($) {
     'use strict';
 
     var module = {};
@@ -15,12 +15,12 @@ var AVBUTrackers = (function () {
     function addTimeCounter() {
         $('#battleGains').find('td').first().removeAttr('colspan').after('<td class="timeCounter" title="' + Date.now() + '"><span class="timeCounterHr">00</span>:<span class="timeCounterMin">00</span>:<span class="timeCounterSec">00</span></td>');
         $('#tradeskillGains').find('td').first().removeAttr('colspan').after('<td class="timeCounter" title="' + Date.now() + '"><span class="timeCounterHr">00</span>:<span class="timeCounterMin">00</span>:<span class="timeCounterSec">00</span></td>');
-        $('#gainsXP').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + constants.perHourColor + '; font-size: ' + constants.perHourSize+ 'px"></td><td id="xpPerHr" colspan="2" style="text-align: center;"></td></tr>');
-        $('#gainsGold').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + constants.perHourColor + '; font-size: ' + constants.perHourSize+ 'px"><td id="goldPerHr" colspan="2" style="text-align: center;"></td></tr>');
-        $('#gainsClanXP').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + constants.perHourColor + '; font-size: ' + constants.perHourSize+ 'px"><td id="clanXpPerHr" colspan="2" style="text-align: center;"></td></tr>');
-        $('#gainsClanGold').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + constants.perHourColor + '; font-size: ' + constants.perHourSize+ 'px"><td id="clanGoldPerHr" colspan="2" style="text-align: center;"></td></tr>');
-        $('#gainsResources').parent().after('<tr class="visible-xs-inline-block visible-sm-inline-block visible-md visible-lg" style="color: #' + constants.perHourColor + '; font-size: ' + constants.perHourSize+ 'px"><td id="resPerHr" colspan="2" style="text-align: center;"></td></tr>');
-        $('#gainsClanResources').parent().after('<tr class="visible-xs-inline-block visible-sm-inline-block visible-md visible-lg" style="color: #' + constants.perHourColor + '; font-size: ' + constants.perHourSize+ 'px"><td id="clanResPerHr" colspan="2" style="text-align: center;"></td></tr>');
+        $('#gainsXP').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"></td><td id="xpPerHr" colspan="2" style="text-align: center;"></td></tr>');
+        $('#gainsGold').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="goldPerHr" colspan="2" style="text-align: center;"></td></tr>');
+        $('#gainsClanXP').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="clanXpPerHr" colspan="2" style="text-align: center;"></td></tr>');
+        $('#gainsClanGold').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="clanGoldPerHr" colspan="2" style="text-align: center;"></td></tr>');
+        $('#gainsResources').parent().after('<tr class="visible-xs-inline-block visible-sm-inline-block visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="resPerHr" colspan="2" style="text-align: center;"></td></tr>');
+        $('#gainsClanResources').parent().after('<tr class="visible-xs-inline-block visible-sm-inline-block visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="clanResPerHr" colspan="2" style="text-align: center;"></td></tr>');
     }
 
     function addBattleTracker() {
@@ -82,12 +82,12 @@ var AVBUTrackers = (function () {
     }
 
     function timeCounter() {
-        if(constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR) {
+        if(modules.constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR) {
             var diffSec = Math.round((Date.now() - Number($('#battleGains .timeCounter').first().attr('title'))) / 1000);
 
             var xpHourValue = Math.floor(Number($('#gainsXP').attr('data-value'))/(diffSec / 3600));
-            var xpCurrent = utils.getElementIntValue("currentXP");
-            var xpRequired = utils.getElementIntValue("levelCost");
+            var xpCurrent = modules.utils.getElementIntValue("currentXP");
+            var xpRequired = modules.utils.getElementIntValue("levelCost");
             var ttl = ((xpRequired - xpCurrent) / xpHourValue).toFixed(2);
             var ttlh = Math.floor(ttl);
             var ttlm = Math.floor((ttl % 1).toFixed(2) * 60);
@@ -102,7 +102,7 @@ var AVBUTrackers = (function () {
             $('#resPerHr').text(Math.floor(Number($('#gainsResources').attr('data-value'))/(diffSec / 3600)).toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",") + " / Hr");
             $('#clanResPerHr').text(Math.floor(Number($('#gainsClanResources').attr('data-value'))/(diffSec/3600)).toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",") + " / Hr");
         }
-        if(constants.ENABLE_DROP_TRACKER) {
+        if(modules.constants.ENABLE_DROP_TRACKER) {
             var diffSec = Math.round((Date.now() - Number($('#dropsTableTimer .timeCounter').first().attr('title'))) / 1000);
             $('#dropsTableTimer .timeCounterHr').text(('0' + Math.floor(diffSec / 3600)).slice(-2));
             $('#dropsTableTimer .timeCounterMin').text(('0' + Math.floor(diffSec / 60) % 60).slice(-2));
@@ -127,13 +127,13 @@ var AVBUTrackers = (function () {
             return;
         }
 
-        if(constants.ENABLE_QUEST_COMPLETE_NOTICE && battle.b.qf != null && battle.b.qf.indexOf("You have completed your quest!  Visit the") > -1)
+        if(modules.constants.ENABLE_QUEST_COMPLETE_NOTICE && battle.b.qf != null && battle.b.qf.indexOf("You have completed your quest!  Visit the") > -1)
             fadeOutNonQuest();
         else if(questNoticeOn)
             fadeInNonQuest();
 
         // An ingredient has dropped for Ingredient Tracker
-        if(battle.b.ir && constants.ENABLE_INGREDIENT_TRACKER) {
+        if(battle.b.ir && modules.constants.ENABLE_INGREDIENT_TRACKER) {
             if(typeof Storage !== "undefined") {
                 if(!localStorage.LocDrops)
                     localStorage.LocDrops = "{}";
@@ -151,7 +151,7 @@ var AVBUTrackers = (function () {
         }
 
         // Battle was won and Drop Tracker enabled
-        if(battle.b.r && constants.ENABLE_DROP_TRACKER) {
+        if(battle.b.r && modules.constants.ENABLE_DROP_TRACKER) {
             incrementCell('numKills');
 
             // This means an ingredient has dropped
@@ -198,7 +198,7 @@ var AVBUTrackers = (function () {
 
         // Everything after this is for the Battle Tracker
         // Also, we cannot track combat if round-by-round option is not on.
-        if(battle.b.bt === null || !constants.ENABLE_BATTLE_TRACKER)
+        if(battle.b.bt === null || !modules.constants.ENABLE_BATTLE_TRACKER)
             return;
 
         numBattles ++;
@@ -218,7 +218,8 @@ var AVBUTrackers = (function () {
 
         var takenDamage = false;
         // Loop through the actions.
-        for (var act of battle.b.bt) {
+        for (var i = 0; i < battle.b.bt.length; i++) {
+            var act = battle.b.bt[i];
             if(act.npc === null)
                 if(act.type == "heal") {
                     healMax = Math.max(healMax, act.dmg);
@@ -326,13 +327,13 @@ var AVBUTrackers = (function () {
     }
 
     function parseAutoTradePhp(harvest) {
-        if(constants.ENABLE_QUEST_COMPLETE_NOTICE && harvest.a.qf.indexOf("You have completed your quest!  Visit the") > -1)
+        if(modules.constants.ENABLE_QUEST_COMPLETE_NOTICE && harvest.a.qf.indexOf("You have completed your quest!  Visit the") > -1)
             fadeOutNonQuest();
         else if(questNoticeOn)
             fadeInNonQuest();
 
         // Track Location Drops
-        if(constants.ENABLE_INGREDIENT_TRACKER) {
+        if(modules.constants.ENABLE_INGREDIENT_TRACKER) {
             if(harvest.a.ir) {
                 var item = (harvest.a.ir).replace(/\+|<.*?>/img, "");
                 var tool = harvest.a.t;
@@ -352,7 +353,7 @@ var AVBUTrackers = (function () {
         }
 
         // Drop Tracker enabled
-        if(constants.ENABLE_DROP_TRACKER) {
+        if(modules.constants.ENABLE_DROP_TRACKER) {
             incrementCell('numHarvests');
 
             // This means an ingredient has dropped
@@ -435,15 +436,15 @@ var AVBUTrackers = (function () {
     }
 
     function initialize() {
-        if(constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR)
+        if(modules.constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR)
             addTimeCounter();
-        if(constants.ENABLE_BATTLE_TRACKER)
+        if(modules.constants.ENABLE_BATTLE_TRACKER)
             addBattleTracker();
-        if(constants.ENABLE_INGREDIENT_TRACKER)
+        if(modules.constants.ENABLE_INGREDIENT_TRACKER)
             addIngredientTracker();
-        if(constants.ENABLE_DROP_TRACKER)
+        if(modules.constants.ENABLE_DROP_TRACKER)
             addDropTracker();
-        if(constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR || constants.ENABLE_DROP_TRACKER) {
+        if(modules.constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR || modules.constants.ENABLE_DROP_TRACKER) {
             timeCounter();
             setInterval(timeCounter, 1000);
         }
@@ -454,16 +455,17 @@ var AVBUTrackers = (function () {
 
         // THIS SECTION IS RUN EVERY TIME THE BROWSER RECEIVES A DYNAMIC UPDATE USING AJAX
         $( document ).ajaxComplete(function( event, xhr, settings ) {
-            if (settings.url == "autobattle.php" && (constants.ENABLE_BATTLE_TRACKER || constants.ENABLE_INGREDIENT_TRACKER))
+            if (settings.url == "autobattle.php" && (modules.constants.ENABLE_BATTLE_TRACKER || modules.constants.ENABLE_INGREDIENT_TRACKER))
                 parseAutobattlePhp(JSON.parse(xhr.responseText));
-            else if (settings.url == "autotrade.php" && constants.ENABLE_INGREDIENT_TRACKER)
+            else if (settings.url == "autotrade.php" && modules.constants.ENABLE_INGREDIENT_TRACKER)
                 parseAutoTradePhp(JSON.parse(xhr.responseText));
-            else if (settings.url == "reset_session_stats.php" && constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR)
+            else if (settings.url == "reset_session_stats.php" && modules.constants.ENABLE_XP_GOLD_RESOURCE_PER_HOUR)
                 parseResetSessionStatsPhp();
             else if (settings.url == "boosts.php")
                 parseBoostsPhp(JSON.parse(xhr.responseText));
         });
-    }
+    };
 
-    return module;
-});
+    modules.trackers = module;
+
+})(modules.jQuery);

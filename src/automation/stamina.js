@@ -1,4 +1,4 @@
-var AVBUAuto = (function ($) {
+(function ($) {
     'use strict';
 
     var module = {};
@@ -92,6 +92,6 @@ var AVBUAuto = (function ($) {
         $(document).off("ajaxSuccess", onAjaxSuccess);
     };
 
-    return module;
+    modules.automateStamina = module;
 
-});
+})(modules.jQuery);

@@ -1,7 +1,5 @@
-var AVBUChart = (function ($) {
+(function ($) {
     'use strict';
-
-    var module = {};
 
     const Chart = function (toggleDiv, targetDiv, title) {
         this.id = targetDiv;
@@ -65,6 +63,7 @@ var AVBUChart = (function ($) {
             console.log("Showing Chart " + this.id);
             this.visible = true;
             this.updateControlState();
+            this.render();
 
             if(this.onBecameVisible) {
                 this.onBecameVisible(this.id);
@@ -97,12 +96,17 @@ var AVBUChart = (function ($) {
             }
 
             // Rebuild min / max based on the new chart values
-            var min = 0;
+            var min = dataPoint;
             var max = dataPoint;
 
-            for(var entry in controlData) {
-                min = min < entry.y ? min : entry.y;
-                max = max > entry.y ? max : entry.y;
+            for (var i = 0; i < controlData.length; i++) {
+                if(min > controlData[i].y) {
+                    min = controlData[i].y;
+                }
+
+                if(max < controlData[i].y) {
+                    max = controlData[i].y;
+                }
             }
 
             this.control.options.axisY.minimum = min;
@@ -116,7 +120,7 @@ var AVBUChart = (function ($) {
             this.updateData(stats[this.gameStatDataPoint]);
         },
         updateDataFromElement: function() {
-            var value = utils.getElementIntValue(this.elementDataPoint);
+            var value = modules.utils.getElementIntValue(this.elementDataPoint);
             this.updateData(value);
         },
         asGameStatChart: function (dataPoint) {
@@ -142,10 +146,8 @@ var AVBUChart = (function ($) {
         }
     };
 
-    module.create = function (toggleDiv, targetDiv, title) {
+    modules.createChart = function (toggleDiv, targetDiv, title) {
         return new Chart(toggleDiv, targetDiv, title);
     };
 
-    return module;
-
-});
+})(modules.jQuery);

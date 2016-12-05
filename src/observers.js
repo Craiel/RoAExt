@@ -1,4 +1,4 @@
-var AVBUObservers = (function ($) {
+(function ($) {
     'use strict';
 
     var module = {};
@@ -7,35 +7,35 @@ var AVBUObservers = (function ($) {
     module.currency_tooltips = new MutationObserver(
         /** @param {MutationRecord[]} records */
         function (records) {
-            if (records.length && constants.$DOM.currency_tooltip.colour_reference.is(":visible")) {
-                const cssClass = constants.$DOM.currency_tooltip.colour_reference.attr("class"),
+            if (records.length && modules.constants.$DOM.currency_tooltip.colour_reference.is(":visible")) {
+                const cssClass = modules.constants.$DOM.currency_tooltip.colour_reference.attr("class"),
                     marketID = cssClass.replace("crystals", "premium")
                         .replace("materials", "weapon_scraps")
                         .replace("fragments", "gem_fragments"),
-                    $allTDs = constants.$DOM.currency_tooltip.table_row.find(">td");
+                    $allTDs = modules.constants.$DOM.currency_tooltip.table_row.find(">td");
 
-                constants.$DOM.currency_tooltip.table_row.attr("class", cssClass);
+                modules.constants.$DOM.currency_tooltip.table_row.attr("class", cssClass);
 
                 if (cssClass === "gold") {
                     $allTDs.text("N/A");
-                    utils.toggleVisibility(constants.$AJAX_SPINNERS.currency_tooltip, false);
+                    modules.utils.toggleVisibility(modules.constants.$AJAX_SPINNERS.currency_tooltip, false);
                 } else {
                     $allTDs.text(" ");
-                    utils.toggleVisibility(constants.$AJAX_SPINNERS.currency_tooltip, true);
+                    modules.utils.toggleVisibility(modules.constants.$AJAX_SPINNERS.currency_tooltip, true);
 
-                    (request.create("/market.php", constants.CACHE_TTL.market)).post({
+                    (modules.request.create("/market.php", modules.constants.CACHE_TTL.market)).post({
                         type: "currency",
                         page: 0,
                         st: marketID
-                    }).done(request.proto.callbacks.success.currency_tooltip);
+                    }).done(modules.request.proto.callbacks.success.currency_tooltip);
                 }
             }
     });
 
         /** Makes sure the script settings modal doesn't get nasty with the other game modals */
     module.script_settings = new MutationObserver(function () {
-            if (!constants.$DOM.modal.script_settings.is(":visible")) {
-                constants.$DOM.modal.script_settings.hide();
+            if (!modules.constants.$DOM.modal.script_settings.is(":visible")) {
+                modules.constants.$DOM.modal.script_settings.hide();
             }
         }
     );
@@ -43,7 +43,7 @@ var AVBUObservers = (function ($) {
     module.house_status = new MutationObserver(function (records) {
         for (var i = 0; i < records.length; i++) {
             if (records[i].addedNodes.length) {
-                utils.handle_house_status_update(records[i].target.innerText.trim());
+                modules.utils.handle_house_status_update(records[i].target.innerText.trim());
                 break;
             }
         }
@@ -52,8 +52,8 @@ var AVBUObservers = (function ($) {
     module.chat_whispers = new MutationObserver(
         /** @param {MutationRecord[]} records */
         function (records) {
-            const sound_on = settings.settings.notifications.all.sound && settings.settings.notifications.whisper.sound;
-            const gm_on = settings.settings.notifications.all.gm && settings.settings.notifications.whisper.gm;
+            const sound_on = modules.settings.settings.notifications.all.sound && modules.settings.settings.notifications.whisper.sound;
+            const gm_on = modules.settings.settings.notifications.all.gm && modules.settings.settings.notifications.whisper.gm;
 
             if (sound_on || gm_on) {
                 for (var i = 0; i < records.length; i++) {
@@ -63,10 +63,10 @@ var AVBUObservers = (function ($) {
                             const text = $(addedNodes[j]).text();
                             if (text.match(/^\[[0-9]+:[0-9]+:[0-9]+]\s*Whisper from/)) {
                                 if (gm_on) {
-                                    utils.notification(text);
+                                    modules.utils.notification(text);
                                 }
                                 if (sound_on) {
-                                    constants.SFX.msg_ding.play();
+                                    modules.constants.SFX.msg_ding.play();
                                 }
                             }
                         }
@@ -86,7 +86,7 @@ var AVBUObservers = (function ($) {
                             const $tbody = $(records[i].addedNodes[n]);
 
                             if ($tbody.find("th:contains(Ingredient)").length) { //Bingo!
-                                $tbody.find(">tr>[data-th=Item]").each(handlers.each.inventory_table_ingredients);
+                                $tbody.find(">tr>[data-th=Item]").each(modules.handlers.each.inventory_table_ingredients);
                             }
                             break;
                         }
@@ -97,6 +97,6 @@ var AVBUObservers = (function ($) {
         }
     );
 
-    return module;
+    modules.observers = module;
 
-});
+})(modules.jQuery);

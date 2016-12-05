@@ -1,4 +1,4 @@
-var AVBUClan = (function ($) {
+(function ($) {
     'use strict';
 
     var module = {};
@@ -40,7 +40,7 @@ var AVBUClan = (function ($) {
     }
 
     function initialize() {
-        if(constants.ENABLE_CLAN_DONATION_TABLE_MOD)
+        if(modules.constants.ENABLE_CLAN_DONATION_TABLE_MOD)
             addClanDonationMod();
     }
 
@@ -48,11 +48,11 @@ var AVBUClan = (function ($) {
         initialize();
 
         $( document ).ajaxComplete(function( event, xhr, settings ) {
-            if (settings.url == "clan_donations.php" && constants.ENABLE_CLAN_DONATION_TABLE_MOD)
+            if (settings.url == "clan_donations.php" && modules.constants.ENABLE_CLAN_DONATION_TABLE_MOD)
                 parseClanDonationsPhp();
         });
     };
 
-    return module;
+    modules.clanDonations = module;
 
-});
+})(modules.jQuery);

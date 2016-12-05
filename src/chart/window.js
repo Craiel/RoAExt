@@ -1,4 +1,4 @@
-var AVBUCharts = (function ($) {
+(function ($) {
     'use strict';
 
     var module = {};
@@ -6,7 +6,6 @@ var AVBUCharts = (function ($) {
     const initialUpdateDelay = 5000;
     const statUpdateDelay = 60 * 1 * 1000; // 1 minutes
 
-    var chartControl;
     var chartWindow;
 
     var visibleChart = null;
@@ -46,6 +45,12 @@ var AVBUCharts = (function ($) {
     function redrawChart() {
         if (visibleChart) {
             visibleChart.render();
+        }
+    }
+
+    function debugChart() {
+        if (visibleChart) {
+            console.log(visibleChart);
         }
     }
 
@@ -91,7 +96,7 @@ var AVBUCharts = (function ($) {
     }
 
     function setupChart(toggleDiv, targetDiv, title) {
-        var chart = chartControl.create(toggleDiv, targetDiv, title);
+        var chart = modules.createChart(toggleDiv, targetDiv, title);
         activeCharts[chart.id] = chart;
 
         chart.onBecameVisible = function (id) {
@@ -131,6 +136,7 @@ var AVBUCharts = (function ($) {
         // Hook buttons
         $('#gameChartReset').click(resetCharts);
         $('#gameChartRedraw').click(redrawChart);
+        $('#gameChartDebugData').click(debugChart);
         $('#gameChartTimeMinute').click(setChartTimeMinute);
         $('#gameChartTimeHour').click(setChartTimeHour);
         $('#gameChartTimeDay').click(setChartTimeDay);
@@ -182,10 +188,9 @@ var AVBUCharts = (function ($) {
     }
 
     module.enable = function () {
-        chartControl = chart;
-        $.get(constants.URLS.html.charts).done(setupChartWindow);
+        $.get(modules.constants.URLS.html.charts).done(setupChartWindow);
     };
 
-    return module;
+    modules.chartWindow = module;
 
-});
+})(modules.jQuery);

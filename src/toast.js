@@ -1,4 +1,4 @@
-var AVBUToast = (function ($) {
+(function ($) {
     'use strict';
 
     var enabled = false;
@@ -54,5 +54,6 @@ var AVBUToast = (function ($) {
             Notification.requestPermission();
     };
 
-    return module;
-});
+    modules.toast = module;
+
+})(modules.jQuery);
