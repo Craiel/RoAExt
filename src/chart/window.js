@@ -55,7 +55,11 @@
     }
 
     function resetCharts() {
-        
+        if(window.confirm("Reset chart data?")) {
+            for (var id in activeCharts) {
+                activeCharts[id].reset();
+            }
+        }
     }
 
     function redrawChart() {
@@ -187,7 +191,7 @@
 
         loadChartData();
 
-        modules.createInterval(beginRefreshStats, statUpdateDelay);
+        modules.createInterval("chartUpdate").set(beginRefreshStats, statUpdateDelay);
     }
 
     module.enable = function () {

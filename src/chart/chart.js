@@ -9,11 +9,11 @@
     };
 
     const ChartData = function () {
-
+        this.reset();
     };
 
     ChartData.prototype = {
-        storage: {mi: [], h:[], d:[], mo:[]},
+        storage: null,
         addDataPoint: function(dataPoint) {
             var dataPointTime = new Date();
 
@@ -43,6 +43,9 @@
         save: function () {
             return JSON.stringify(this.storage);
         },
+        reset: function () {
+            this.storage = {mi: [], h:[], d:[], mo:[]};
+        },
         getData: function (scale) {
             if(scale === modules.chartTimeScale.Minute) {
                 return this.storage.mi;
@@ -58,6 +61,7 @@
 
     const Chart = function (toggleDiv, targetDiv, title) {
         this.id = targetDiv;
+        this.data = new ChartData();
         this.initialize(toggleDiv, targetDiv, title);
     };
 
@@ -72,7 +76,7 @@
         gameStatDataPoint: null,
         elementDataPoint: null,
         scale: modules.chartTimeScale.Minute,
-        data: new ChartData(),
+        data: null,
         initialize: function (toggleDiv, targetDiv, title) {
             this.toggleDiv = $('#' + toggleDiv);
             this.toggleDiv.click({self: this}, function(evt) { evt.data.self.show(); });
@@ -103,9 +107,15 @@
         load: function (data) {
             this.data.load(data);
             this.updateChartData();
+            this.render();
         },
         save: function () {
             return this.data.save();
+        },
+        reset: function () {
+            this.data.reset();
+            this.updateChartData();
+            this.render();
         },
         show: function () {
             if(this.visible === true) {
@@ -132,7 +142,7 @@
             this.render();
         },
         updateChartData: function () {
-            this.control.options.data[0] = this.storage.getData(this.scale);
+            this.control.options.data[0].dataPoints = this.data.getData(this.scale);
 
             this.updateChartAxis();
         },
@@ -202,6 +212,7 @@
         setTimeScale: function (newScale) {
             this.scale = newScale;
             this.updateChartData();
+            this.render();
         }
     };
 
