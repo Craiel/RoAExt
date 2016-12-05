@@ -21,8 +21,8 @@
 
             var dataPointMinute = dataPointTime.getMinutes();
             var dataPointHour = dataPointTime.getHours();
-            var dataPointDay = dataPointTime.getDay();
-            var dataPointMonth = dataPointTime.getMonth();
+            var dataPointDay = dataPointTime.getDate();
+            var dataPointMonth = dataPointTime.getMonth() + 1;
 
             this.addData("mi", dataPointMinute, dataPoint, 60 * 12); // 1/2 day
             this.addData("h", dataPointHour, dataPoint, 24 * 30); // 30 days
@@ -34,7 +34,7 @@
                 this.storage[key] = [];
             }
 
-            if(this.storage[key].length > 0 && this.storage[key][this.storage[key].length - 1].x === id) {
+            if(this.storage[key].length > 0 && this.storage[key][this.storage[key].length - 1][0] === id) {
                 return;
             }
 
@@ -132,7 +132,7 @@
                 return;
             }
 
-            console.log("Showing Chart " + this.id);
+            //console.log("Showing Chart " + this.id);
             this.visible = true;
             this.updateControlState();
             this.render();
@@ -146,7 +146,7 @@
                 return;
             }
 
-            console.log("Hiding Chart " + this.id);
+            //console.log("Hiding Chart " + this.id);
             this.visible = false;
             this.updateControlState();
             this.render();
@@ -156,7 +156,7 @@
 
             this.control.options.data[0].dataPoints = [];
             for(var i = 0; i < newData.length; i++) {
-                this.control.options.data[0].dataPoints.push({title: modules.utils.pad(newData[i][0], 2), x: i, y: newData[i][1]});
+                this.control.options.data[0].dataPoints.push({label: modules.utils.pad(newData[i][0], 2), x: i, y: newData[i][1]});
             }
 
             this.updateChartAxis();

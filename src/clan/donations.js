@@ -47,10 +47,7 @@
     module.enable = function () {
         initialize();
 
-        $( document ).ajaxComplete(function( event, xhr, settings ) {
-            if (settings.url == "clan_donations.php" && modules.constants.ENABLE_CLAN_DONATION_TABLE_MOD)
-                parseClanDonationsPhp();
-        });
+        modules.ajaxHooks.register("clan_donations.php", parseClanDonationsPhp);
     };
 
     modules.clanDonations = module;

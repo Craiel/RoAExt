@@ -10,11 +10,11 @@
     var visibleChart = null;
     var activeCharts = {};
 
-    function refreshStats(gameStatData) {
+    function refreshStats(e, res, req, jsonData) {
 
         for (var id in activeCharts) {
             if (activeCharts[id].isGameStatChart) {
-                activeCharts[id].updateDataFromGameStats(gameStatData);
+                activeCharts[id].updateDataFromGameStats(jsonData);
             } else if (activeCharts[id].isElementChart) {
                 activeCharts[id].updateDataFromElement();
             }
@@ -24,11 +24,11 @@
         saveChartData();
     }
 
-    function beginRefreshStats() {
+    /*function beginRefreshStats() {
         console.log("Refreshing Stats...");
 
         $.post('game_stats.php', {}).done(refreshStats);
-    }
+    }*/
 
     function loadChartData() {
         if(!localStorage.chartData) {
@@ -130,6 +130,7 @@
         chartWindow = $(template);
         chartWindow.appendTo("body");
         chartWindow.draggable({handle:"#gameChartTitle"});
+        chartWindow.hide();
 
         var toggleButton = $('<a><div id="toggleGameCharts" class="bt1 center">Toggle Charts</div></a>');
         toggleButton.click(function () {
@@ -190,7 +191,8 @@
 
         loadChartData();
 
-        modules.createInterval("chartUpdate").set(beginRefreshStats, statUpdateDelay);
+        modules.ajaxHooks.register("game_stats.php", refreshStats);
+        modules.ajaxHooks.registerAutoSend("game_stats.php", {}, statUpdateDelay);
     }
 
     module.enable = function () {

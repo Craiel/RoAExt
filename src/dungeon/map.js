@@ -34,12 +34,11 @@
         }
     }
 
-    function x(e, res, req, jsonres) {
-        if(req.url == "dungeon_leave.php")
-        {
-            initialize();
-        }
+    function onLeaveDungeon() {
+        initialize();
+    }
 
+    function onUpdateDungeon(e, res, req, jsonres) {
         if (jsonres.hasOwnProperty("data") && jsonres.data.hasOwnProperty("map")) {
             if (dungeon.cf !== jsonres.data.floor) {
                 dungeon.r = {};
@@ -67,7 +66,7 @@
             data.n = jrd.n?1:0; // north
             data.w = jrd.w?1:0; // west
             data.r = !!jrd.search; // raided
-            data.b = jrd.enemies.length; // battles available
+            data.b = Object.keys(jrd.enemies).length; // battles available
 
             dungeon.r[data.t] = data;
 
@@ -212,11 +211,10 @@
     }
 
     module.enable = function () {
-        $(document).on("ajaxSuccess", x);
-    };
-
-    module.disable = function () {
-        $(document).off("ajaxSuccess", x);
+        modules.ajaxHooks.register("dungeon_leave.php", onLeaveDungeon);
+        modules.ajaxHooks.register("dungeon_info.php", onUpdateDungeon);
+        modules.ajaxHooks.register("dungeon_move.php", onUpdateDungeon);
+        modules.ajaxHooks.register("dungeon_search.php", onUpdateDungeon);
     };
 
     modules.dungeonMap = module;

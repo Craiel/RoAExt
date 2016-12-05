@@ -10,6 +10,7 @@ if (typeof(window.sessionStorage) === "undefined") {
     modules.css.enable();
     modules.toast.enable();
     modules.trackers.enable();
+    modules.ajaxHooks.enable();
 
     // Automation
     modules.automateStamina.enable();
