@@ -11,7 +11,6 @@
     var activeCharts = {};
 
     function refreshStats(gameStatData) {
-        console.log(gameStatData);
 
         for (var id in activeCharts) {
             if (activeCharts[id].isGameStatChart) {

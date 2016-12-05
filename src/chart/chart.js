@@ -8,6 +8,8 @@
         Month: {title: "Months"}
     };
 
+    const CURRENT_STORAGE_VERSION = 1;
+
     const ChartData = function () {
         this.reset();
     };
@@ -36,19 +38,23 @@
                 return;
             }
 
-            this.storage[key].push({label: modules.utils.pad(id, 2), x:id, y: value});
+            this.storage[key].push([id, value]);
             if(this.storage[key].length > limit) {
                 this.storage[key].shift();
             }
         },
         load: function (data) {
             this.storage = JSON.parse(data);
+            if(this.storage.version !== CURRENT_STORAGE_VERSION) {
+                console.warn("Chart data is too old and was reset!");
+                this.reset();
+            }
         },
         save: function () {
             return JSON.stringify(this.storage);
         },
         reset: function () {
-            this.storage = {mi: [], h:[], d:[], mo:[]};
+            this.storage = {version:CURRENT_STORAGE_VERSION, mi: [], h:[], d:[], mo:[]};
         },
         getData: function (scale) {
             if(scale === modules.chartTimeScale.Minute) {
@@ -146,7 +152,12 @@
             this.render();
         },
         updateChartData: function () {
-            this.control.options.data[0].dataPoints = this.data.getData(this.scale);
+            var newData = this.data.getData(this.scale);
+
+            this.control.options.data[0].dataPoints = [];
+            for(var i = 0; i < newData.length; i++) {
+                this.control.options.data[0].dataPoints.push({title: modules.utils.pad(newData[i][0], 2), x: i, y: newData[i][1]});
+            }
 
             this.updateChartAxis();
         },
