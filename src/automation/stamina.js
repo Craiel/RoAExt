@@ -38,15 +38,17 @@
             }
         }
 
+        if(modules.session.lockAutomation) {
+            return;
+        }
+
         if(enabled && allowAuto && autoMax > 5 && autoCurr > 0 && autoCurr < autoMax && autoCurr < 3)
         {
             allowAuto = false;
 
             $.post('stamina_replenish.php', {}).done(function(x) {
                 if (x.captcha) {
-                    if(modules.settings.settings.notification.captcha.show && modules.settings.settings.notification.enable) {
-                        modules.notification.warn("Captcha required!");
-                    }
+                    modules.session.captchaEncountered(x);
                 }
             });
         }

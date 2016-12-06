@@ -51,7 +51,9 @@
         settings_modal: gitHubUrl("res/html/script-settings.html"),
         market_tooltip: gitHubUrl("res/html/market-tooltip.html"),
         clan_donation_percent: gitHubUrl("res/html/clan-donation-percent.html"),
-        notes: gitHubUrl("res/html/notes.html")
+        notes: gitHubUrl("res/html/notes.html"),
+        custom_timer: gitHubUrl("res/html/custom-timer.html"),
+        debug: gitHubUrl("res/html/debug.html")
     };
 
     modules.urls = module;

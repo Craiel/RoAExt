@@ -6,7 +6,8 @@
     const RequestAutoSendCheckFrequency = 100;
     const RequestSendThreshold = 500; // the time where we will warn about frequent requests to the same page
 
-    var registry = {};
+    var forwards = [];
+    var targetedForwards = {};
     var requestHistory = {};
     var autoRequests = {};
 
@@ -31,14 +32,18 @@
         console.log(req.url);
         //console.log(jsonData);
 
-        for(var entry in registry) {
+        for(var entry in targetedForwards) {
             if(req.url === entry) {
-                for (var i = 0; i < registry[entry].length; i++) {
-                    registry[entry][i](e, res, req, jsonData);
+                for (var i = 0; i < targetedForwards[entry].length; i++) {
+                    targetedForwards[entry][i](e, res, req, jsonData);
                 }
 
-                return;
+                break;
             }
+        }
+
+        for (var i = 0; i < forwards.length; i++) {
+            forwards[i](e, res, req, jsonData);
         }
     }
 
@@ -69,11 +74,15 @@
     };
 
     module.register = function(site, callback) {
-        if(!registry[site]) {
-            registry[site] = [];
+        if(!targetedForwards[site]) {
+            targetedForwards[site] = [];
         }
 
-        registry[site].push(callback);
+        targetedForwards[site].push(callback);
+    };
+
+    module.registerAll = function (callback) {
+        forwards.push(callback);
     };
 
     module.enable = function () {

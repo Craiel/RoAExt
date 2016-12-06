@@ -14,8 +14,8 @@
                 activeCharts['chartPlayerBattleXP'].updateData(jsonData.b.xp);
             }
 
-            if(jsonData.b.gold && jsonData.b.gold > 0) {
-                activeCharts['chartPlayerGoldLooted'].updateData(jsonData.b.xp);
+            if(jsonData.b.g && jsonData.b.g > 0) {
+                activeCharts['chartPlayerGoldLooted'].updateData(jsonData.b.g);
             }
         }
     }
@@ -45,12 +45,6 @@
         redrawChart();
         saveChartData();
     }
-
-    /*function beginRefreshStats() {
-        console.log("Refreshing Stats...");
-
-        $.post('game_stats.php', {}).done(refreshStats);
-    }*/
 
     function loadChartData() {
         if(!localStorage.chartData) {
@@ -175,7 +169,7 @@
         setupChart("toggleChartPlayerHarvestXP", "chartPlayerHarvestXP", "Harvest XP", "column").asAdditive();
         setupChart("toggleChartPlayerCraftingXP", "chartPlayerCraftingXP", "Crafting XP", "column").asAdditive();
         setupChart("toggleChartPlayerGold", "chartPlayerGold", "Gold").asElementChart("gold");
-        setupChart("toggleChartPlayerGoldLooted", "chartPlayerGoldLooted", "Gold Looted").asAdditive();
+        setupChart("toggleChartPlayerGoldLooted", "chartPlayerGoldLooted", "Gold Looted", "column").asAdditive();
         setupChart("toggleChartPlayerPlatinum", "chartPlayerPlatinum", "Platinum").asElementChart("platinum");
         setupChart("toggleChartPlayerCrystal", "chartPlayerCrystal", "Crystals").asElementChart("premium");
         setupChart("toggleChartPlayerMaterial", "chartPlayerMaterial", "Material").asElementChart("crafting_materials");
