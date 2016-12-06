@@ -1,11 +1,8 @@
 (function ($) {
     'use strict';
 
-    var module = {};
-
     var autoMax = 0;
     var autoCurr = 0;
-    var initialized = false;
     var enabled = true;
     var allowAuto = true;
 
@@ -62,28 +59,27 @@
         $('#' + target).prepend(toggleButton);
     }
 
-    function initialize() {
-
-        console.log("Initializing Auto..");
-
-        createToggle('craftingStatusButtons');
-        createToggle('battleStatusButtons');
-        createToggle('harvestStatusButtons');
-
-        initialized = true;
+    function AutoStamina() {
+        RoAModule.call(this, "Auto Stamina");
     }
 
-    module.enable = function() {
-        if(!initialized) {
-            initialize();
+    AutoStamina.prototype = Object.spawn(RoAModule.prototype, {
+        load: function () {
+            createToggle('craftingStatusButtons');
+            createToggle('battleStatusButtons');
+            createToggle('harvestStatusButtons');
+
+            modules.ajaxHooks.register("autobattle.php", updateAutoStamina);
+            modules.ajaxHooks.register("autoevent.php", updateAutoStamina);
+            modules.ajaxHooks.register("autotrade.php", updateAutoStamina);
+            modules.ajaxHooks.register("autocraft.php", updateAutoStamina);
+
+            RoAModule.prototype.load.apply(this);
         }
+    });
 
-        modules.ajaxHooks.register("autobattle.php", updateAutoStamina);
-        modules.ajaxHooks.register("autoevent.php", updateAutoStamina);
-        modules.ajaxHooks.register("autotrade.php", updateAutoStamina);
-        modules.ajaxHooks.register("autocraft.php", updateAutoStamina);
-    };
+    AutoStamina.prototype.constructor = AutoStamina;
 
-    modules.automateStamina = module;
+    modules.automateStamina = new AutoStamina();
 
 })(modules.jQuery);

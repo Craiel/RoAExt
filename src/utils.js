@@ -26,7 +26,7 @@
     };
 
     module.svg = function ($this, url) {
-        $this.html('<img src="' + modules.urls.svg.ajax_loader + '" alt="Loading"/>');
+        $this.html('<img src="' + modules.urls.gif.ajax_loader + '" alt="Loading"/>');
         $.get(url).done(function (r) {
             $this.html($(r).find("svg"));
         });

@@ -10,6 +10,7 @@ mkdir %OUT_DIR%
 echo Building %OUT_FILE_FULL%
 
 copy extension_header.js %OUT_FILE_FULL%
+type src\core\* >> %OUT_FILE_FULL%
 type src\* >> %OUT_FILE_FULL%
 type src\automation\* >> %OUT_FILE_FULL%
 type src\chart\* >> %OUT_FILE_FULL%

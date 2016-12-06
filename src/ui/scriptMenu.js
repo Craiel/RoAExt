@@ -1,21 +1,30 @@
 (function ($) {
     'use strict';
 
-    var module = {};
+    var template;
 
-    function setupMenu(template) {
-        $('#navWrapper').prepend($(template));
-
-        $('#roaMenuTitle').text(GM_info.script.name + " " + GM_info.script.version);
+    function UIScriptMenu() {
+        RoAModule.call(this, "UI Script Menu");
     }
 
-    module.enable = function () {
+    UIScriptMenu.prototype = Object.spawn(RoAModule.prototype, {
+        continueLoad: function () {
+            $('#navWrapper').prepend($(template));
 
-        $.get(modules.urls.html.script_menu).done(setupMenu);
+            $('#roaMenuTitle').text(GM_info.script.name + " " + GM_info.script.version);
 
-    };
+            RoAModule.prototype.load.apply(this);
+        },
+        load: function () {
+            $.get(modules.urls.html.script_menu).done(function (x) {
+                template = x;
+                modules.uiScriptMenu.continueLoad();
+            });
+        }
+    });
 
-    modules.uiScriptMenu = module;
-    modules.uiScriptMenu.enable();
+    UIScriptMenu.prototype.constructor = UIScriptMenu;
+
+    modules.uiScriptMenu = new UIScriptMenu();
 
 })(modules.jQuery);

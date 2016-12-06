@@ -1,8 +1,6 @@
 (function($) {
     'use strict';
 
-    var module = {};
-
     var peopleMod = {};
 
     if(localStorage.peopleMod)
@@ -108,10 +106,20 @@
             addChatColorPicker();
     }
 
-    module.enable = function () {
-        initialize();
-    };
+    function ChatPeopleColor() {
+        RoAModule.call(this, "Chat People Colors");
+    }
 
-    modules.chatPeopleColor = module;
+    ChatPeopleColor.prototype = Object.spawn(RoAModule.prototype, {
+        load: function () {
+            initialize();
+
+            RoAModule.prototype.load.apply(this);
+        }
+    });
+
+    ChatPeopleColor.prototype.constructor = ChatPeopleColor;
+
+    modules.chatPeopleColor = new ChatPeopleColor();
 
 })(modules.jQuery);

@@ -1,19 +1,21 @@
 (function ($) {
     'use strict';
 
-    var module = {};
+    function UIActionShortcuts() {
+        RoAModule.call(this, "UI Action Shortcuts");
+    }
 
-    module.enable = function () {
+    UIActionShortcuts.prototype = Object.spawn(RoAModule.prototype, {
+        load: function () {
+            if (!modules.uiScriptMenu.enabled) {
+                console.warn("Script Menu is disabled, will not enable Action Shortcuts");
+                return;
+            }
 
-        if (!modules.uiScriptMenu.enabled) {
-            console.warn("Script Menu is disabled, will not enable Action Shortcuts");
-            return;
-        }
+            var $menuLink = $('#roaMenu');
 
-        var $menuLink = $('#roaMenu');
-
-        // Side shortcuts
-        var $appends = {
+            // Side shortcuts
+            var $appends = {
                 battle: $("<a href='javascript:;' data-delegate-click='#loadMobList' class='avi-tip avi-menu-shortcut' title='Open Battle'/>"),
                 fishing: $("<a href='javascript:;' data-delegate-click='#loadFishing' class='avi-tip avi-menu-shortcut' title='Open Fishing'/>"),
                 wc: $("<a href='javascript:;' data-delegate-click='#loadWoodcutting' class='avi-tip avi-menu-shortcut' title='Open Lumber Mill'/>"),
@@ -21,23 +23,28 @@
                 quarry: $("<a href='javascript:;' data-delegate-click='#loadStonecutting' class='avi-tip avi-menu-shortcut' title='Open Quarry'/>")
             };
 
-        $("#navWrapper").css("padding-top", $menuLink.height()).find("ul")
-            .append(
-                $('<li class="avi-menu"/>')
-                    .append($appends.battle)
-                    .append($appends.fishing)
-                    .append($appends.wc)
-                    .append($appends.mine)
-                    .append($appends.quarry)
-            );
+            $("#navWrapper").css("padding-top", $menuLink.height()).find("ul")
+                .append(
+                    $('<li class="avi-menu"/>')
+                        .append($appends.battle)
+                        .append($appends.fishing)
+                        .append($appends.wc)
+                        .append($appends.mine)
+                        .append($appends.quarry)
+                );
 
-        modules.utils.svg($appends.battle, modules.urls.svg.sword_clash);
-        modules.utils.svg($appends.fishing, modules.urls.svg.fishing);
-        modules.utils.svg($appends.wc, modules.urls.svg.log);
-        modules.utils.svg($appends.mine, modules.urls.svg.metal_bar);
-        modules.utils.svg($appends.quarry, modules.urls.svg.stone_block);
-    };
+            modules.utils.svg($appends.battle, modules.urls.svg.sword_clash);
+            modules.utils.svg($appends.fishing, modules.urls.svg.fishing);
+            modules.utils.svg($appends.wc, modules.urls.svg.log);
+            modules.utils.svg($appends.mine, modules.urls.svg.metal_bar);
+            modules.utils.svg($appends.quarry, modules.urls.svg.stone_block);
 
-    modules.uiActionShortcuts = module;
+            RoAModule.prototype.load.apply(this);
+        }
+    });
+
+    UIActionShortcuts.prototype.constructor = UIActionShortcuts;
+
+    modules.uiActionShortcuts = new UIActionShortcuts();
 
 })(modules.jQuery);

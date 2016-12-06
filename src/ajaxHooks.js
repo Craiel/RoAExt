@@ -1,8 +1,6 @@
 (function ($) {
     'use strict';
 
-    var module = {};
-
     const RequestAutoSendCheckFrequency = 100;
     const RequestSendThreshold = 500; // the time where we will warn about frequent requests to the same page
 
@@ -68,38 +66,44 @@
         }
     }
 
-    module.registerAutoSend = function (url, payload, interval) {
-        if(autoRequests[url]) {
-            console.error("Url " + url + " is already registered for auto send!");
-            return;
+    function AjaxHooks() {
+        RoAModule.call(this, "Ajax Hooks");
+    }
+
+    AjaxHooks.prototype = Object.spawn(RoAModule.prototype, {
+        registerAutoSend: function (url, payload, interval) {
+            if(autoRequests[url]) {
+                console.error("Url " + url + " is already registered for auto send!");
+                return;
+            }
+
+            autoRequests[url] = { payload: payload, interval: interval, locked: false };
+        },
+        register: function(site, callback) {
+            if(!targetedForwards[site]) {
+                targetedForwards[site] = [];
+            }
+
+            targetedForwards[site].push(callback);
+        },
+        registerAll: function (callback) {
+            forwards.push(callback);
+        },
+        registerRcvAll: function (callback) {
+            rcvForwards.push(callback);
+        },
+        load: function () {
+            $(document).on("ajaxSend", onAjaxSendPending);
+            $(document).on("ajaxSuccess", onAjaxSuccess);
+
+            modules.createInterval("ajaxHooksAutoSend").set(autoSendAjaxRequests, RequestAutoSendCheckFrequency);
+
+            RoAModule.prototype.load.apply(this);
         }
+    });
 
-        autoRequests[url] = { payload: payload, interval: interval, locked: false };
-    };
+    AjaxHooks.prototype.constructor = AjaxHooks;
 
-    module.register = function(site, callback) {
-        if(!targetedForwards[site]) {
-            targetedForwards[site] = [];
-        }
-
-        targetedForwards[site].push(callback);
-    };
-
-    module.registerAll = function (callback) {
-        forwards.push(callback);
-    };
-
-    module.registerRcvAll = function (callback) {
-        rcvForwards.push(callback);
-    };
-
-    module.enable = function () {
-        $(document).on("ajaxSend", onAjaxSendPending);
-        $(document).on("ajaxSuccess", onAjaxSuccess);
-
-        modules.createInterval("ajaxHooksAutoSend").set(autoSendAjaxRequests, RequestAutoSendCheckFrequency);
-    };
-
-    modules.ajaxHooks = module;
+    modules.ajaxHooks = new AjaxHooks();
 
 })(modules.jQuery);

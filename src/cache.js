@@ -1,8 +1,6 @@
 (function ($) {
     'use strict';
 
-    var module = {};
-
     function updateIngredientIdsFromQuery(result) {
         const select = $("<select/>"),
             mats = {};
@@ -17,21 +15,29 @@
         modules.cache.TRADESKILL_MATS = mats;
     }
 
-    module.updateIngredientIds = function() {
-        const cached_ids = window.sessionStorage.getItem("TRADESKILL_MATERIAL_IDS");
-        if (cached_ids) {
-            this.TRADESKILL_MATS = JSON.parse(cached_ids);
-        } else {
-            $.post("market.php", { type: "ingredient", page: 0, st: "all" }, updateIngredientIdsFromQuery);
+    function Cache() {
+        RoAModule.call(this, "Cache");
+    }
+
+    Cache.prototype = Object.spawn(RoAModule.prototype, {
+        TRADESKILL_MATS: {},
+        updateIngredientIds: function() {
+            const cached_ids = window.sessionStorage.getItem("TRADESKILL_MATERIAL_IDS");
+            if (cached_ids) {
+                this.TRADESKILL_MATS = JSON.parse(cached_ids);
+            } else {
+                $.post("market.php", { type: "ingredient", page: 0, st: "all" }, updateIngredientIdsFromQuery);
+            }
+        },
+        load: function () {
+            this.updateIngredientIds();
+
+            RoAModule.prototype.load.apply(this);
         }
-    };
+    });
 
-    module.TRADESKILL_MATS = {};
+    Cache.prototype.constructor = Cache;
 
-    module.enable = function () {
-        this.updateIngredientIds();
-    };
-
-    modules.cache = module;
+    modules.cache = new Cache();
 
 })(modules.jQuery);

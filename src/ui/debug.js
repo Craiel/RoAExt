@@ -1,8 +1,7 @@
 (function ($) {
     'use strict';
 
-    var module = {};
-
+    var template;
     var window;
 
     var requestHistory = {};
@@ -61,36 +60,48 @@
         updateDebugContent();
     }
 
-    function setupDebugWindow(template) {
-        $("<style>").text("" +
-            ".debugWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
-            .appendTo("body");
-
-        window = $(template);
-        window.appendTo("body");
-        window.draggable({handle:"#debugWindowTitle"});
-        window.resizable();
-        window.hide();
-
-        modules.ajaxHooks.registerAll(onAjaxDone);
-        modules.ajaxHooks.registerRcvAll(onAjaxSentPending);
+    function UIDebug() {
+        RoAModule.call(this, "UI Debug");
     }
 
-    module.enable = function () {
-        var $menuSection = $("#roaMenuContent");
+    UIDebug.prototype = Object.spawn(RoAModule.prototype, {
+        continueLoad: function () {
+            $("<style>").text("" +
+                ".debugWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
+                .appendTo("body");
 
-        console.log("Enabling DEBUG: ");
-        console.log($menuSection);
+            window = $(template);
+            window.appendTo("body");
+            window.draggable({handle:"#debugWindowTitle"});
+            window.resizable();
+            window.hide();
 
-        var $menuLink = $('<a href="javascript:;"/>')
-            .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Debug</li>')
-            .click(onClick);
+            modules.ajaxHooks.registerAll(onAjaxDone);
+            modules.ajaxHooks.registerRcvAll(onAjaxSentPending);
 
-        $menuSection.append($menuLink);
+            RoAModule.prototype.load.apply(this);
+        },
+        load: function () {
+            var $menuSection = $("#roaMenuContent");
 
-        $.get(modules.urls.html.debug).done(setupDebugWindow);
-    };
+            console.log("Enabling DEBUG: ");
+            console.log($menuSection);
 
-    modules.uiDebug = module;
+            var $menuLink = $('<a href="javascript:;"/>')
+                .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Debug</li>')
+                .click(onClick);
+
+            $menuSection.append($menuLink);
+
+            $.get(modules.urls.html.debug).done(function (x) {
+                template = x;
+                modules.uiDebug.continueLoad();
+            });
+        }
+    });
+
+    UIDebug.prototype.constructor = UIDebug;
+
+    modules.uiDebug = new UIDebug();
 
 })(modules.jQuery);

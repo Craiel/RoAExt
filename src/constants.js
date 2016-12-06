@@ -1,22 +1,28 @@
 (function () {
     'use strict';
 
-    var module = {};
+    function Constants() {
+        RoAModule.call(this, "Constants");
+    }
 
-    module.SettingsAutoSaveInterval = 1000;
-    module.SettingsSaveVersion = 1;
-    module.SettingsSaveKey = "settings";
+    Constants.prototype = Object.spawn(RoAModule.prototype, {
+        SettingsAutoSaveInterval: 1000,
+        SettingsSaveVersion: 1,
+        SettingsSaveKey: "settings",
 
-    module.DungeonWallColor = "#ff0000";
-    module.DungeonRoomSearchedColor = "#ffd700";
-    module.DungeonRoomHasEnemiesColor ="#ff0000";
-    module.DungeonPlayerColor = "#ffffff";
-    module.DungeonMapVersion = 0.1;
+        DungeonWallColor: "#ff0000",
+        DungeonRoomSearchedColor: "#ffd700",
+        DungeonRoomHasEnemiesColor: "#ff0000",
+        DungeonPlayerColor: "#ffffff",
+        DungeonMapVersion: 0.1,
 
-    module.HouseUpdateInterval = 60 * 2 * 1000; // 2 minutes
+        HouseUpdateInterval: 60 * 2 * 1000, // 2 minutes
 
-    module.ChartUpdateInterval = 60 * 1 * 1000; // 1 minutes
+        ChartUpdateInterval: 60 * 1 * 1000 // 1 minutes
+    });
 
-    modules.constants = module;
+    Constants.prototype.constructor = Constants;
+
+    modules.constants = new Constants();
 
 })();

@@ -1,26 +1,32 @@
 (function () {
     'use strict';
 
-    var module = {
-        lockAutomation: false
-    };
-
     function onCaptchaSolved(e, res, req, jsonres) {
         modules.session.lockAutomation = false;
     }
 
-    module.captchaEncountered = function (x) {
-        this.lockAutomation = true;
+    function Session() {
+        RoAModule.call(this, "Session");
+    }
 
-        if(modules.settings.settings.notification.captcha.show && modules.settings.settings.notification.enable) {
-            modules.notification.warn("Captcha required!");
+    Session.prototype = Object.spawn(RoAModule.prototype, {
+        lockAutomation: false,
+        captchaEncountered: function (x) {
+            this.lockAutomation = true;
+
+            if(modules.settings.settings.notification.captcha.show && modules.settings.settings.notification.enable) {
+                modules.notification.warn("Captcha required!");
+            }
+        },
+        load: function () {
+            modules.ajaxHooks.register("captcha_submit.php", onCaptchaSolved);
+
+            RoAModule.prototype.load.apply(this);
         }
-    };
+    });
 
-    module.enable = function () {
-        modules.ajaxHooks.register("captcha_submit.php", onCaptchaSolved);
-    };
+    Session.prototype.constructor = Session;
 
-    modules.session = module;
+    modules.session = new Session();
 
 })();

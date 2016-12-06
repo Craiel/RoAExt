@@ -1,21 +1,28 @@
 (function ($) {
     'use strict';
 
-    var module = {};
+    var template;
 
-    function setupTimer(template) {
-        $('#rightWrapper').append($(template));
+    function UITimers() {
+        RoAModule.call(this, "UI Timers");
     }
 
-    module.enable = function () {
+    UITimers.prototype = Object.spawn(RoAModule.prototype, {
+        continueLoad: function() {
+            $('#rightWrapper').append($(template));
 
-        $.get(modules.urls.html.timers).done(setupTimer);
+            RoAModule.prototype.load.apply(this);
+        },
+        load: function () {
+            $.get(modules.urls.html.timers).done(function (x) {
+                template = x;
+                modules.uiTimers.continueLoad();
+            });
+        }
+    });
 
-    };
+    UITimers.prototype.constructor = UITimers;
 
-    modules.uiTimers = module;
-
-    // Always enable
-    modules.uiTimers.enable();
+    modules.uiTimers = new UITimers();
 
 })(modules.jQuery);

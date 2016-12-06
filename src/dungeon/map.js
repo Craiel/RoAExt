@@ -1,8 +1,6 @@
 (function ($) {
     'use strict';
 
-    var module = {};
-
     var initialize = function () {
         modules.settings.dungeonMap = { r:{}, cf:0, ct:null, v: modules.constants.DungeonMapVersion };
     };
@@ -189,26 +187,36 @@
         dmctx.closePath();
     }
 
-    module.enable = function () {
-        if(modules.settings.dungeonMap == null) {
-            initialize();
-        } else {
-            try {
-                if(modules.settings.dungeonMap == null || modules.settings.dungeonMap.v == null || modules.settings.dungeonMap.v != modules.constants.DungeonMapVersion)
-                {
+    function DungeonMap() {
+        RoAModule.call(this, "Dungeon Map");
+    }
+
+    DungeonMap.prototype = Object.spawn(RoAModule.prototype, {
+        load: function () {
+            if(modules.settings.dungeonMap == null) {
+                initialize();
+            } else {
+                try {
+                    if(modules.settings.dungeonMap == null || modules.settings.dungeonMap.v == null || modules.settings.dungeonMap.v != modules.constants.DungeonMapVersion)
+                    {
+                        initialize();
+                    }
+                } catch (e) {
                     initialize();
                 }
-            } catch (e) {
-                initialize();
             }
+
+            modules.ajaxHooks.register("dungeon_leave.php", onLeaveDungeon);
+            modules.ajaxHooks.register("dungeon_info.php", onUpdateDungeon);
+            modules.ajaxHooks.register("dungeon_move.php", onUpdateDungeon);
+            modules.ajaxHooks.register("dungeon_search.php", onUpdateDungeon);
+
+            RoAModule.prototype.load.apply(this);
         }
+    });
 
-        modules.ajaxHooks.register("dungeon_leave.php", onLeaveDungeon);
-        modules.ajaxHooks.register("dungeon_info.php", onUpdateDungeon);
-        modules.ajaxHooks.register("dungeon_move.php", onUpdateDungeon);
-        modules.ajaxHooks.register("dungeon_search.php", onUpdateDungeon);
-    };
+    DungeonMap.prototype.constructor = DungeonMap;
 
-    modules.dungeonMap = module;
+    modules.dungeonMap = new DungeonMap();
 
 })(modules.jQuery);

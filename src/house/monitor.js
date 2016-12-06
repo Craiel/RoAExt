@@ -1,11 +1,10 @@
 (function ($) {
     'use strict';
 
-    var module = {};
-
     var lastMessage;
     var $houseStatus;
 
+    var template;
     var interval;
     var constructionTimeRemaining = 0;
     var constructionTimeUpdate;
@@ -59,27 +58,39 @@
         }
     }
 
-    function initialize(template) {
-        const $timer = $(template);
-        const $body = $("body");
-
-        $("#houseTimerInfo").addClass("avi-force-block");
-        $body.append("<style>#constructionNotifier,#houseTimerTable [data-typeid='Construction']{display:none!important}</style>");
-
-        $("#houseTimerTable").prepend($timer);
-
-        $houseStatus = $("#avi-house-construction");
-
-        interval = modules.createInterval("house_status");
-
-        modules.ajaxHooks.register("house.php", updateHouseStatus);
-        modules.ajaxHooks.registerAutoSend("house.php", {}, modules.constants.HouseUpdateInterval);
+    function HouseMonitor() {
+        RoAModule.call(this, "House Monitor");
     }
 
-    module.enable = function () {
-        $.get(modules.urls.html.house_timers).done(initialize);
-    };
+    HouseMonitor.prototype = Object.spawn(RoAModule.prototype, {
+        continueLoad: function() {
+            const $timer = $(template);
+            const $body = $("body");
 
-    modules.houseMonitor = module;
+            $("#houseTimerInfo").addClass("avi-force-block");
+            $body.append("<style>#constructionNotifier,#houseTimerTable [data-typeid='Construction']{display:none!important}</style>");
+
+            $("#houseTimerTable").prepend($timer);
+
+            $houseStatus = $("#avi-house-construction");
+
+            interval = modules.createInterval("house_status");
+
+            modules.ajaxHooks.register("house.php", updateHouseStatus);
+            modules.ajaxHooks.registerAutoSend("house.php", {}, modules.constants.HouseUpdateInterval);
+
+            RoAModule.prototype.load.apply(this);
+        },
+        load: function () {
+            $.get(modules.urls.html.house_timers).done(function (x) {
+                template = x;
+                modules.houseMonitor.continueLoad();
+            });
+        }
+    });
+
+    HouseMonitor.prototype.constructor = HouseMonitor;
+
+    modules.houseMonitor = new HouseMonitor();
 
 })(modules.jQuery);

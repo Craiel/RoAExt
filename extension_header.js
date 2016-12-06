@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name           Avabur Extended
+// @name           RoAExt
 // @namespace      org.craiel.avaburextended
 // @author         Craiel
 // @homepage       https://github.com/Craiel/RoAExt

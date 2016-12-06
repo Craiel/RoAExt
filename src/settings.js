@@ -1,16 +1,17 @@
 (function($) {
     'use strict';
 
-    const Settings = function () {
+    var autoSaveInterval;
+
+    function Settings() {
         this.settings = this.defaults;
-        this.load();
 
-        modules.createInterval("settingsAutoSave").set(function () {
-            modules.settings.save();
-        }, modules.constants.SettingsAutoSaveInterval);
-    };
+        autoSaveInterval = modules.createInterval("settingsAutoSave");
 
-    Settings.prototype = {
+        RoAModule.call(this, "Settings");
+    }
+
+    Settings.prototype = Object.spawn(RoAModule.prototype, {
         defaults: {
             version: modules.constants.SettingsSaveVersion,
             notification: {
@@ -40,18 +41,24 @@
             chartData: {},
             notes: ""
         },
-
         save: function () {
             GM_setValue(modules.constants.SettingsSaveKey, JSON.stringify(this.settings));
         },
-
         load: function () {
             var data = JSON.parse(GM_getValue(modules.constants.SettingsSaveKey) || "{}");
             if(data.version === modules.constants.SettingsSaveVersion) {
                 this.settings = $.extend(true, this.defaults, data);
             }
+
+            autoSaveInterval.set(function () {
+                modules.settings.save();
+            }, modules.constants.SettingsAutoSaveInterval);
+
+            RoAModule.prototype.load.apply(this);
         }
-    };
+    });
+
+    Settings.prototype.constructor = Settings;
 
     modules.settings = new Settings();
 

@@ -1,23 +1,30 @@
 (function () {
     'use strict';
 
-    var module = {};
-
     function onClick() {
         modules.chartWindow.toggle();
     }
 
-    module.enable = function () {
-        var $menuSection = $("#roaMenuContent");
+    function UIChartMenu() {
+        RoAModule.call(this, "UI Chart Menu");
+    }
 
-        var $menuLink = $('<a href="javascript:;"/>')
-            .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Charts</li>')
-            .click(onClick);
+    UIChartMenu.prototype = Object.spawn(RoAModule.prototype, {
+        load: function () {
+            var $menuSection = $("#roaMenuContent");
 
-        $menuSection.append($menuLink);
+            var $menuLink = $('<a href="javascript:;"/>')
+                .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Charts</li>')
+                .click(onClick);
 
-    };
+            $menuSection.append($menuLink);
 
-    modules.uiChartMenu = module;
+            RoAModule.prototype.load.apply(this);
+        }
+    });
+
+    UIChartMenu.prototype.constructor = UIChartMenu;
+
+    modules.uiChartMenu = new UIChartMenu();
 
 })(modules.jQuery);

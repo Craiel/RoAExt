@@ -1,7 +1,5 @@
-(function($) {
+(function() {
     'use strict';
-
-    var module = {};
 
     /**
      * Creates a GitHub CDN URL
@@ -23,40 +21,45 @@
         return rawGitUrl + author + "/" + repo + "/" + version + "/" + path;
     };
 
-    module.sfx = {
-        circ_saw: gitHubUrl("res/sfx/circ_saw.wav"),
-        message_ding: gitHubUrl("res/sfx/message_ding.wav")
-    };
+    function URLS() {
+        RoAModule.call(this, "URLS");
+    }
 
-    module.css = {
-        jquery_te: "https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css",
-        script: gitHubUrl("res/css/roaext.css")
-    };
+    URLS.prototype = Object.spawn(RoAModule.prototype, {
+        sfx: {
+            circ_saw: gitHubUrl("res/sfx/circ_saw.wav"),
+            message_ding: gitHubUrl("res/sfx/message_ding.wav")
+        },
+        css: {
+            jquery_te: "https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css",
+            script: gitHubUrl("res/css/roaext.css")
+        },
+        gif: {
+            ajax_loader: gitHubUrl("res/img/ajax-loader.gif")
+        },
+        svg: {
+            sword_clash: gitHubUrl("res/svg/sword-clash.svg"),
+            log: gitHubUrl("res/svg/log.svg"),
+            metal_bar: gitHubUrl("res/svg/metal-bar.svg"),
+            stone_block: gitHubUrl("res/svg/stone-block.svg"),
+            fishing: gitHubUrl("res/svg/fishing.svg")
+        },
+        html: {
+            charts: gitHubUrl("res/html/charts.html"),
+            house_timers: gitHubUrl("res/html/house-timers.html"),
+            settings_modal: gitHubUrl("res/html/script-settings.html"),
+            market_tooltip: gitHubUrl("res/html/market-tooltip.html"),
+            clan_donation_percent: gitHubUrl("res/html/clan-donation-percent.html"),
+            notes: gitHubUrl("res/html/notes.html"),
+            custom_timer: gitHubUrl("res/html/custom-timer.html"),
+            debug: gitHubUrl("res/html/debug.html"),
+            timers: gitHubUrl("res/html/timers.html"),
+            script_menu: gitHubUrl("res/html/script-menu.html")
+        }
+    });
 
-    module.svg = {
-        ajax_loader: gitHubUrl("res/img/ajax-loader.gif")
-    };
+    URLS.prototype.constructor = URLS;
 
-    module.svg = {
-        sword_clash: gitHubUrl("res/svg/sword-clash.svg"),
-        log: gitHubUrl("res/svg/log.svg"),
-        metal_bar: gitHubUrl("res/svg/metal-bar.svg"),
-        stone_block: gitHubUrl("res/svg/stone-block.svg"),
-        fishing: gitHubUrl("res/svg/fishing.svg")
-    };
+    modules.urls = new URLS;
 
-    module.html = {
-        charts: gitHubUrl("res/html/charts.html"),
-        house_timers: gitHubUrl("res/html/house-timers.html"),
-        settings_modal: gitHubUrl("res/html/script-settings.html"),
-        market_tooltip: gitHubUrl("res/html/market-tooltip.html"),
-        clan_donation_percent: gitHubUrl("res/html/clan-donation-percent.html"),
-        notes: gitHubUrl("res/html/notes.html"),
-        custom_timer: gitHubUrl("res/html/custom-timer.html"),
-        debug: gitHubUrl("res/html/debug.html"),
-        timers: gitHubUrl("res/html/timers.html"),
-        script_menu: gitHubUrl("res/html/script-menu.html")
-    };
-
-    modules.urls = module;
-})(modules.jQuery);
+})();

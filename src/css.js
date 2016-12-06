@@ -1,17 +1,25 @@
 (function ($) {
     'use strict';
 
-    var module = {};
+    function CSS() {
+        RoAModule.call(this, "CSS");
+    }
 
-    module.enable = function () {
-        // Load css we need
-        const $head = $("head");
+    CSS.prototype = Object.spawn(RoAModule.prototype, {
+        load: function () {
+            // Load css we need
+            const $head = $("head");
 
-        for (var key in modules.urls.css) {
-            $head.append("<link type='text/css' rel='stylesheet' href='" + modules.urls.css[key] + "'/>");
+            for (var key in modules.urls.css) {
+                $head.append("<link type='text/css' rel='stylesheet' href='" + modules.urls.css[key] + "'/>");
+            }
+
+            RoAModule.prototype.load.apply(this);
         }
-    };
+    });
 
-    modules.css = module;
+    CSS.prototype.constructor = CSS;
+
+    modules.css = new CSS();
 
 })(modules.jQuery);

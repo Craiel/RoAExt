@@ -1,4 +1,4 @@
-(function ($) {
+(function () {
     'use strict';
 
     var enabled = false;
@@ -15,37 +15,43 @@
         });
     }
 
-    module.error = function (msg) {
-        console.error(msg);
-        send('ERROR: ' + msg);
-    };
+    function Notifications() {
+        RoAModule.call(this, "Notifications");
+    }
 
-    module.notice = function (msg) {
-        console.log(msg);
-        send('NOTE: ' + msg);
-    };
-
-    module.warn = function (msg) {
-        console.warn(msg);
-        send('WARNING: ' + msg);
-    };
-
-    module.incompatibility = function (what) {
-        this.error("Your browser does not support " + what +
-            ". Please <a href='https://www.google.co.uk/chrome/browser/desktop/' target='_blank'>" +
-            "Download the latest version of Google Chrome</a>");
-    };
-
-    module.enable = function () {
-        if (Notification.permission !== "granted") {
-            Notification.requestPermission(function () {
+    Notifications.prototype = Object.spawn(RoAModule.prototype, {
+        error: function (msg) {
+            modules.logger.error(msg);
+            send('ERROR: ' + msg);
+        },
+        notice: function (msg) {
+            modules.logger.log(msg);
+            send('NOTE: ' + msg);
+        },
+        warn: function (msg) {
+            modules.logger.warn(msg);
+            send('WARNING: ' + msg);
+        },
+        incompatibility: function (what) {
+            this.error("Your browser does not support " + what +
+                ". Please <a href='https://www.google.co.uk/chrome/browser/desktop/' target='_blank'>" +
+                "Download the latest version of Google Chrome</a>");
+        },
+        load: function () {
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission(function () {
+                    enabled = true;
+                });
+            } else {
                 enabled = true;
-            });
-        } else {
-            enabled = true;
+            }
+
+            RoAModule.prototype.load.apply(this);
         }
-    };
+    });
 
-    modules.notification = module;
+    Notifications.prototype.constructor = Notifications;
 
-})(modules.jQuery);
+    modules.notification = new Notifications();
+
+})();

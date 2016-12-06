@@ -1,8 +1,6 @@
 (function ($) {
     'use strict';
 
-    var module = {};
-
     var options                 = {
         scriptSettings  : {
             purge                       : true,
@@ -1616,10 +1614,20 @@
         });
     });
 
-    module.enable = function () {
-        init();
-    };
+    function ChatTabs() {
+        RoAModule.call(this, "Chat Tabs");
+    }
 
-    modules.chatTabs = module;
+    ChatTabs.prototype = Object.spawn(RoAModule.prototype, {
+        load: function () {
+            init();
+
+            RoAModule.prototype.load.apply(this);
+        }
+    });
+
+    ChatTabs.prototype.constructor = ChatTabs;
+
+    modules.chatTabs = new ChatTabs();
 
 })(modules.jQuery);

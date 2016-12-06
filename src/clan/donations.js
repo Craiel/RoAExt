@@ -1,7 +1,7 @@
 (function ($) {
     'use strict';
 
-    var module = {};
+    var template;
 
     const donatorColumns = ['.donator_list_crystals', '.donator_list_platinum', '.donator_list_gold', '.donator_list_food',
         '.donator_list_wood', '.donator_list_iron', '.donator_list_stone', '.donator_list_experience'];
@@ -18,23 +18,35 @@
         }
     }
 
-    function initialize(template) {
-        // Add a checkbox button and label to the clan donators list tab.
-        $('#myClanDonationTable').before($(template));
-
-        // Enable the checkbox to toggle the values in the table from original to percentages and back.
-        $('#toggleDonationPercent').change(function() {
-            var format = $(this).is(':checked') ? 'percFormat' : 'origFormat';
-            $().each(function(){ $(this).text($(this).attr(format)); });
-        });
-
-        modules.ajaxHooks.register("clan_donations.php", parseClanDonationsPhp);
+    function ClanDonations() {
+        RoAModule.call(this, "Clan Donations");
     }
 
-    module.enable = function () {
-        $.get(modules.urls.html.clan_donation_percent).done(initialize);
-    };
+    ClanDonations.prototype = Object.spawn(RoAModule.prototype, {
+        continueLoad: function() {
+            // Add a checkbox button and label to the clan donators list tab.
+            $('#myClanDonationTable').before($(template));
 
-    modules.clanDonations = module;
+            // Enable the checkbox to toggle the values in the table from original to percentages and back.
+            $('#toggleDonationPercent').change(function() {
+                var format = $(this).is(':checked') ? 'percFormat' : 'origFormat';
+                $().each(function(){ $(this).text($(this).attr(format)); });
+            });
+
+            modules.ajaxHooks.register("clan_donations.php", parseClanDonationsPhp);
+
+            RoAModule.prototype.load.apply(this);
+        },
+        load: function () {
+            $.get(modules.urls.html.clan_donation_percent).done(function (x) {
+                template = x;
+                modules.clanDonations.continueLoad();
+            });
+        }
+    });
+
+    ClanDonations.prototype.constructor = ClanDonations;
+
+    modules.clanDonations = new ClanDonations();
 
 })(modules.jQuery);
