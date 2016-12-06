@@ -17,20 +17,20 @@
 
     module.error = function (msg) {
         console.error(msg);
-        sendToast('showErrorToast', msg);
+        sendToast(msg);
     };
 
     module.notice = function (msg) {
-        sendToast('showNoticeToast', msg);
+        sendToast(msg);
     };
 
     module.success = function (msg) {
-        sendToast('showSuccessToast', msg);
+        sendToast(msg);
     };
 
     module.warn = function (msg) {
         console.warn(msg);
-        sendToast('showWarningToast', msg);
+        sendToast(msg);
     };
 
     module.incompatibility = function (what) {

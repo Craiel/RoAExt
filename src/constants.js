@@ -13,6 +13,8 @@
     module.DungeonPlayerColor = "#ffffff";
     module.DungeonMapVersion = 0.1;
 
+    module.HouseUpdateInterval = 30000;
+
     modules.constants = module;
 
 })();

@@ -29,6 +29,9 @@ if (typeof(window.sessionStorage) === "undefined") {
     // Dungeon
     modules.dungeonMap.enable();
 
+    // House
+    modules.houseMonitor.enable();
+
     // UI
     modules.uiSideMenu.enable();
 }

@@ -27,7 +27,11 @@
                 event: {
                     sound: true,
                     show: true
-                }
+                },
+                captcha: {
+                    sound: false,
+                    show: true
+                },
             },
             features: {
                 house_timer: true
