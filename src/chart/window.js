@@ -3,8 +3,6 @@
 
     var module = {};
 
-    const statUpdateDelay = 60 * 1 * 1000; // 1 minutes
-
     var chartWindow;
 
     var visibleChart = null;
@@ -192,7 +190,7 @@
         loadChartData();
 
         modules.ajaxHooks.register("game_stats.php", refreshStats);
-        modules.ajaxHooks.registerAutoSend("game_stats.php", {}, statUpdateDelay);
+        modules.ajaxHooks.registerAutoSend("game_stats.php", {}, modules.constants.ChartUpdateInterval);
     }
 
     module.enable = function () {

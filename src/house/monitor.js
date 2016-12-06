@@ -29,8 +29,10 @@
     }
 
     function updateHouseConstructionTimer() {
-        var updateDiff = new Date() - constructionTimeUpdate;
+        var currentDate = new Date();
+        var updateDiff = currentDate - constructionTimeUpdate;
         constructionTimeRemaining -= updateDiff;
+        constructionTimeUpdate = currentDate;
 
         if (constructionTimeRemaining <= 0) {
             houseConstructionFinished();

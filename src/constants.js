@@ -13,7 +13,9 @@
     module.DungeonPlayerColor = "#ffffff";
     module.DungeonMapVersion = 0.1;
 
-    module.HouseUpdateInterval = 30000;
+    module.HouseUpdateInterval = 60 * 2 * 1000; // 2 minutes
+
+    module.ChartUpdateInterval = 60 * 1 * 1000; // 1 minutes
 
     modules.constants = module;
 
