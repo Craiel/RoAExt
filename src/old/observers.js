@@ -40,15 +40,6 @@
         }
     );
 
-    module.house_status = new MutationObserver(function (records) {
-        for (var i = 0; i < records.length; i++) {
-            if (records[i].addedNodes.length) {
-                modules.utils.handle_house_status_update(records[i].target.innerText.trim());
-                break;
-            }
-        }
-    });
-
     module.chat_whispers = new MutationObserver(
         /** @param {MutationRecord[]} records */
         function (records) {

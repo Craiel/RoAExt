@@ -4,9 +4,6 @@
     var module = {};
 
     module.click = {
-        house_state_refresh: function () {
-            $.post("/house.php", {}, modules.request.proto.callbacks.success.house_state_refresh);
-        },
         topbar_currency: function () {
             const type = $(this).find(">td:first").text().trim();
             modules.utils.openMarket(type.substring(0, type.length - 1));

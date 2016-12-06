@@ -37,16 +37,6 @@
                     modules.constants.$DOM.currency_tooltip.market_avg.text(modules.utils.numberWithCommas(analysis.avg));
                     modules.constants.$DOM.currency_tooltip.market_high.text(modules.utils.numberWithCommas(analysis.high));
                 },
-                house_requery: function (evt, r, opts) {
-                    if (opts.url.indexOf("house") !== -1 &&
-                        typeof(r.responseJSON) !== "undefined" &&
-                        typeof(r.responseJSON.m) !== "undefined") {
-                        modules.utils.handle_house_status_update(r.responseJSON.m);
-                    }
-                },
-                house_state_refresh: function (r) {
-                    modules.utils.handle_house_status_update(r.m);
-                }
             },
             /** Error callbacks */
             error: {
