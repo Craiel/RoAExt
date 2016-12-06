@@ -1,7 +1,7 @@
 (function ($) {
     'use strict';
 
-    var module = {};
+    var module = { enabled: false };
 
     module.enable = function () {
         var $helpSection = $("#helpSection");
@@ -12,6 +12,8 @@
         //.click(); TODO
 
         $helpSection.prepend($menuLink);
+
+        this.enabled = true;
     };
 
     modules.uiScriptMenu = module;

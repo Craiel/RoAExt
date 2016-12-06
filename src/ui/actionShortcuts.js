@@ -5,6 +5,11 @@
 
     module.enable = function () {
 
+        if (!modules.uiScriptMenu.enabled) {
+            console.warn("Script Menu is disabled, will not enable Action Shortcuts");
+            return;
+        }
+
         var $menuLink = $('#roaMenu');
 
         // Side shortcuts

@@ -16,6 +16,7 @@
 
     ChartData.prototype = {
         storage: null,
+        additive: false,
         addDataPoint: function(dataPoint) {
             var dataPointTime = new Date();
 
@@ -34,8 +35,16 @@
                 this.storage[key] = [];
             }
 
-            if(this.storage[key].length > 0 && this.storage[key][this.storage[key].length - 1][0] === id) {
-                return;
+            if(this.storage[key].length > 0) {
+                var existingEntry = this.storage[key][this.storage[key].length - 1];
+                if (existingEntry[0] === id) {
+                    if (this.additive) {
+                        // We are additive so add the y values
+                        existingEntry[1] += value;
+                    }
+
+                    return;
+                }
             }
 
             this.storage[key].push([id, value]);
@@ -69,10 +78,10 @@
         }
     };
 
-    const Chart = function (toggleDiv, targetDiv, title) {
+    const Chart = function (toggleDiv, targetDiv, title, type) {
         this.id = targetDiv;
         this.data = new ChartData();
-        this.initialize(toggleDiv, targetDiv, title);
+        this.initialize(toggleDiv, targetDiv, title, type);
     };
 
     Chart.prototype = {
@@ -87,7 +96,8 @@
         elementDataPoint: null,
         scale: modules.chartTimeScale.Minute,
         data: null,
-        initialize: function (toggleDiv, targetDiv, title) {
+        initialize: function (toggleDiv, targetDiv, title, type) {
+            var type = type || "line";
             this.toggleDiv = $('#' + toggleDiv);
             this.toggleDiv.click({self: this}, function(evt) { evt.data.self.show(); });
 
@@ -99,7 +109,8 @@
                 },
                 data: [
                     {
-                        type: "line",
+                        type: type,
+                        color: "blue",
                         dataPoints: []
                     }
                 ],
@@ -212,6 +223,13 @@
         asElementChart: function (dataPoint) {
             this.isElementChart = true;
             this.elementDataPoint = dataPoint;
+
+            return this;
+        },
+        asAdditive: function () {
+            this.data.additive = true;
+
+            return this;
         },
         updateControlState: function() {
             if(this.visible === false) {
@@ -231,8 +249,8 @@
         }
     };
 
-    modules.createChart = function (toggleDiv, targetDiv, title) {
-        return new Chart(toggleDiv, targetDiv, title);
+    modules.createChart = function (toggleDiv, targetDiv, title, type) {
+        return new Chart(toggleDiv, targetDiv, title, type);
     };
 
 })(modules.jQuery);

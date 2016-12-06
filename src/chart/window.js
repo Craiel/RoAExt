@@ -8,7 +8,31 @@
     var visibleChart = null;
     var activeCharts = {};
 
-    function refreshStats(e, res, req, jsonData) {
+    function onAutoBattle(e, res, req, jsonData) {
+        if(jsonData && jsonData.b) {
+            if(jsonData.b.xp && jsonData.b.xp > 0) {
+                activeCharts['chartPlayerBattleXP'].updateData(jsonData.b.xp);
+            }
+
+            if(jsonData.b.gold && jsonData.b.gold > 0) {
+                activeCharts['chartPlayerGoldLooted'].updateData(jsonData.b.xp);
+            }
+        }
+    }
+
+    function onAutoTrade(e, res, req, jsonData) {
+        if(jsonData && jsonData.a && jsonData.a.xp && jsonData.a.xp > 0) {
+            activeCharts['chartPlayerHarvestXP'].updateData(jsonData.a.xp);
+        }
+    }
+
+    function onAutoCraft(e, res, req, jsonData) {
+        if(jsonData && jsonData.a && jsonData.a.xp && jsonData.a.xp > 0) {
+            activeCharts['chartPlayerCraftingXP'].updateData(jsonData.a.xp);
+        }
+    }
+
+    function onStatsReceived(e, res, req, jsonData) {
 
         for (var id in activeCharts) {
             if (activeCharts[id].isGameStatChart) {
@@ -98,8 +122,8 @@
         $('#gameChartMarketTabs').hide();
     }
 
-    function setupChart(toggleDiv, targetDiv, title) {
-        var chart = modules.createChart(toggleDiv, targetDiv, title);
+    function setupChart(toggleDiv, targetDiv, title, type) {
+        var chart = modules.createChart(toggleDiv, targetDiv, title, type);
         activeCharts[chart.id] = chart;
 
         chart.onBecameVisible = function (id) {
@@ -147,18 +171,19 @@
         toggleGameChartPlayerTabs();
 
         // Create the chart controls
-        setupChart("toggleChartBattleXP", "chartBattleXP", "Battle XP");
-        setupChart("toggleChartHarvestXP", "chartHarvestXP", "Harvest XP");
-        setupChart("toggleChartCraftingXP", "chartCraftingXP", "Crafting XP");
-        setupChart("toggleChartGold", "chartGold", "Gold").asElementChart("gold");
-        setupChart("toggleChartPlatinum", "chartPlatinum", "Platinum").asElementChart("platinum");
-        setupChart("toggleChartCrystal", "chartCrystal", "Crystals").asElementChart("premium");
-        setupChart("toggleChartMaterial", "chartMaterial", "Material").asElementChart("crafting_materials");
-        setupChart("toggleChartFragment", "chartFragment", "Fragments").asElementChart("gem_fragments");
-        setupChart("toggleChartFood", "chartFood", "Food").asElementChart("food");
-        setupChart("toggleChartWood", "chartWood", "Wood").asElementChart("wood");
-        setupChart("toggleChartIron", "chartIron", "Iron").asElementChart("iron");
-        setupChart("toggleChartStone", "chartStone", "Stone").asElementChart("stone");
+        setupChart("toggleChartPlayerBattleXP", "chartPlayerBattleXP", "Battle XP", "column").asAdditive();
+        setupChart("toggleChartPlayerHarvestXP", "chartPlayerHarvestXP", "Harvest XP", "column").asAdditive();
+        setupChart("toggleChartPlayerCraftingXP", "chartPlayerCraftingXP", "Crafting XP", "column").asAdditive();
+        setupChart("toggleChartPlayerGold", "chartPlayerGold", "Gold").asElementChart("gold");
+        setupChart("toggleChartPlayerGoldLooted", "chartPlayerGoldLooted", "Gold Looted").asAdditive();
+        setupChart("toggleChartPlayerPlatinum", "chartPlayerPlatinum", "Platinum").asElementChart("platinum");
+        setupChart("toggleChartPlayerCrystal", "chartPlayerCrystal", "Crystals").asElementChart("premium");
+        setupChart("toggleChartPlayerMaterial", "chartPlayerMaterial", "Material").asElementChart("crafting_materials");
+        setupChart("toggleChartPlayerFragment", "chartPlayerFragment", "Fragments").asElementChart("gem_fragments");
+        setupChart("toggleChartPlayerFood", "chartPlayerFood", "Food").asElementChart("food");
+        setupChart("toggleChartPlayerWood", "chartPlayerWood", "Wood").asElementChart("wood");
+        setupChart("toggleChartPlayerIron", "chartPlayerIron", "Iron").asElementChart("iron");
+        setupChart("toggleChartPlayerStone", "chartPlayerStone", "Stone").asElementChart("stone");
 
         setupChart("toggleChartMonsterSlain", "chartMonsterSlain", "Monsters Slain").asGameStatChart("AllTimeKills");
         setupChart("toggleChartGoldLooted", "chartGoldLooted", "Gold Looted").asGameStatChart("AllTimeGoldLooted");
@@ -182,7 +207,10 @@
 
         loadChartData();
 
-        modules.ajaxHooks.register("game_stats.php", refreshStats);
+        modules.ajaxHooks.register("autobattle.php", onAutoBattle);
+        modules.ajaxHooks.register("autotrade.php", onAutoTrade);
+        modules.ajaxHooks.register("autocraft.php", onAutoCraft);
+        modules.ajaxHooks.register("game_stats.php", onStatsReceived);
         modules.ajaxHooks.registerAutoSend("game_stats.php", {}, modules.constants.ChartUpdateInterval);
     }
 
