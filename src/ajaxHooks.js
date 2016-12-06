@@ -6,6 +6,7 @@
     const RequestAutoSendCheckFrequency = 100;
     const RequestSendThreshold = 500; // the time where we will warn about frequent requests to the same page
 
+    var rcvForwards = [];
     var forwards = [];
     var targetedForwards = {};
     var requestHistory = {};
@@ -29,9 +30,6 @@
             autoRequests[req.url].locked = false;
         }
 
-        console.log(req.url);
-        //console.log(jsonData);
-
         for(var entry in targetedForwards) {
             if(req.url === entry) {
                 for (var i = 0; i < targetedForwards[entry].length; i++) {
@@ -44,6 +42,12 @@
 
         for (var i = 0; i < forwards.length; i++) {
             forwards[i](e, res, req, jsonData);
+        }
+    }
+    
+    function onAjaxSendPending(event, jqxhr, options) {
+        for (var i = 0; i < rcvForwards.length; i++) {
+            rcvForwards[i](event, jqxhr, options);
         }
     }
 
@@ -85,8 +89,12 @@
         forwards.push(callback);
     };
 
+    module.registerRcvAll = function (callback) {
+        rcvForwards.push(callback);
+    };
+
     module.enable = function () {
-        //$(document).on("ajaxSend", onAjaxSendPending);
+        $(document).on("ajaxSend", onAjaxSendPending);
         $(document).on("ajaxSuccess", onAjaxSuccess);
 
         modules.createInterval("ajaxHooksAutoSend").set(autoSendAjaxRequests, RequestAutoSendCheckFrequency);

@@ -16,25 +16,47 @@
         $tableBody.empty();
 
         for(var key in requestHistory) {
-            var $rowLink = $('<a href="javascript:;">Log to Console</a>').click({key: key}, function (event) {
+            var $rowRcvLink = $('<a href="javascript:;">Log to Console</a>').click({key: key}, function (event) {
                 console.log('DEBUG: Printing data for ' + event.data.key);
                 console.log(requestHistory[event.data.key].data);
             });
 
-            //var timeString = new Date() - requestHistory[key].time;
-            var timeString = "TODO";
+            var $rowSentLink = $('<a href="javascript:;">Log to Console</a>').click({key: key}, function (event) {
+                console.log('DEBUG: Printing Sent data for ' + event.data.key);
+                console.log(requestHistory[event.data.key].dataSent);
+            });
+
+            var timeString = requestHistory[key].time.getHours() + ":" + requestHistory[key].time.getMinutes() + ":" + requestHistory[key].time.getSeconds();;
 
             var $row = $('<tr></tr>');
             $row.append($('<td>' + key + '</td>'));
             $row.append($('<td>' + timeString + '</td>'));
-            $row.append($('<td></td>').append($rowLink));
+            $row.append($('<td></td>').append($rowSentLink));
+            $row.append($('<td></td>').append($rowRcvLink));
 
             $tableBody.append($row);
         }
     }
 
+    function initEntry(url) {
+        if(requestHistory[url]) {
+            requestHistory[url].time = new Date();
+            return;
+        }
+
+        requestHistory[url] = { time: new Date(), data: null, dataSent: null };
+    }
+
     function onAjaxDone(e, res, req, jsonData) {
-        requestHistory[req.url] = { time: new Date(), data: jsonData };
+        initEntry(req.url);
+        requestHistory[req.url].data = jsonData;
+
+        updateDebugContent();
+    }
+
+    function onAjaxSentPending(event, jqxhr, options) {
+        initEntry(options.url);
+        requestHistory[options.url].dataSent = options;
 
         updateDebugContent();
     }
@@ -51,6 +73,7 @@
         window.hide();
 
         modules.ajaxHooks.registerAll(onAjaxDone);
+        modules.ajaxHooks.registerRcvAll(onAjaxSentPending);
     }
 
     module.enable = function () {
