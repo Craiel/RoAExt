@@ -53,7 +53,8 @@
         clan_donation_percent: gitHubUrl("res/html/clan-donation-percent.html"),
         notes: gitHubUrl("res/html/notes.html"),
         custom_timer: gitHubUrl("res/html/custom-timer.html"),
-        debug: gitHubUrl("res/html/debug.html")
+        debug: gitHubUrl("res/html/debug.html"),
+        timers: gitHubUrl("res/html/timers.html")
     };
 
     modules.urls = module;

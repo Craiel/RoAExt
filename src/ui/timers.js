@@ -9,7 +9,7 @@
 
     module.enable = function () {
 
-        $.get(modules.urls.html.custom_timer).done(setupTimer);
+        $.get(modules.urls.html.timers).done(setupTimer);
 
         this.enabled = true;
 

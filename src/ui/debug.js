@@ -13,7 +13,7 @@
 
     function updateDebugContent() {
         var $tableBody = $('#debugWindowContentBody');
-        $tableBody.clear();
+        $tableBody.empty();
 
         for(var key in requestHistory) {
             var $rowLink = $('<a href="javascript:;">Log to Console</a>').click({key: key}, function (event) {
@@ -21,9 +21,12 @@
                 console.log(requestHistory[event.data.key].data);
             });
 
+            //var timeString = new Date() - requestHistory[key].time;
+            var timeString = "TODO";
+
             var $row = $('<tr></tr>');
             $row.append($('<td>' + key + '</td>'));
-            $row.append($('<td>' + new Date() - requestHistory[key].time + '</td>'));
+            $row.append($('<td>' + timeString + '</td>'));
             $row.append($('<td></td>').append($rowLink));
 
             $tableBody.append($row);
