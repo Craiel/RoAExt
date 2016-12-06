@@ -33,13 +33,13 @@
     }
 
     module.enable = function () {
-        var $helpSection = $("#helpSection");
+        var $menuSection = $("#roaMenuContent");
 
         var $menuLink = $('<a href="javascript:;"/>')
             .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Notes</li>')
             .click(onClick);
 
-        $helpSection.append($menuLink);
+        $menuSection.append($menuLink);
 
         $.get(modules.urls.html.notes).done(setupNoteWindow);
     };

@@ -22,10 +22,6 @@
     }
 
     module.enable = function () {
-        if (!modules.uiTimers.enabled) {
-            console.warn("UI Timers is not enabled, will not enable Custom Timer");
-            return;
-        }
 
         var $helpSection = $("#helpSection");
 

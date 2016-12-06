@@ -77,13 +77,16 @@
     }
 
     module.enable = function () {
-        var $helpSection = $("#helpSection");
+        var $menuSection = $("#roaMenuContent");
+
+        console.log("Enabling DEBUG: ");
+        console.log($menuSection);
 
         var $menuLink = $('<a href="javascript:;"/>')
             .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Debug</li>')
             .click(onClick);
 
-        $helpSection.append($menuLink);
+        $menuSection.append($menuLink);
 
         $.get(modules.urls.html.debug).done(setupDebugWindow);
     };
