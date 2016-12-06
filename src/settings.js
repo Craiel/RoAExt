@@ -1,50 +1,53 @@
 (function($) {
     'use strict';
 
-    const SettingsHandler = function () {
-        /** @type SettingsHandler.defaults */
+    const Settings = function () {
         this.settings = this.defaults;
         this.load();
+
+        modules.createInterval("settingsAutoSave").set(function () {
+            modules.settings.save();
+        }, modules.constants.SettingsAutoSaveInterval);
     };
 
-    SettingsHandler.prototype = {
-        /** Default settings */
+    Settings.prototype = {
         defaults: {
-            /**
-             * Notification settings.
-             * sound: [bool] Whether to play a sound
-             * gm: [bool] Whether to show the Greasemonkey notification
-             */
-            notifications: {
-                /** Global overrides */
-                all: {
-                    sound: false,
-                    gm: false
-                },
-                /** Whisper notifcations */
+            version: modules.constants.SettingsSaveVersion,
+            notification: {
+                enable: false,
+                enableSound: false,
                 whisper: {
                     sound: true,
-                    gm: true
+                    show: true
                 },
                 construction: {
                     sound: true,
-                    gm: true
+                    show: true
+                },
+                event: {
+                    sound: true,
+                    show: true
                 }
             },
             features: {
                 house_timer: true
-            }
+            },
+            dungeonMap: {},
+            chartData: {},
         },
 
         save: function () {
-            GM_setValue("settings", JSON.stringify(this.settings));
+            GM_setValue(modules.constants.SettingsSaveKey, JSON.stringify(this.settings));
         },
 
         load: function () {
-            this.settings = $.extend(true, this.defaults, JSON.parse(GM_getValue("settings") || "{}"));
+            var data = JSON.parse(GM_getValue(modules.constants.SettingsSaveKey) || "{}");
+            if(data.version === modules.constants.SettingsSaveVersion) {
+                this.settings = $.extend(true, this.defaults, data);
+            }
         }
     };
 
-    modules.settings = new SettingsHandler();
+    modules.settings = new Settings();
 
 })(modules.jQuery);

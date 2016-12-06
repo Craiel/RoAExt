@@ -29,6 +29,7 @@
         }
 
         console.log(req.url);
+        //console.log(jsonData);
 
         for(var entry in registry) {
             if(req.url === entry) {

@@ -5,7 +5,7 @@
 
     var initialize = function () {
         // Tooltips
-        $.get(modules.constants.URLS.html.market_tooltip).done(function (r) {
+        $.get(modules.urls.html.market_tooltip).done(function (r) {
             modules.constants.$DOM.market.market_tooltip = r;
 
             const $tooltipTable = $(r);

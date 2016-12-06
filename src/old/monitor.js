@@ -5,7 +5,7 @@
 
     module.enable = function () {
         if (modules.settings.settings.features.house_timer) {
-            $.get(modules.constants.URLS.html.house_timers).done(function (r) {
+            $.get(modules.urls.html.house_timers).done(function (r) {
                 const $timer = $(r),
                     $body = $("body");
 

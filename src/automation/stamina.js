@@ -44,7 +44,7 @@
 
             $.post('stamina_replenish.php', {}).done(function(x) {
                 if (x.captcha) {
-                    toast.warn("Captcha required!");
+                    modules.notification.warn("Captcha required!");
                 }
             });
         }

@@ -3,36 +3,9 @@
 
     var module = {};
 
-    const MY_WALL_COLOR = "#ff0000";
-    const STORAGE_KEY = "dungeon";
-    const DUNGEON_MAP_VERSION = 0.1;
-
-    /**********************************************************/
-    /*              NO NEED TO EDIT FURTHER                  */
-    /*  ABOVE SETTING WILL NOT BE CARIED OVER SCRIPT UPDATES  */
-    /**********************************************************/
-
-    var WALL_COLOR = MY_WALL_COLOR;
-
     var initialize = function () {
-        dungeon = { r:{}, cf:0, ct:null, v: DUNGEON_MAP_VERSION };
-        localStorage.setItem(STORAGE_KEY, dungeon);
+        modules.settings.dungeonMap = { r:{}, cf:0, ct:null, v: modules.constants.DungeonMapVersion };
     };
-
-    var dungeon = localStorage.getItem(STORAGE_KEY);
-    if(dungeon == null) {
-        initialize();
-    } else {
-        try {
-            dungeon = JSON.parse(dungeon);
-            if(dungeon == null || dungeon.v == null || dungeon.v != DUNGEON_MAP_VERSION)
-            {
-                initialize();
-            }
-        }catch (e) {
-            initialize();
-        }
-    }
 
     function onLeaveDungeon() {
         initialize();
@@ -40,16 +13,16 @@
 
     function onUpdateDungeon(e, res, req, jsonres) {
         if (jsonres.hasOwnProperty("data") && jsonres.data.hasOwnProperty("map")) {
-            if (dungeon.cf !== jsonres.data.floor) {
-                dungeon.r = {};
-                dungeon.cf = jsonres.data.floor;
+            if (modules.settings.dungeonMap.cf !== jsonres.data.floor) {
+                modules.settings.dungeonMap.r = {};
+                modules.settings.dungeonMap.cf = jsonres.data.floor;
             }
             var jrd = jsonres.data;
             var data = {};
             var token = $(jrd.map).text().replace("↓", "v"); // map
             token = btoa(JSON.stringify(token)); // token
-            if (dungeon.r.hasOwnProperty(token)) {
-                data = JSON.parse(JSON.stringify(dungeon.r[token]));
+            if (modules.settings.dungeonMap.r.hasOwnProperty(token)) {
+                data = JSON.parse(JSON.stringify(modules.settings.dungeonMap.r[token]));
             } else {
                 data.pe = "";
                 data.ps = "";
@@ -57,8 +30,9 @@
                 data.pw = "";
                 data.t  = token;
             }
-            if (dungeon.ct === null) {
-                dungeon.ct = token;
+
+            if (modules.settings.dungeonMap.ct === null) {
+                modules.settings.dungeonMap.ct = token;
             }
 
             data.e = jrd.e?1:0; // east
@@ -68,36 +42,41 @@
             data.r = !!jrd.search; // raided
             data.b = Object.keys(jrd.enemies).length; // battles available
 
-            dungeon.r[data.t] = data;
+            modules.settings.dungeonMap.r[data.t] = data;
 
             var walk = jsonres.hasOwnProperty("m") && jsonres.m.match(/You walked (east|south|north|west)/);
             walk = walk ? jsonres.m.match(/You walked (east|south|north|west)/) : false;
             if (walk !== false) {
                 walk = walk[1].match(/^./)[0];
-                if (dungeon.ct !== data.t) {
-                    if (typeof dungeon.r[dungeon.ct] !== "undefined") {
-                        dungeon.r[dungeon.ct]["p"+walk] = data.t;
+                if (modules.settings.dungeonMap.ct !== data.t) {
+                    if (typeof modules.settings.dungeonMap.r[modules.settings.dungeonMap.ct] !== "undefined") {
+                        modules.settings.dungeonMap.r[modules.settings.dungeonMap.ct]["p"+walk] = data.t;
                         var sm = {
                             "s": "n",
                             "n": "s",
                             "e": "w",
                             "w": "e"
                         };
-                        dungeon.r[data.t]["p"+sm[walk]] = dungeon.ct;
+                        modules.settings.dungeonMap.r[data.t]["p"+sm[walk]] = modules.settings.dungeonMap.ct;
                     }
-                    dungeon.ct = data.t;
+                    modules.settings.dungeonMap.ct = data.t;
                 }
             }
-            localStorage.setItem("dungeon", JSON.stringify(dungeon));
+
+            modules.settings.save();
             updateDungeonMap(false);
         } else {
             updateDungeonMap(req.url.indexOf("dungeon_") === -1);
         }
     }
 
+    function onResizeEnd(e) {
+        $("#dungeonMapCanvas").attr({width: modules.settings.dungeonMap.size.width, height: modules.settings.dungeonMap.size.height});
+        updateDungeonMap(false);
+    }
+
     var dmc, dmctx, dmv;
     function updateDungeonMap(hide) {
-        var d = JSON.parse(JSON.stringify(dungeon));
         if ($("#dungeonMapCanvas").length === 0) {
             var h = $("<div>")
                 .attr("id", "dMCW")
@@ -109,7 +88,7 @@
                 width: "325",
                 height: "325"
             }).appendTo("#dMCW");
-            h.draggable({handle:"#dungeonMapCanvas"}).resizable({stop:function(e,d){$("#dungeonMapCanvas").attr({width:d.size.width,height:d.size.height});updateDungeonMap(false);}});
+            h.draggable({handle:"#dungeonMapCanvas"}).resizable({stop: onResizeEnd});
             dmc = document.getElementById("dungeonMapCanvas");
             dmctx = dmc.getContext("2d");
         }
@@ -131,7 +110,7 @@
         if (dmv.indexOf(id) !== -1) {
             return;
         }
-        var tile = dungeon.r[id];
+        var tile = modules.settings.dungeonMap.r[id];
         dmv.push(id);
 
         // console.log(id,x,y);
@@ -146,22 +125,22 @@
         drawTileWall(x,y,"bot", !tile.s);
 
         if (tile.r) {
-            dmctx.fillStyle     = "#ffd700";
-            dmctx.strokeStyle   = "#ffd700";
+            dmctx.fillStyle     = modules.constants.DungeonRoomSearchedColor;
+            dmctx.strokeStyle   = modules.constants.DungeonRoomSearchedColor;
             dmctx.arc(x,y,2, 0, 2*Math.PI);
             dmctx.fill();
         }
 
         if (tile.b > 0) {
-            dmctx.fillStyle     = "#ff0000";
-            dmctx.strokeStyle   = "#ff0000";
+            dmctx.fillStyle     = modules.constants.DungeonRoomHasEnemiesColor;
+            dmctx.strokeStyle   = modules.constants.DungeonRoomHasEnemiesColor;
             dmctx.arc(x,y,2, 0, 2*Math.PI);
             dmctx.fill();
         }
 
         if (player === 1) {
-            dmctx.fillStyle     = "#ffffff";
-            dmctx.strokeStyle   = "#ffffff";
+            dmctx.fillStyle     = modules.constants.DungeonPlayerColor;
+            dmctx.strokeStyle   = modules.constants.DungeonPlayerColor;
             dmctx.arc(x,y,2, 0, 2*Math.PI);
             dmctx.fill();
         }
@@ -186,7 +165,7 @@
 
     function drawTileWall(x,y,which, blocked) {
         if (blocked) {
-            dmctx.strokeStyle = WALL_COLOR;
+            dmctx.strokeStyle = modules.constants.DungeonWallColor;
             dmctx.fillStyle   = "#ffffff";
         } else {
             dmctx.strokeStyle = "#333";
@@ -211,6 +190,19 @@
     }
 
     module.enable = function () {
+        if(modules.settings.dungeonMap == null) {
+            initialize();
+        } else {
+            try {
+                if(modules.settings.dungeonMap == null || modules.settings.dungeonMap.v == null || modules.settings.dungeonMap.v != modules.constants.DungeonMapVersion)
+                {
+                    initialize();
+                }
+            } catch (e) {
+                initialize();
+            }
+        }
+
         modules.ajaxHooks.register("dungeon_leave.php", onLeaveDungeon);
         modules.ajaxHooks.register("dungeon_info.php", onUpdateDungeon);
         modules.ajaxHooks.register("dungeon_move.php", onUpdateDungeon);

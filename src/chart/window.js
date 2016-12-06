@@ -196,7 +196,7 @@
     }
 
     module.enable = function () {
-        $.get(modules.constants.URLS.html.charts).done(setupChartWindow);
+        $.get(modules.urls.html.charts).done(setupChartWindow);
     };
 
     modules.chartWindow = module;

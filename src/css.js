@@ -5,11 +5,10 @@
 
     module.enable = function () {
         // Load css we need
-        const $head = $("head"),
-            keys = Object.keys(modules.constants.URLS.css);
+        const $head = $("head");
 
-        for (var i = 0; i < keys.length; i++) {
-            $head.append("<link type='text/css' rel='stylesheet' href='" + modules.constants.URLS.css[keys[i]] + "'/>");
+        for (var key in modules.urls.css) {
+            $head.append("<link type='text/css' rel='stylesheet' href='" + modules.urls.css[key] + "'/>");
         }
     };
 

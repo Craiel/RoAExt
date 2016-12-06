@@ -1,4 +1,4 @@
-(function ($) {
+(function () {
     'use strict';
 
     const Interval = function (n) {
@@ -6,14 +6,14 @@
     };
 
     Interval.prototype = {
-        _intervals: {},
+        intervals: {},
         isRunning: function () {
-            return typeof(this._intervals[this.name]) !== "undefined"
+            return typeof(this.intervals[this.name]) !== "undefined"
         },
         clear: function () {
             if (this.isRunning()) {
-                clearInterval(this._intervals[this.name]);
-                delete this._intervals[this.name];
+                clearInterval(this.intervals[this.name]);
+                delete this.intervals[this.name];
                 return true;
             }
 
@@ -21,12 +21,13 @@
         },
         set: function (callback, frequency) {
             this.clear();
-            this._intervals[this.name] = setInterval(callback, frequency);
-            return this._intervals[this.name];
+            this.intervals[this.name] = setInterval(callback, frequency);
+            return this.intervals[this.name];
         }
     };
 
     modules.createInterval = function (n) {
         return new Interval(n);
     };
-})(modules.jQuery);
+
+})();

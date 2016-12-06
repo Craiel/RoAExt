@@ -24,7 +24,7 @@
             var dataPointDay = dataPointTime.getDate();
             var dataPointMonth = dataPointTime.getMonth() + 1;
 
-            this.addData("mi", dataPointMinute, dataPoint, 60 * 12); // 1/2 day
+            this.addData("mi", dataPointMinute, dataPoint, 60); // 1 hour
             this.addData("h", dataPointHour, dataPoint, 24 * 30); // 30 days
             this.addData("d", dataPointDay, dataPoint, 356); // 1 year
             this.addData("mo", dataPointMonth, dataPoint, 12 * 5); // 5 years
@@ -39,7 +39,7 @@
             }
 
             this.storage[key].push([id, value]);
-            if(this.storage[key].length > limit) {
+            while (this.storage[key].length > limit) {
                 this.storage[key].shift();
             }
         },
