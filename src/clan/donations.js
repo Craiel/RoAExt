@@ -20,19 +20,19 @@
 
     function initialize(template) {
         // Add a checkbox button and label to the clan donators list tab.
-        $('#myClanDonationTable').before(template);
+        $('#myClanDonationTable').before($(template));
 
         // Enable the checkbox to toggle the values in the table from original to percentages and back.
         $('#toggleDonationPercent').change(function() {
             var format = $(this).is(':checked') ? 'percFormat' : 'origFormat';
-            $(donatorColumns.join(', ')).each(function(){ $(this).text($(this).attr(format)); });
+            $().each(function(){ $(this).text($(this).attr(format)); });
         });
 
         modules.ajaxHooks.register("clan_donations.php", parseClanDonationsPhp);
     }
 
     module.enable = function () {
-        $.get(modules.urls.clan_donation_percent).done(initialize);
+        $.get(modules.urls.html.clan_donation_percent).done(initialize);
     };
 
     modules.clanDonations = module;

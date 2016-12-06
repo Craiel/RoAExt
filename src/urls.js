@@ -29,7 +29,7 @@
     };
 
     module.css = {
-        script: gitHubUrl("res/css/roaext.scss")
+        script: gitHubUrl("res/css/roaext.css")
     };
 
     module.svg = {
