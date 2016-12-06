@@ -1,9 +1,8 @@
+.avi-margin-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
 .avi {
-  &-margin-auto {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   &-highlight {
     animation: pulsate-inner 0.5s infinite alternate;
   }
@@ -52,7 +51,7 @@
 }
 
 table.avi {
-  @extend .avi-margin-auto;
+  .avi-margin-auto;
   border-collapse: collapse;
   font-size: small;
   font-weight: normal;
@@ -78,16 +77,6 @@ ul.avi {
 
 .bold {
   font-weight: bold;
-}
-
-.toast-item {
-  &-close {
-    cursor: pointer;
-  }
-
-  p {
-    margin-right: 25px;
-  }
 }
 
 .popover {
