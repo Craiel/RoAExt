@@ -38,6 +38,7 @@
             },
             dungeonMap: {},
             chartData: {},
+            notes: ""
         },
 
         save: function () {

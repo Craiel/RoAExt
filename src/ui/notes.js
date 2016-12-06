@@ -9,6 +9,12 @@
         noteWindow.toggle();
     }
 
+    function autoSave() {
+        var text = $('.jqte_editor').html();
+
+        modules.settings.settings.notes = text;
+    }
+
     function setupNoteWindow(template) {
         $("<style>").text("" +
             ".noteWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
@@ -16,11 +22,14 @@
 
         noteWindow = $(template);
         noteWindow.appendTo("body");
-        noteWindow.draggable({handle:"#noteWindowTitle"});
+        noteWindow.draggable({handle:"#noteTitle"});
         noteWindow.resizable();
         noteWindow.hide();
 
         $('#noteEditor').jqte();
+        $('#noteEditor').jqteVal(modules.settings.settings.notes);
+
+        modules.createInterval("noteAutoSave").set(autoSave, 5000);
     }
 
     module.enable = function () {
@@ -37,4 +46,4 @@
 
     modules.uiNotes = module;
 
-})(modules.jQuery)
+})(modules.jQuery);

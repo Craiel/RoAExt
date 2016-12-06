@@ -35,5 +35,6 @@ if (typeof(window.sessionStorage) === "undefined") {
     // UI
     modules.uiScriptMenu.enable();
     modules.uiChartMenu.enable();
+    modules.uiNotes.enable();
     modules.uiActionShortcuts.enable();
 }
