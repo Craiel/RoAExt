@@ -34,7 +34,6 @@ if (typeof(window.sessionStorage) === "undefined") {
 
     // UI
     modules.uiDebug.enable();
-    modules.uiScriptMenu.enable();
     modules.uiChartMenu.enable();
     modules.uiNotes.enable();
     modules.uiCustomTimer.enable();
