@@ -54,7 +54,8 @@
         notes: gitHubUrl("res/html/notes.html"),
         custom_timer: gitHubUrl("res/html/custom-timer.html"),
         debug: gitHubUrl("res/html/debug.html"),
-        timers: gitHubUrl("res/html/timers.html")
+        timers: gitHubUrl("res/html/timers.html"),
+        script_menu: gitHubUrl("res/html/script-menu.html")
     };
 
     modules.urls = module;

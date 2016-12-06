@@ -1,10 +1,19 @@
 (function ($) {
     'use strict';
 
-    var module = { enabled: false };
+    var module = {};
+
+    function setupMenu(template) {
+        $('#navWrapper').prepend($(template));
+    }
 
     module.enable = function () {
-        var $helpSection = $("#helpSection");
+
+
+        $.get(modules.urls.html.script_menu).done(setupMenu);
+        // script_menu
+
+        /*var $helpSection = $("#helpSection");
 
         // Script menu button
         var $menuLink = $('<a id="roaMenu" href="javascript:;"/>')
@@ -13,7 +22,7 @@
 
         $helpSection.prepend($menuLink);
 
-        this.enabled = true;
+        this.enabled = true;*/
     };
 
     modules.uiScriptMenu = module;

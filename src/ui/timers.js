@@ -1,7 +1,7 @@
 (function ($) {
     'use strict';
 
-    var module = { enabled: false };
+    var module = {};
 
     function setupTimer(template) {
         $('#rightWrapper').append($(template));
@@ -11,10 +11,11 @@
 
         $.get(modules.urls.html.timers).done(setupTimer);
 
-        this.enabled = true;
-
     };
 
     modules.uiTimers = module;
+
+    // Always enable
+    modules.uiTimers.enable();
 
 })(modules.jQuery);
