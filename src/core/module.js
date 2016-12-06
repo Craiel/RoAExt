@@ -8,7 +8,7 @@ RoAModule.prototype = {
     load: function () {
         this.loaded = true;
 
-        var loadString = "Loaded Module " + this.name;
+        var loadString = " - Loaded Module " + this.name;
 
         if(modules.logger) {
             modules.logger.log(loadString);

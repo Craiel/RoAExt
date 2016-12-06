@@ -82,16 +82,7 @@
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
-            var $menuSection = $("#roaMenuContent");
-
-            console.log("Enabling DEBUG: ");
-            console.log($menuSection);
-
-            var $menuLink = $('<a href="javascript:;"/>')
-                .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Debug</li>')
-                .click(onClick);
-
-            $menuSection.append($menuLink);
+            modules.uiScriptMenu.addLink("Debug", onClick);
 
             $.get(modules.urls.html.debug).done(function (x) {
                 template = x;

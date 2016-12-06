@@ -68,6 +68,7 @@
             createToggle('craftingStatusButtons');
             createToggle('battleStatusButtons');
             createToggle('harvestStatusButtons');
+            createToggle('harvestBossStatusButtons');
 
             modules.ajaxHooks.register("autobattle.php", updateAutoStamina);
             modules.ajaxHooks.register("autoevent.php", updateAutoStamina);

@@ -38,13 +38,8 @@
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
-            var $menuSection = $("#roaMenuContent");
 
-            var $menuLink = $('<a href="javascript:;"/>')
-                .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Notes</li>')
-                .click(onClick);
-
-            $menuSection.append($menuLink);
+            modules.uiScriptMenu.addLink("Notes", onClick);
 
             $.get(modules.urls.html.notes).done(function (x) {
                 template = x;

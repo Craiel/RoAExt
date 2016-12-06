@@ -11,13 +11,8 @@
 
     UIChartMenu.prototype = Object.spawn(RoAModule.prototype, {
         load: function () {
-            var $menuSection = $("#roaMenuContent");
 
-            var $menuLink = $('<a href="javascript:;"/>')
-                .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Charts</li>')
-                .click(onClick);
-
-            $menuSection.append($menuLink);
+            modules.uiScriptMenu.addLink("Charts", onClick);
 
             RoAModule.prototype.load.apply(this);
         }

@@ -12,6 +12,8 @@
 
     function loadEnd() {
         RoAModule.prototype.load.apply(this);
+
+        modules.logger.log("Loading finished!");
     }
 
     function continueLoadOptionals() {
@@ -96,8 +98,6 @@
         loadOperations.optionals.push(modules.uiNotes);
         loadOperations.optionals.push(modules.uiCustomTimer);
         loadOperations.optionals.push(modules.uiActionShortcuts);
-
-        console.log(loadOperations);
     }
 
     function Loader() {
@@ -106,6 +106,8 @@
 
     Loader.prototype = Object.spawn(RoAModule.prototype, {
         load: function () {
+            modules.logger.log("Beginning Load...");
+
             initializeEssentials();
             initializeOptionals();
 
