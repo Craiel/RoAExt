@@ -22,6 +22,7 @@
 // @require        https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js
 // @require        https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js
 // @require        https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/jquery.canvasjs.min.js
+// @require        https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.js
 
 
 // @noframes

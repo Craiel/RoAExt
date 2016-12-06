@@ -5,7 +5,7 @@
 
     var module = {};
 
-    function sendToast(msg) {
+    function send(msg) {
         if(!enabled) {
             return;
         }
@@ -17,20 +17,17 @@
 
     module.error = function (msg) {
         console.error(msg);
-        sendToast(msg);
+        send('ERROR: ' + msg);
     };
 
     module.notice = function (msg) {
-        sendToast(msg);
-    };
-
-    module.success = function (msg) {
-        sendToast(msg);
+        console.log(msg);
+        send('NOTE: ' + msg);
     };
 
     module.warn = function (msg) {
         console.warn(msg);
-        sendToast(msg);
+        send('WARNING: ' + msg);
     };
 
     module.incompatibility = function (what) {

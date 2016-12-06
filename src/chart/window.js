@@ -129,13 +129,6 @@
         chartWindow.appendTo("body");
         chartWindow.draggable({handle:"#gameChartTitle"});
         chartWindow.hide();
-
-        var toggleButton = $('<a><div id="toggleGameCharts" class="bt1 center">Toggle Charts</div></a>');
-        toggleButton.click(function () {
-            chartWindow.toggle();
-        });
-
-        toggleButton.insertAfter('#showGameStats');
         
         // Hook buttons
         $('#gameChartReset').click(resetCharts);
@@ -192,6 +185,10 @@
         modules.ajaxHooks.register("game_stats.php", refreshStats);
         modules.ajaxHooks.registerAutoSend("game_stats.php", {}, modules.constants.ChartUpdateInterval);
     }
+
+    module.toggle = function () {
+        chartWindow.toggle();
+    };
 
     module.enable = function () {
         $.get(modules.urls.html.charts).done(setupChartWindow);

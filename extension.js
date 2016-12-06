@@ -33,5 +33,7 @@ if (typeof(window.sessionStorage) === "undefined") {
     modules.houseMonitor.enable();
 
     // UI
-    modules.uiSideMenu.enable();
+    modules.uiScriptMenu.enable();
+    modules.uiChartMenu.enable();
+    modules.uiActionShortcuts.enable();
 }

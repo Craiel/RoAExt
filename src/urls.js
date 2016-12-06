@@ -29,6 +29,7 @@
     };
 
     module.css = {
+        jquery_te: "https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css",
         script: gitHubUrl("res/css/roaext.css")
     };
 
@@ -49,7 +50,8 @@
         house_timers: gitHubUrl("res/html/house-timers.html"),
         settings_modal: gitHubUrl("res/html/script-settings.html"),
         market_tooltip: gitHubUrl("res/html/market-tooltip.html"),
-        clan_donation_percent: gitHubUrl("res/html/clan-donation-percent.html")
+        clan_donation_percent: gitHubUrl("res/html/clan-donation-percent.html"),
+        notes: gitHubUrl("res/html/notes.html")
     };
 
     modules.urls = module;

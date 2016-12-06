@@ -4,12 +4,8 @@
     var module = {};
 
     module.enable = function () {
-        var $helpSection = $("#helpSection");
 
-        // Script menu button
-        var $menuLink = $('<a href="javascript:;"/>')
-                .html('<li class="active">' + GM_info.script.name + " " + GM_info.script.version + '</li>');
-                //.click(); TODO
+        var $menuLink = $('#roaMenu');
 
         // Side shortcuts
         var $appends = {
@@ -19,8 +15,6 @@
                 mine: $("<a href='javascript:;' data-delegate-click='#loadMining' class='avi-tip avi-menu-shortcut' title='Open Mine'/>"),
                 quarry: $("<a href='javascript:;' data-delegate-click='#loadStonecutting' class='avi-tip avi-menu-shortcut' title='Open Quarry'/>")
             };
-
-        $helpSection.append($menuLink);
 
         $("#navWrapper").css("padding-top", $menuLink.height()).find("ul")
             .append(
@@ -39,6 +33,6 @@
         modules.utils.svg($appends.quarry, modules.urls.svg.stone_block);
     };
 
-    modules.uiSideMenu = module;
+    modules.uiActionShortcuts = module;
 
 })(modules.jQuery);
