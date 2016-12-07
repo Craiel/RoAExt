@@ -48,7 +48,6 @@
             chartWindow: gitHubUrl("res/html/chartWindow.html"),
             clanDonationPercent: gitHubUrl("res/html/clanDonationPercent.html"),
             debugWindow: gitHubUrl("res/html/debugWindow.html"),
-            houseTimer: gitHubUrl("res/html/houseTimer.html"),
             noteWindow: gitHubUrl("res/html/noteWindow.html"),
             scriptMenu: gitHubUrl("res/html/scriptMenu.html"),
             timerEditor: gitHubUrl("res/html/timerEditor.html"),

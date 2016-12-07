@@ -7,16 +7,30 @@
         RoAModule.call(this, "UI Timer Menu");
     }
 
-    var createListEntry = function (title) {
-        var $label = $('<div class="col-xs-6 col-md-12 col-lg-5 gold">' + title + '</div>');
+    var deleteTimer = function (event) {
+        modules.uiTimerMenu.deleteTimer(event.data.name);
+    };
+
+    var createListEntry = function (title, canEdit) {
+        var $label = $('<div class="col-xs-6 col-md-12 col-lg-5 gold timerLabel">' + title + '</div>');
         var $wrapper = $('<div class="col-xs-6 col-md-12 col-lg-7"/>');
-        var $span = $('<span id="avi-house-construction"/>');
+        var $span = $('<span id="avi-house-construction" class="timerValue"/>');
         $wrapper.append($span);
+
+        if (canEdit) {
+            var $delete = $('<a href="javascript:;" class="timerDelete"><span>[X]</span></a>');
+            $delete.click({name: title}, deleteTimer);
+            $wrapper.append($delete);
+        }
 
         var $entry = $('<div/>');
         $entry.append($label).append($wrapper);
 
         return { entry: $entry, span: $span };
+    };
+
+    var refreshTimers = function () {
+        modules.uiTimerMenu.refreshTimerList();
     };
 
     UITimerMenu.prototype = Object.spawn(RoAModule.prototype, {
@@ -31,7 +45,7 @@
             this.activeTimerEntries = {};
 
             for(var name in this.activeTimers) {
-                var entry = createListEntry(name);
+                var entry = createListEntry(name, this.activeTimers[name].canEdit);
                 $content.append(entry.entry);
                 this.activeTimerEntries[name] = entry;
             }
@@ -45,7 +59,11 @@
             }
 
             for(var name in this.activeTimers) {
-                this.activeTimerEntries[name].span.text(this.activeTimers[name].getTimeString());
+                if(this.activeTimers[name].ended === true) {
+                    this.activeTimerEntries[name].span.text("Ended (" + this.activeTimers[name].getStartTimeString() + ")");
+                } else {
+                    this.activeTimerEntries[name].span.text(this.activeTimers[name].getTimeString());
+                }
             }
         },
         registerTimer: function (timer) {
@@ -56,6 +74,9 @@
             delete this.activeTimers[name];
             this.rebuildTimerList();
         },
+        deleteTimer: function (name) {
+            this.activeTimers[name].delete();
+        },
         continueLoad: function() {
             $('#rightWrapper').append($(template));
 
@@ -63,7 +84,7 @@
                 modules.uiTimerEditor.show();
             });
 
-            modules.createInterval("timerMenuRefresh").set(this.refreshTimerList, 10);
+            modules.createInterval("timerMenuRefresh").set(refreshTimers, 10);
 
             RoAModule.prototype.load.apply(this);
         },

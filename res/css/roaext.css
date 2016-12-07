@@ -117,3 +117,10 @@ ul.avi {
   text-align: center;
   color: red;
 }
+.timerLabel {
+  margin-left: 5px;
+}
+.timerDelete {
+  text-decoration: none!important;
+  margin-left: 1px;
+}

@@ -1,11 +1,22 @@
-(function ($) {
+(function () {
     'use strict';
 
-    const UpdateInterval = 10;
+    const UpdateInterval = modules.createInterval("UITimerUpdate");
+    UpdateInterval.set(updateTimers, 10);
 
-    function UITimer(name) {
+    var timers = {};
+
+    function updateTimers() {
+        for (var name in timers) {
+            timers[name].update();
+        }
+    }
+
+    function UITimer(name, canEdit) {
         this.name = name;
+        this.canEdit = canEdit;
 
+        timers[name] = this;
         modules.uiTimerMenu.registerTimer(this);
     }
 
@@ -14,29 +25,48 @@
         sound: false,
         notify: false,
         lastUpdate: null,
+        startValue: 0,
         remaining: 0,
         ended: true,
-        interval: null,
         callback: null,
+        paused: false,
+        canEdit: false,
         set: function (timeInSeconds, callback) {
-            this.remaining = timeInSeconds;
+            this.remaining = timeInSeconds * 1000;
+            this.startValue = this.remaining;
             this.ended = false;
             this.callback = callback;
-
-            this.interval = modules.createInterval("UITimer_" + this.name);
+        },
+        end: function () {
+            this.remaining = 0;
+        },
+        getStartTimeString : function () {
+            return new Date(this.startValue).toISOString().substr(11, 8);
         },
         getTimeString: function () {
             return new Date(this.remaining).toISOString().substr(11, 8);
         },
         resume: function () {
             this.lastUpdate = new Date();
-            this.interval.set(this.updateTimer, UpdateInterval);
+            this.paused = false;
+            this.ended = false;
         },
         suspend: function () {
-            this.interval.cancel();
+            this.paused = true;
         },
-        updateTimer: function () {
-            var diff = new Date() - this.lastUpdate;
+        delete: function () {
+            modules.uiTimerMenu.unregisterTimer(this.name);
+            delete timers[this.name];
+        },
+        update: function () {
+            if (this.paused) {
+                return;
+            }
+
+            var newUpdateTime = new Date();
+            var diff = newUpdateTime - this.lastUpdate;
+            this.lastUpdate = newUpdateTime;
+
             this.remaining = this.remaining - diff;
 
             if (this.remaining <= 0) {
@@ -59,8 +89,8 @@
         }
     };
 
-    modules.createUITimer = function (name) {
-        return new UITimer(name);
+    modules.createUITimer = function (name, canEdit) {
+        return new UITimer(name, canEdit);
     };
 
-})(modules.jQuery);
+})();

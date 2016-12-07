@@ -9,10 +9,10 @@
     }
 
     function clearCreateInput() {
-        $('#customTimerOptName').text("");
-        $('#customTimerOptHour').text("");
-        $('#customTimerOptMinute').text("");
-        $('#customTimerOptSecond').text("");
+        $('#customTimerOptName').val("");
+        $('#customTimerOptHour').val("");
+        $('#customTimerOptMinute').val("");
+        $('#customTimerOptSecond').val("");
     }
 
     function createTimer() {
@@ -22,6 +22,10 @@
         var second = parseInt($('#customTimerOptSecond').val());
         var sound = $('#customTimerOptSound').is(':checked');
         var notify = $('#customTimerOptNotify').is(':checked');
+
+        if(!hour || isNaN(hour)) { hour = 0; }
+        if(!minute || isNaN(minute)) { minute = 0; }
+        if(!second || isNaN(second)) { second = 0; }
 
         clearCreateInput();
 
@@ -37,11 +41,15 @@
 
         var timeInSeconds = (hour * 60 * 60) + (minute * 60) + second;
 
-        var timer = modules.createUITimer(name);
+        console.log("Creating timer " + name+" with " +hour+":"+minute+":"+second+" (" + timeInSeconds+")");
+
+        var timer = modules.createUITimer(name, true);
         timer.sound = sound;
         timer.notify = notify;
         timer.set(timeInSeconds);
         timer.resume();
+
+        console.log(timer);
     }
 
     function UITimerEditor() {
