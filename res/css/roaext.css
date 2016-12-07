@@ -93,17 +93,23 @@ ul.avi {
   vertical-align: middle;
   text-decoration: none!important;
 }
-#roaMenuContent a {
-  line-height: 26px;
-  border-top: 1px solid #01b0aa;
+.gradientBackground {
   background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
 }
+#roaMenuContent a {
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
+  line-height: 26px;
+  border-top: 1px solid #01b0aa;
+}
 .createTimerInput {
-  background-image: linear-gradient(to bottom, #013b39 0, #012120 100%);
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
 }
 .createTimerInputTime {
-  background-image: linear-gradient(to bottom, #013b39 0, #012120 100%);
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
   width: 20px;
+}
+.createTimerCheckbox {
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
 }
 .createTimerFeedback {
   margin-top: 10px;
