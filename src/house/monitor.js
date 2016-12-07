@@ -12,12 +12,15 @@
             return;
         }
 
-        if (text.indexOf("available again") !== -1) { // Working
-            var constructionTime = modules.utils.parseTimeStringLong(text);
-
+        if(!timer) {
             timer = modules.createUITimer("Construction");
             timer.sound = modules.settings.settings.notification.construction.sound;
             timer.notify = modules.settings.settings.notification.construction.show;
+        }
+
+        if (text.indexOf("available again") !== -1) { // Working
+            var constructionTime = modules.utils.parseTimeStringLong(text) / 1000;
+
             timer.set(constructionTime);
             timer.resume();
 

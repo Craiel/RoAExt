@@ -33,6 +33,10 @@
         modules.uiTimerMenu.refreshTimerList();
     };
 
+    var saveTimers = function () {
+        modules.uiTimerMenu.save();
+    };
+
     UITimerMenu.prototype = Object.spawn(RoAModule.prototype, {
         activeTimers: {},
         activeTimerEntries: {},
@@ -44,10 +48,13 @@
             $content.empty();
             this.activeTimerEntries = {};
 
-            for(var name in this.activeTimers) {
-                var entry = createListEntry(name, this.activeTimers[name].canEdit);
+            var names = Object.keys(this.activeTimers);
+            names.sort();
+
+            for(var i = 0; i < names.length; i++) {
+                var entry = createListEntry(names[i], this.activeTimers[names[i]].canEdit);
                 $content.append(entry.entry);
-                this.activeTimerEntries[name] = entry;
+                this.activeTimerEntries[names[i]] = entry;
             }
 
             this.suspendRefresh = false;
@@ -84,7 +91,21 @@
                 modules.uiTimerEditor.show();
             });
 
+            // Restore saved timers
+            var savedData = modules.settings.settings.timerData;
+            if(savedData) {
+                console.log("Loading Timers");
+                console.log(savedData);
+
+                for (var name in savedData) {
+                    var timer = modules.createUITimer(name, true);
+                    timer.setFromData(savedData[name]);
+                    timer.resume();
+                }
+            }
+
             modules.createInterval("timerMenuRefresh").set(refreshTimers, 10);
+            modules.createInterval("timerSaveInterval").set(saveTimers, 100);
 
             RoAModule.prototype.load.apply(this);
         },
@@ -93,6 +114,19 @@
                 template = x;
                 modules.uiTimerMenu.continueLoad();
             });
+        },
+        save: function () {
+            var data = {};
+            for (var name in this.activeTimers) {
+                if (!this.activeTimers[name].canEdit || this.activeTimers[name].callback) {
+                    // Won't save read-only timers or timers with callbacks
+                    continue;
+                }
+
+                data[name] = this.activeTimers[name].save();
+            }
+
+            modules.settings.settings.timerData = data;
         }
     });
 

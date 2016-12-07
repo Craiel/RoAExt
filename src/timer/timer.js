@@ -37,6 +37,18 @@
             this.ended = false;
             this.callback = callback;
         },
+        setFromData: function (data) {
+            this.remaining = data.r;
+            this.startValue = data.st;
+            this.notify = data.n;
+            this.sound = data.s;
+
+            var tdiff = new Date() - Date.parse(data.t);
+            if(!tdiff || isNaN(tdiff)) { tdiff = 0; }
+
+            console.log("Loaded timer: " + this.remaining +" adjusting diff by " + tdiff);
+            this.remaining = data.r - tdiff;
+        },
         end: function () {
             this.remaining = 0;
         },
@@ -57,6 +69,15 @@
         delete: function () {
             modules.uiTimerMenu.unregisterTimer(this.name);
             delete timers[this.name];
+        },
+        save: function () {
+            return {
+                t: new Date(),
+                r: this.remaining,
+                st: this.startValue,
+                s: this.sound,
+                n: this.notify
+            };
         },
         update: function () {
             if (this.paused) {

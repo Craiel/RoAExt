@@ -1,4 +1,5 @@
 // Some core modules go before everything
+modules.settings.load();
 modules.logger.load();
 modules.notification.load();
 

@@ -39,6 +39,7 @@
             },
             dungeonMap: {},
             chartData: {},
+            timerData: {},
             notes: ""
         },
         save: function () {
