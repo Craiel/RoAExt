@@ -92,12 +92,12 @@
         // House
         loadOperations.optionals.push(modules.houseMonitor);
 
-        // UI
+        // Misc
         loadOperations.optionals.push(modules.uiDebugWindow);
-        loadOperations.optionals.push(modules.uiChartMenu);
         loadOperations.optionals.push(modules.uiNoteWindow);
         loadOperations.optionals.push(modules.uiTimerEditor);
         loadOperations.optionals.push(modules.uiActionShortcuts);
+        loadOperations.optionals.push(modules.effectMonitor)
     }
 
     function Loader() {

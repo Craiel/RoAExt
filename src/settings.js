@@ -33,6 +33,10 @@
                     sound: false,
                     show: true
                 },
+                effectExpire: {
+                    sound: false,
+                    show: false
+                }
             },
             features: {
                 house_timer: true

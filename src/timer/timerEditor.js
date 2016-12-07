@@ -41,15 +41,11 @@
 
         var timeInSeconds = (hour * 60 * 60) + (minute * 60) + second;
 
-        console.log("Creating timer " + name+" with " +hour+":"+minute+":"+second+" (" + timeInSeconds+")");
-
         var timer = modules.createUITimer(name, true);
         timer.sound = sound;
         timer.notify = notify;
         timer.set(timeInSeconds);
         timer.resume();
-
-        console.log(timer);
     }
 
     function UITimerEditor() {

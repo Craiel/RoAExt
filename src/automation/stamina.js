@@ -70,10 +70,7 @@
             createToggle('harvestStatusButtons');
             createToggle('harvestBossStatusButtons');
 
-            modules.ajaxHooks.register("autobattle.php", updateAutoStamina);
-            modules.ajaxHooks.register("autoevent.php", updateAutoStamina);
-            modules.ajaxHooks.register("autotrade.php", updateAutoStamina);
-            modules.ajaxHooks.register("autocraft.php", updateAutoStamina);
+            modules.ajaxRegisterAutoActions(updateAutoStamina);
 
             RoAModule.prototype.load.apply(this);
         }

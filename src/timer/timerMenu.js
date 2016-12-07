@@ -94,9 +94,6 @@
             // Restore saved timers
             var savedData = modules.settings.settings.timerData;
             if(savedData) {
-                console.log("Loading Timers");
-                console.log(savedData);
-
                 for (var name in savedData) {
                     var timer = modules.createUITimer(name, true);
                     timer.setFromData(savedData[name]);

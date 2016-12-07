@@ -134,6 +134,10 @@
         return chart;
     }
 
+    function toggleWindow() {
+        modules.chartWindow.toggle();
+    }
+
     function ChartWindow() {
         RoAModule.call(this, "Chart Window");
     }
@@ -213,6 +217,8 @@
             modules.ajaxHooks.register("autocraft.php", onAutoCraft);
             modules.ajaxHooks.register("game_stats.php", onStatsReceived);
             modules.ajaxHooks.registerAutoSend("game_stats.php", {}, modules.constants.ChartUpdateInterval);
+
+            modules.uiScriptMenu.addLink("Charts", toggleWindow);
 
             RoAModule.prototype.load.apply(this);
         },

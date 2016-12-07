@@ -39,12 +39,11 @@
 
             modules.createInterval("noteAutoSave").set(autoSave, 5000);
 
+            modules.uiScriptMenu.addLink("Notes", onClick);
+
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
-
-            modules.uiScriptMenu.addLink("Notes", onClick);
-
             $.get(modules.urls.html.noteWindow).done(function (x) {
                 template = x;
                 modules.uiNoteWindow.continueLoad();

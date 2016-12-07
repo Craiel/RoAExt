@@ -106,4 +106,11 @@
 
     modules.ajaxHooks = new AjaxHooks();
 
+    modules.ajaxRegisterAutoActions = function (callback) {
+        modules.ajaxHooks.register("autobattle.php", callback);
+        modules.ajaxHooks.register("autoevent.php", callback);
+        modules.ajaxHooks.register("autotrade.php", callback);
+        modules.ajaxHooks.register("autocraft.php", callback);
+    }
+
 })(modules.jQuery);

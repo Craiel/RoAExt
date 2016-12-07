@@ -46,7 +46,6 @@
             var tdiff = new Date() - Date.parse(data.t);
             if(!tdiff || isNaN(tdiff)) { tdiff = 0; }
 
-            console.log("Loaded timer: " + this.remaining +" adjusting diff by " + tdiff);
             this.remaining = data.r - tdiff;
         },
         end: function () {

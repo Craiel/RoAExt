@@ -83,11 +83,11 @@
             modules.ajaxHooks.registerAll(onAjaxDone);
             modules.ajaxHooks.registerRcvAll(onAjaxSentPending);
 
+            modules.uiScriptMenu.addLink("Debug", onClick);
+
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
-            modules.uiScriptMenu.addLink("Debug", onClick);
-
             $.get(modules.urls.html.debugWindow).done(function (x) {
                 template = x;
                 modules.uiDebugWindow.continueLoad();
