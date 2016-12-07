@@ -75,6 +75,7 @@
     function initializeOptionals() {
         // Automation
         loadOperations.optionals.push(modules.automateStamina);
+        loadOperations.optionals.push(modules.automateDungeon);
 
         // Chart
         loadOperations.optionals.push(modules.chartWindow);

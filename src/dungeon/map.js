@@ -1,16 +1,30 @@
 (function ($) {
     'use strict';
 
+    var dmc, dmctx, dmv;
+
     var initialize = function () {
-        modules.settings.dungeonMap = { r:{}, cf:0, ct:null, v: modules.constants.DungeonMapVersion };
+        console.log("Resetting Dungeon Map");
+
+        modules.settings.dungeonMap = { r:{}, cf:0, ct:null, v: modules.constants.DungeonMapVersion, hasData: false };
     };
 
     function onLeaveDungeon() {
         initialize();
     }
 
+    function onUpdateDungeonVisibility(e, res, req, jsonres) {
+        if(req.url.indexOf("dungeon_") === -1) {
+            $("#dMCW").hide();
+        } else if (modules.settings.dungeonMap.hasData) {
+            $("#dMCW").show();
+        }
+    }
+
     function onUpdateDungeon(e, res, req, jsonres) {
         if (jsonres.hasOwnProperty("data") && jsonres.data.hasOwnProperty("map")) {
+            modules.settings.dungeonMap.hasData = true;
+
             if (modules.settings.dungeonMap.cf !== jsonres.data.floor) {
                 modules.settings.dungeonMap.r = {};
                 modules.settings.dungeonMap.cf = jsonres.data.floor;
@@ -62,9 +76,7 @@
             }
 
             modules.settings.save();
-            updateDungeonMap(false);
-        } else {
-            updateDungeonMap(req.url.indexOf("dungeon_") === -1);
+            updateDungeonMap();
         }
     }
 
@@ -73,8 +85,7 @@
         updateDungeonMap(false);
     }
 
-    var dmc, dmctx, dmv;
-    function updateDungeonMap(hide) {
+    function updateDungeonMap() {
         if ($("#dungeonMapCanvas").length === 0) {
             var h = $("<div>")
                 .attr("id", "dMCW")
@@ -90,14 +101,10 @@
             dmc = document.getElementById("dungeonMapCanvas");
             dmctx = dmc.getContext("2d");
         }
-        if (hide === false) {
-            $("#dMCW").show();
-            dmv = [];
-            dmctx.clearRect(0,0,dmc.width,dmc.height);
-            drawTile(d.ct, Math.floor(dmc.width/2), Math.floor(dmc.height/2), 1);
-        } else {
-            $("#dMCW").hide();
-        }
+
+        dmv = [];
+        dmctx.clearRect(0,0,dmc.width,dmc.height);
+        drawTile(modules.settings.dungeonMap.ct, Math.floor(dmc.width/2), Math.floor(dmc.height/2), 1);
     }
 
     function drawTile(id, x, y, player) {
@@ -210,6 +217,8 @@
             modules.ajaxHooks.register("dungeon_info.php", onUpdateDungeon);
             modules.ajaxHooks.register("dungeon_move.php", onUpdateDungeon);
             modules.ajaxHooks.register("dungeon_search.php", onUpdateDungeon);
+
+            modules.ajaxHooks.registerAll(onUpdateDungeonVisibility);
 
             RoAModule.prototype.load.apply(this);
         }
