@@ -60,11 +60,11 @@
         updateDebugContent();
     }
 
-    function UIDebug() {
-        RoAModule.call(this, "UI Debug");
+    function UIDebugWindow() {
+        RoAModule.call(this, "UI Debug Window");
     }
 
-    UIDebug.prototype = Object.spawn(RoAModule.prototype, {
+    UIDebugWindow.prototype = Object.spawn(RoAModule.prototype, {
         continueLoad: function () {
             $("<style>").text("" +
                 ".debugWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
@@ -76,6 +76,10 @@
             window.resizable();
             window.hide();
 
+            $('#debugWindowClose').click(function () {
+                window.hide();
+            });
+
             modules.ajaxHooks.registerAll(onAjaxDone);
             modules.ajaxHooks.registerRcvAll(onAjaxSentPending);
 
@@ -86,13 +90,13 @@
 
             $.get(modules.urls.html.debugWindow).done(function (x) {
                 template = x;
-                modules.uiDebug.continueLoad();
+                modules.uiDebugWindow.continueLoad();
             });
         }
     });
 
-    UIDebug.prototype.constructor = UIDebug;
+    UIDebugWindow.prototype.constructor = UIDebugWindow;
 
-    modules.uiDebug = new UIDebug();
+    modules.uiDebugWindow = new UIDebugWindow();
 
 })(modules.jQuery);

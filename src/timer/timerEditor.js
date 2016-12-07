@@ -15,7 +15,7 @@
     UITimerEditor.prototype = Object.spawn(RoAModule.prototype, {
         continueLoad: function () {
             $("<style>").text("" +
-                ".createTimerWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
+                ".timerEditorWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
                 .appendTo("body");
 
             window = $(template);
@@ -23,6 +23,10 @@
             window.draggable({handle:"#createTimerTitle"});
             window.resizable();
             window.hide();
+
+            $('#timerEditorWindowClose').click(function () {
+                window.hide();
+            });
 
             RoAModule.prototype.load.apply(this);
         },

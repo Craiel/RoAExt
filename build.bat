@@ -19,7 +19,8 @@ type src\clan\* >> %OUT_FILE_FULL%
 type src\dungeon\* >> %OUT_FILE_FULL%
 type src\house\* >> %OUT_FILE_FULL%
 type src\market\* >> %OUT_FILE_FULL%
-type src\ui\* >> %OUT_FILE_FULL%
+type src\timer\* >> %OUT_FILE_FULL%
+type src\misc\* >> %OUT_FILE_FULL%
 type extension.js >> %OUT_FILE_FULL%
 
 copy extension_header.js %OUT_FILE_MIN_FULL%

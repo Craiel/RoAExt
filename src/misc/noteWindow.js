@@ -2,10 +2,10 @@
     'use strict';
 
     var template;
-    var noteWindow;
+    var window;
 
     function onClick() {
-        noteWindow.toggle();
+        window.toggle();
     }
 
     function autoSave() {
@@ -14,21 +14,25 @@
         modules.settings.settings.notes = text;
     }
 
-    function UINotes() {
-        RoAModule.call(this, "UI Timers");
+    function UINoteWindow() {
+        RoAModule.call(this, "UI Note Window");
     }
 
-    UINotes.prototype = Object.spawn(RoAModule.prototype, {
+    UINoteWindow.prototype = Object.spawn(RoAModule.prototype, {
         continueLoad: function () {
             $("<style>").text("" +
-                ".noteWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
+                ".window{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
                 .appendTo("body");
 
-            noteWindow = $(template);
-            noteWindow.appendTo("body");
-            noteWindow.draggable({handle:"#noteTitle"});
-            noteWindow.resizable();
-            noteWindow.hide();
+            window = $(template);
+            window.appendTo("body");
+            window.draggable({handle:"#noteTitle"});
+            window.resizable();
+            window.hide();
+
+            $('#noteWindowClose').click(function () {
+                window.hide();
+            });
 
             $('#noteEditor').jqte();
             $('#noteEditor').jqteVal(modules.settings.settings.notes);
@@ -43,13 +47,13 @@
 
             $.get(modules.urls.html.noteWindow).done(function (x) {
                 template = x;
-                modules.uiNotes.continueLoad();
+                modules.uiNoteWindow.continueLoad();
             });
         }
     });
 
-    UINotes.prototype.constructor = UINotes;
+    UINoteWindow.prototype.constructor = UINoteWindow;
 
-    modules.uiNotes = new UINotes();
+    modules.uiNoteWindow = new UINoteWindow();
 
 })(modules.jQuery);
