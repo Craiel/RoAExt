@@ -12,7 +12,8 @@
     Session.prototype = Object.spawn(RoAModule.prototype, {
         lockAutomation: false,
         captchaEncountered: function (x) {
-            this.lockAutomation = true;
+            // TODO: not working properly right now
+            // this.lockAutomation = true;
 
             if(modules.settings.settings.notification.captcha.show && modules.settings.settings.notification.enable) {
                 modules.notification.warn("Captcha required!");

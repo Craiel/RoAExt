@@ -20,7 +20,7 @@
 
             window = $(template);
             window.appendTo("body");
-            window.draggable({handle:"#createTimerTitle"});
+            window.draggable({handle:"#timerEditorTitle"});
             window.resizable();
             window.hide();
 

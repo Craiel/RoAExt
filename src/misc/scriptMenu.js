@@ -31,7 +31,7 @@
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
-            $.get(modules.urls.html.script_menu).done(function (x) {
+            $.get(modules.urls.html.scriptMenu).done(function (x) {
                 template = x;
                 modules.uiScriptMenu.continueLoad();
             });

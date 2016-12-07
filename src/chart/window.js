@@ -151,6 +151,10 @@
             chartWindow.draggable({handle:"#gameChartTitle"});
             chartWindow.hide();
 
+            $('#gameChartWindowClose').click(function () {
+                chartWindow.hide();
+            });
+
             // Hook buttons
             $('#gameChartReset').click(resetCharts);
             $('#gameChartRedraw').click(redrawChart);
