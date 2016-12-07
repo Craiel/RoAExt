@@ -2,12 +2,12 @@
     'use strict';
 
     var template;
-    var window;
+    var wnd;
 
     var requestHistory = {};
 
     function onClick() {
-        window.toggle();
+        wnd.toggle();
     }
 
     function updateDebugContent() {
@@ -70,14 +70,14 @@
                 ".debugWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
                 .appendTo("body");
 
-            window = $(template);
-            window.appendTo("body");
-            window.draggable({handle:"#debugWindowTitle"});
-            window.resizable();
-            window.hide();
+            wnd = $(template);
+            wnd.appendTo("body");
+            wnd.draggable({handle:"#debugWindowTitle"});
+            wnd.resizable();
+            wnd.hide();
 
             $('#debugWindowClose').click(function () {
-                window.hide();
+                wnd.hide();
             });
 
             modules.ajaxHooks.registerAll(onAjaxDone);

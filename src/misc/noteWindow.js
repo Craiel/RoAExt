@@ -2,10 +2,10 @@
     'use strict';
 
     var template;
-    var window;
+    var wnd;
 
     function onClick() {
-        window.toggle();
+        wnd.toggle();
     }
 
     function autoSave() {
@@ -21,17 +21,17 @@
     UINoteWindow.prototype = Object.spawn(RoAModule.prototype, {
         continueLoad: function () {
             $("<style>").text("" +
-                ".window{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
+                ".noteWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
                 .appendTo("body");
 
-            window = $(template);
-            window.appendTo("body");
-            window.draggable({handle:"#noteTitle"});
-            window.resizable();
-            window.hide();
+            wnd = $(template);
+            wnd.appendTo("body");
+            wnd.draggable({handle:"#noteTitle"});
+            wnd.resizable();
+            wnd.hide();
 
             $('#noteWindowClose').click(function () {
-                window.hide();
+                wnd.hide();
             });
 
             $('#noteEditor').jqte();

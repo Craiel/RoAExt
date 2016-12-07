@@ -11,6 +11,10 @@
         continueLoad: function() {
             $('#rightWrapper').append($(template));
 
+            $('#timerEditorOpen').click(function () {
+                modules.uiTimerEditor.show();
+            });
+
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
