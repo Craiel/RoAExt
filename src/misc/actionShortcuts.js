@@ -19,7 +19,7 @@
                 quarry: $("<a href='javascript:;' data-delegate-click='#loadStonecutting' class='avi-tip avi-menu-shortcut' title='Open Quarry'/>")
             };
 
-            $("#navWrapper").css("padding-top", $menuLink.height()).find("ul")
+            $("#navigationWrapper").css("padding-top", $menuLink.height()).find("ul")
                 .append(
                     $('<li class="avi-menu"/>')
                         .append($appends.battle)
