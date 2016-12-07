@@ -1,8 +1,45 @@
 <div id="createTimer" class="border2 ui-component createTimerWindow">
     <div id="createTimerWindow" class="ui-element border2" style="height: 100%">
         <h5 id="createTimerTitle" class="center toprounder">Create Timer</h5>
+        <span class="closeModal"><a>×</a></span>
         <div id="createTimerContent" class="mCSB_container" style="height: 100%">
-
+            <div id="activeCustomTimers">
+                <thead>
+                <tr>
+                    <th colspan="3">
+                        Active Timers
+                    </th>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Time</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
+                <tbody id="activeCustomTimerTableContent">
+                </tbody>
+            </div>
+            <div id="createNewCustomTimer">
+                <table class="avi" style="margin:auto">
+                    <tr>
+                        <th>
+                            <input id="customTimerOptName"> Name</input>
+                        </th>
+                        <th>
+                            <input id="customTimerOptHour" class="customTimerInput" maxlength="2"> H</input>
+                            <input id="customTimerOptMinute" class="customTimerInput" maxlength="2"> M</input>
+                            <input id="customTimerOptSecond" class="customTimerInput" maxlength="2"> S</input>
+                        </th>
+                        <th>
+                            <input id="customTimerOptSound" type="checkbox">Sound</input>
+                            <input id="customTimerOptNotify" type="checkbox">Notification</input>
+                        </th>
+                        <th>
+                            <div id="customTimerCreateButton">Create</div>
+                        </th>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -27,13 +27,7 @@
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
-            var $helpSection = $("#helpSection");
-
-            var $menuLink = $('<a href="javascript:;"/>')
-                .html('<li class="visible-xs-inline-block visible-sm-inline-block visible-md-block visible-lg-block">Custom Timer</li>')
-                .click(onClick);
-
-            $helpSection.append($menuLink);
+            modules.uiScriptMenu.addLink("Custom Timer", onClick);
 
             $.get(modules.urls.html.custom_timer).done(function (x) {
                 template = x;
