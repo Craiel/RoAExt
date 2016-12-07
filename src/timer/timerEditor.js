@@ -4,8 +4,44 @@
     var wnd;
     var template;
 
-    function onClick() {
-        wnd.toggle();
+    function showFeedback(msg) {
+        $('#createTimerFeedback').text(msg);
+    }
+
+    function clearCreateInput() {
+        $('#customTimerOptName').text("");
+        $('#customTimerOptHour').text("");
+        $('#customTimerOptMinute').text("");
+        $('#customTimerOptSecond').text("");
+    }
+
+    function createTimer() {
+        var name = $('#customTimerOptName').text();
+        var hour = parseInt($('#customTimerOptHour'));
+        var minute = parseInt($('#customTimerOptMinute'));
+        var second = parseInt($('#customTimerOptSecond'));
+        var sound = $('#customTimerOptSound').is(':checked');
+        var notify = $('#customTimerOptNotify').is(':checked');
+
+        clearCreateInput();
+
+        if(!name || name.length <= 0) {
+            showFeedback("Invalid name");
+            return;
+        }
+
+        if(hour <= 0 && minute <= 0 && second <= 0) {
+            showFeedback("Invalid Time set!");
+            return;
+        }
+
+        var timeInSeconds = (hour * 60 * 60) + (minute * 60) + second;
+
+        var timer = modules.createUITimer(name);
+        timer.sound = sound;
+        timer.notify = notify;
+        timer.set(timeInSeconds);
+        timer.resume();
     }
 
     function UITimerEditor() {
@@ -29,6 +65,10 @@
 
             $('#timerEditorWindowClose').click(function () {
                 wnd.hide();
+            });
+
+            $('#customTimerCreateButton').click(function () {
+                createTimer();
             });
 
             RoAModule.prototype.load.apply(this);
