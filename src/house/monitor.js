@@ -82,7 +82,7 @@
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
-            $.get(modules.urls.html.house_timers).done(function (x) {
+            $.get(modules.urls.html.houseTimer).done(function (x) {
                 template = x;
                 modules.houseMonitor.continueLoad();
             });

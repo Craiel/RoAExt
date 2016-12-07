@@ -213,7 +213,7 @@
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
-            $.get(modules.urls.html.charts).done(function (x) {
+            $.get(modules.urls.html.chartWindow).done(function (x) {
                 template = x;
                 modules.chartWindow.continueLoad();
             });

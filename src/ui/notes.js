@@ -41,7 +41,7 @@
 
             modules.uiScriptMenu.addLink("Notes", onClick);
 
-            $.get(modules.urls.html.notes).done(function (x) {
+            $.get(modules.urls.html.noteWindow).done(function (x) {
                 template = x;
                 modules.uiNotes.continueLoad();
             });

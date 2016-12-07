@@ -45,16 +45,15 @@
             fishing: gitHubUrl("res/svg/fishing.svg")
         },
         html: {
-            charts: gitHubUrl("res/html/charts.html"),
-            house_timers: gitHubUrl("res/html/house-timers.html"),
-            settings_modal: gitHubUrl("res/html/script-settings.html"),
-            market_tooltip: gitHubUrl("res/html/market-tooltip.html"),
-            clan_donation_percent: gitHubUrl("res/html/clan-donation-percent.html"),
-            notes: gitHubUrl("res/html/notes.html"),
-            custom_timer: gitHubUrl("res/html/custom-timer.html"),
-            debug: gitHubUrl("res/html/debug.html"),
-            timers: gitHubUrl("res/html/timers.html"),
-            script_menu: gitHubUrl("res/html/script-menu.html")
+            chartWindow: gitHubUrl("res/html/chartWindow.html"),
+            clanDonationPercent: gitHubUrl("res/html/clanDonationPercent.html"),
+            debugWindow: gitHubUrl("res/html/debugWindow.html"),
+            houseTimer: gitHubUrl("res/html/houseTimer.html"),
+            noteWindow: gitHubUrl("res/html/noteWindow.html"),
+            scriptMenu: gitHubUrl("res/html/scriptMenu.html"),
+            timerEditor: gitHubUrl("res/html/timerEditor.html"),
+            timerMenu: gitHubUrl("res/html/timerMenu.html"),
+
         }
     });
 

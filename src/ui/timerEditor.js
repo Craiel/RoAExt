@@ -8,11 +8,11 @@
         window.toggle();
     }
 
-    function UICustomTimer() {
-        RoAModule.call(this, "UI Custom Timer");
+    function UITimerEditor() {
+        RoAModule.call(this, "UI Timer Editor");
     }
 
-    UICustomTimer.prototype = Object.spawn(RoAModule.prototype, {
+    UITimerEditor.prototype = Object.spawn(RoAModule.prototype, {
         continueLoad: function () {
             $("<style>").text("" +
                 ".createTimerWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
@@ -29,15 +29,15 @@
         load: function () {
             modules.uiScriptMenu.addLink("Custom Timer", onClick);
 
-            $.get(modules.urls.html.custom_timer).done(function (x) {
+            $.get(modules.urls.html.timerEditor).done(function (x) {
                 template = x;
-                modules.uiCustomTimer.continueLoad();
+                modules.uiTimerEditor.continueLoad();
             });
         }
     });
 
-    UICustomTimer.prototype.constructor = UICustomTimer;
+    UITimerEditor.prototype.constructor = UITimerEditor;
 
-    modules.uiCustomTimer = new UICustomTimer();
+    modules.uiTimerEditor = new UITimerEditor();
 
 })(modules.jQuery);

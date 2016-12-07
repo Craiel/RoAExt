@@ -38,7 +38,7 @@
             RoAModule.prototype.load.apply(this);
         },
         load: function () {
-            $.get(modules.urls.html.clan_donation_percent).done(function (x) {
+            $.get(modules.urls.html.clanDonationPercent).done(function (x) {
                 template = x;
                 modules.clanDonations.continueLoad();
             });

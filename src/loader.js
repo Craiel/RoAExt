@@ -69,7 +69,7 @@
         loadOperations.essentials.push(modules.ajaxHooks);
 
         loadOperations.essentials.push(modules.uiScriptMenu);
-        loadOperations.essentials.push(modules.uiTimers);
+        loadOperations.essentials.push(modules.uiTimerMenu);
     }
 
     function initializeOptionals() {
@@ -96,7 +96,7 @@
         loadOperations.optionals.push(modules.uiDebug);
         loadOperations.optionals.push(modules.uiChartMenu);
         loadOperations.optionals.push(modules.uiNotes);
-        loadOperations.optionals.push(modules.uiCustomTimer);
+        loadOperations.optionals.push(modules.uiTimerEditor);
         loadOperations.optionals.push(modules.uiActionShortcuts);
     }
 

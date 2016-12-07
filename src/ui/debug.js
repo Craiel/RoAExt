@@ -84,7 +84,7 @@
         load: function () {
             modules.uiScriptMenu.addLink("Debug", onClick);
 
-            $.get(modules.urls.html.debug).done(function (x) {
+            $.get(modules.urls.html.debugWindow).done(function (x) {
                 template = x;
                 modules.uiDebug.continueLoad();
             });
