@@ -16,10 +16,10 @@
     }
 
     function createTimer() {
-        var name = $('#customTimerOptName').text();
-        var hour = parseInt($('#customTimerOptHour'));
-        var minute = parseInt($('#customTimerOptMinute'));
-        var second = parseInt($('#customTimerOptSecond'));
+        var name = $('#customTimerOptName').val();
+        var hour = parseInt($('#customTimerOptHour').val());
+        var minute = parseInt($('#customTimerOptMinute').val());
+        var second = parseInt($('#customTimerOptSecond').val());
         var sound = $('#customTimerOptSound').is(':checked');
         var notify = $('#customTimerOptNotify').is(':checked');
 

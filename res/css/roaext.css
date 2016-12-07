@@ -98,6 +98,10 @@ ul.avi {
   border-top: 1px solid #01b0aa;
   background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
 }
-.customTimerInput {
+.createTimerInput {
+  background-image: linear-gradient(to bottom, #013b39 0, #012120 100%);
+}
+.createTimerInputTime {
+  background-image: linear-gradient(to bottom, #013b39 0, #012120 100%);
   width: 20px;
 }
