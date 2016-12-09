@@ -31,6 +31,7 @@
         callback: null,
         paused: false,
         canEdit: false,
+        increment: false,
         set: function (timeInSeconds, callback) {
             this.remaining = timeInSeconds * 1000;
             this.startValue = this.remaining;
@@ -87,7 +88,11 @@
             var diff = newUpdateTime - this.lastUpdate;
             this.lastUpdate = newUpdateTime;
 
-            this.remaining = this.remaining - diff;
+            if (this.increment) {
+                this.remaining = this.remaining + diff;
+            } else {
+                this.remaining = this.remaining - diff;
+            }
 
             if (this.remaining <= 0) {
                 this.remaining = 0;

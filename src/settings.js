@@ -42,8 +42,10 @@
                 house_timer: true
             },
             dungeonMap: {},
+            dungeonData: {},
             chartData: {},
             timerData: {},
+            lastEventTime: null,
             notes: ""
         },
         save: function () {

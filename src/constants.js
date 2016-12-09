@@ -16,9 +16,9 @@
         DungeonPlayerColor: "#ffffff",
         DungeonMapVersion: 0.1,
 
-        HouseUpdateInterval: 60 * 2 * 1000, // 2 minutes
+        HouseUpdateInterval: 60 * 3 * 1000, // 2 minutes
 
-        ChartUpdateInterval: 60 * 1 * 1000 // 1 minutes
+        ChartUpdateInterval: 60 * 5 * 1000 // 1 minutes
     });
 
     Constants.prototype.constructor = Constants;

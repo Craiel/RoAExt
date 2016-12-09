@@ -98,7 +98,9 @@
         loadOperations.optionals.push(modules.uiNoteWindow);
         loadOperations.optionals.push(modules.uiTimerEditor);
         loadOperations.optionals.push(modules.uiActionShortcuts);
-        loadOperations.optionals.push(modules.effectMonitor)
+        loadOperations.optionals.push(modules.effectMonitor);
+        loadOperations.optionals.push(modules.eventMonitor);
+        loadOperations.optionals.push(modules.sessionTime);
     }
 
     function Loader() {
