@@ -30,7 +30,10 @@
             // Enable the checkbox to toggle the values in the table from original to percentages and back.
             $('#toggleDonationPercent').change(function() {
                 var format = $(this).is(':checked') ? 'percFormat' : 'origFormat';
-                $().each(function(){ $(this).text($(this).attr(format)); });
+
+                for(var i = 0; i < donatorColumns.length; i++) {
+                    $(donatorColumns[i]).each(function(){ $(this).text($(this).attr(format)); });
+                }
             });
 
             modules.ajaxHooks.register("clan_donations.php", parseClanDonationsPhp);
