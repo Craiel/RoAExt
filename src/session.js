@@ -11,7 +11,7 @@
 
     Session.prototype = Object.spawn(RoAModule.prototype, {
         lockAutomation: false,
-        captchaEncountered: function (x) {
+        captchaEncountered: function () {
             // TODO: not working properly right now
             // this.lockAutomation = true;
 

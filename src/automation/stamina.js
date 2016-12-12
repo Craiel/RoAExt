@@ -6,6 +6,8 @@
     var enabled = true;
     var allowAuto = true;
 
+    var replenishRequest;
+
     function toggleAuto(self) {
         enabled = !enabled;
         console.log("Toggled auto " + enabled);
@@ -43,11 +45,13 @@
         {
             allowAuto = false;
 
-            $.post('stamina_replenish.php', {}).done(function(x) {
-                if (x.captcha) {
-                    modules.session.captchaEncountered(x);
-                }
-            });
+            replenishRequest.send();
+        }
+    }
+
+    function onStaminaReplenish(e, res, req, jsonres) {
+        if (jsonres.captcha) {
+            modules.session.captchaEncountered();
         }
     }
 
@@ -69,6 +73,9 @@
             createToggle('battleStatusButtons');
             createToggle('harvestStatusButtons');
             createToggle('harvestBossStatusButtons');
+
+            replenishRequest = modules.createAjaxRequest('stamina_replenish.php').post();
+            modules.ajaxHooks.register('stamina_replenish.php', onStaminaReplenish);
 
             modules.ajaxRegisterAutoActions(updateAutoStamina);
 

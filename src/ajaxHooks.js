@@ -61,7 +61,11 @@
             if(timeSinceReceive >= request.interval) {
                 console.log("Auto-sending ajax for " + url);
                 request.locked = true;
-                $.post(url, request.payload);
+                if(!request.ajax) {
+                    request.ajax = modules.createAjaxRequest(url).post(request.payload);
+                }
+
+                request.ajax.send();
             }
         }
     }
