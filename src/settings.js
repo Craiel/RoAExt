@@ -35,7 +35,7 @@
                 },
                 effectExpire: {
                     sound: false,
-                    show: false
+                    show: true
                 }
             },
             features: {

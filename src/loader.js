@@ -88,6 +88,7 @@
         loadOperations.optionals.push(modules.clanDonations);
 
         // Dungeon
+        loadOperations.optionals.push(modules.dungeonTracker);
         loadOperations.optionals.push(modules.dungeonMap);
 
         // House

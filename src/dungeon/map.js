@@ -196,10 +196,18 @@
 
     function DungeonMap() {
         RoAModule.call(this, "Dungeon Map");
+
+        this.addDependency(modules.dungeonTracker.name);
     }
 
     DungeonMap.prototype = Object.spawn(RoAModule.prototype, {
         load: function () {
+
+            // Check dependencies before continuing to load
+            if(!this.checkDependencies()) {
+                return;
+            }
+
             if(modules.settings.dungeonMap == null) {
                 initialize();
             } else {

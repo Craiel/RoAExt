@@ -5,6 +5,23 @@ function RoAModule(name) {
 RoAModule.prototype = {
     name: "NO_NAME",
     loaded: false,
+    dependencies: [],
+    addDependency: function (name) {
+        this.dependencies.push(name);
+    },
+    checkDependencies: function () {
+        for(var i = 0; i < this.dependencies.length; i++) {
+            var module = modules[this.dependencies[i]];
+            if(module && module.loaded) {
+                continue;
+            }
+
+            console.error("Dependency for module " + this.name + " was not satisfied: " + this.dependencies[i]);
+            return false;
+        }
+
+        return true;
+    },
     load: function () {
         this.loaded = true;
 

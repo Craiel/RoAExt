@@ -73,6 +73,7 @@
             createToggle('battleStatusButtons');
             createToggle('harvestStatusButtons');
             createToggle('harvestBossStatusButtons');
+            createToggle('bossStatusButtons');
 
             replenishRequest = modules.createAjaxRequest('stamina_replenish.php').post();
             modules.ajaxHooks.register('stamina_replenish.php', onStaminaReplenish);
