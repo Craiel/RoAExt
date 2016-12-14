@@ -2,19 +2,17 @@
 
     'use strict';
 
-    var lastMessage;
-
     var timers = {};
 
-    function updateEffectStatus(e, res, req, jsonres) {
-        if(!jsonres || !jsonres.p || !jsonres.p.mods) {
+    function updateEffectStatus(requestData) {
+        if(!requestData.json.p || !requestData.json.p.mods) {
             return;
         }
 
         var existing = {};
-        for (var mod in jsonres.p.mods) {
-            var name = jsonres.p.mods[mod].n;
-            var time = jsonres.p.mods[mod].ends;
+        for (var mod in requestData.json.p.mods) {
+            var name = requestData.json.p.mods[mod].n;
+            var time = requestData.json.p.mods[mod].ends;
 
             if(!name || !time || isNaN(time)) {
                 continue;

@@ -46,9 +46,9 @@
         requestHistory[url] = { time: new Date(), data: null, dataSent: null };
     }
 
-    function onAjaxDone(e, res, req, jsonData) {
-        initEntry(req.url);
-        requestHistory[req.url].data = jsonData;
+    function onAjaxDone(requestData) {
+        initEntry(requestData.url);
+        requestHistory[requestData.url].data = requestData;
 
         updateDebugContent();
     }

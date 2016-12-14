@@ -4,6 +4,7 @@
     const RequestAutoSendCheckFrequency = 100;
     const RequestSendThreshold = 500; // the time where we will warn about frequent requests to the same page
 
+    var nextId = 1;
     var rcvForwards = [];
     var forwards = [];
     var targetedForwards = {};
@@ -11,27 +12,32 @@
     var autoRequests = {};
 
     function onAjaxSuccess(e, res, req, jsonData) {
-        var requestDate = new Date();
+        var requestData = {
+            id: nextId++,
+            date: new Date(),
+            url: req.url,
+            json: jsonData || {}
+        };
 
-        if(requestHistory[req.url]) {
-            var timeSinceLastRequest = requestDate - requestHistory[req.url];
+        if(requestHistory[requestData.url]) {
+            var timeSinceLastRequest = requestData.date - requestHistory[requestData.url];
             if(timeSinceLastRequest < RequestSendThreshold) {
-                console.warn("Same request was done recently (" + req.url + ")");
+                console.warn("Same request was done recently (" + requestData.url + ")");
             }
         }
 
-        requestHistory[req.url] = requestDate;
+        requestHistory[requestData.url] = requestData.date;
 
         // check if there is an auto request for this url
-        if (autoRequests[req.url]) {
+        if (autoRequests[requestData.url]) {
             // unlock the auto since we got a response
-            autoRequests[req.url].locked = false;
+            autoRequests[requestData.url].locked = false;
         }
 
         for(var entry in targetedForwards) {
-            if(req.url === entry) {
+            if(requestData.url === entry) {
                 for (var i = 0; i < targetedForwards[entry].length; i++) {
-                    targetedForwards[entry][i](e, res, req, jsonData);
+                    targetedForwards[entry][i](requestData);
                 }
 
                 break;
@@ -39,7 +45,7 @@
         }
 
         for (var i = 0; i < forwards.length; i++) {
-            forwards[i](e, res, req, jsonData);
+            forwards[i](requestData);
         }
     }
     

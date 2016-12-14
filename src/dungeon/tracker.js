@@ -2,8 +2,8 @@
 
     const DungeonDataVersion = 3;
 
-    function onDungeonInfo(e, res, req, jsonres) {
-        if (!jsonres || !jsonres.data) {
+    function onDungeonInfo(requestData) {
+        if (!requestData.json.data) {
             return;
         }
 
@@ -14,19 +14,19 @@
         }
 
         // gather the info about the current room
-        var moveEast = jsonres.data.e;
-        var moveNorth = jsonres.data.n;
-        var moveSouth = jsonres.data.s;
-        var moveWest = jsonres.data.w;
-        var moveDown = jsonres.data.d;
-        var canSearch = jsonres.data.search;
+        var moveEast = requestData.json.data.e;
+        var moveNorth = requestData.json.data.n;
+        var moveSouth = requestData.json.data.s;
+        var moveWest = requestData.json.data.w;
+        var moveDown = requestData.json.data.d;
+        var canSearch = requestData.json.data.search;
 
         // e, n, w, s, d
         var moveFlags = [ moveEast ? 1 : 0, moveNorth ? 1 : 0, moveWest ? 1 : 0, moveSouth ? 1 : 0, moveDown ? 1 : 0 ];
 
         var enemyData = [];
-        for(var num in jsonres.data.enemies) {
-            enemyData.push(jsonres.data.enemies[num].id);
+        for(var num in requestData.json.data.enemies) {
+            enemyData.push(requestData.json.data.enemies[num].id);
         }
 
         if(!roomData) {
@@ -50,29 +50,29 @@
         console.log(modules.settings.settings.dungeonData);
     }
 
-    function onDungeonSearch(e, res, req, jsonres) {
+    function onDungeonSearch(requestData) {
         console.log("OnDungeonSearch: ");
-        console.log(jsonres);
+        console.log(requestData);
 
         // TODO: see what we found and track
 
         // Forward to dungeon info
-        onDungeonInfo(e, res, req, jsonres);
+        onDungeonInfo(requestData);
     }
 
-    function onDungeonLeave(e, res, req, jsonres) {
+    function onDungeonLeave(requestData) {
         console.log("OnDungeonLeave: ");
-        console.log(jsonres);
+        console.log(requestData);
 
         initializeDungeonData();
     }
 
-    function onDungeonMove(e, res, req, jsonres) {
+    function onDungeonMove(requestData) {
         console.log("OnDungeonMove: ");
-        console.log(jsonres);
+        console.log(requestData);
 
         var previousRoomId = modules.settings.settings.dungeonData.currentRoomId;
-        var direction = modules.dungeonDirections.parse(jsonres.m, true);
+        var direction = modules.dungeonDirections.parse(requestData.json.m, true);
 
         // Find the room we moved into
         var previousRoomData = modules.settings.settings.dungeonData.rooms[previousRoomId];
@@ -88,16 +88,16 @@
         adjustPosition(direction);
 
         // Proceed to update the current room's data
-        onDungeonInfo(e, res, req, jsonres);
+        onDungeonInfo(requestData);
 
         // Now we have updated this room we need to ensure they are linked together properly
         previousRoomData.ml[direction.id] = modules.settings.settings.dungeonData.currentRoomId;
         modules.settings.settings.dungeonData.rooms[modules.settings.settings.dungeonData.currentRoomId].ml[direction.opposite.id] = previousRoomId;
     }
 
-    function onDungeonBattle(e, res, req, jsonres) {
+    function onDungeonBattle(requestData) {
         console.log("OnDungeonBattle");
-        console.log(jsonres);
+        console.log(requestData);
     }
 
     function initializeDungeonData() {
@@ -112,13 +112,13 @@
 
     function adjustPosition(direction, count) {
         var steps = count || 1;
-        if (direction === modules.dungeonDirections.North) {
+        if (direction === modules.dungeonDirections.directions.North) {
             modules.settings.settings.dungeonData.position[1] += steps;
-        } else if (direction === modules.dungeonDirections.South) {
+        } else if (direction === modules.dungeonDirections.directions.South) {
             modules.settings.settings.dungeonData.position[1] -= steps;
-        } else if (direction === modules.dungeonDirections.East) {
+        } else if (direction === modules.dungeonDirections.directions.East) {
             modules.settings.settings.dungeonData.position[0] += steps;
-        } else if (direction === modules.dungeonDirections.West) {
+        } else if (direction === modules.dungeonDirections.directions.West) {
             modules.settings.settings.dungeonData.position[0] -= steps;
         }
     }

@@ -13,23 +13,23 @@
         initialize();
     }
 
-    function onUpdateDungeonVisibility(e, res, req, jsonres) {
-        if(req.url.indexOf("dungeon_") === -1) {
+    function onUpdateDungeonVisibility(requestData) {
+        if(requestData.url.indexOf("dungeon_") === -1) {
             $("#dMCW").hide();
         } else if (modules.settings.dungeonMap.hasData) {
             $("#dMCW").show();
         }
     }
 
-    function onUpdateDungeon(e, res, req, jsonres) {
-        if (jsonres.hasOwnProperty("data") && jsonres.data.hasOwnProperty("map")) {
+    function onUpdateDungeon(requestData) {
+        if (requestData.json.hasOwnProperty("data") && requestData.json.data.hasOwnProperty("map")) {
             modules.settings.dungeonMap.hasData = true;
 
-            if (modules.settings.dungeonMap.cf !== jsonres.data.floor) {
+            if (modules.settings.dungeonMap.cf !== requestData.json.data.floor) {
                 modules.settings.dungeonMap.r = {};
-                modules.settings.dungeonMap.cf = jsonres.data.floor;
+                modules.settings.dungeonMap.cf = requestData.json.data.floor;
             }
-            var jrd = jsonres.data;
+            var jrd = requestData.json.data;
             var data = {};
             var token = $(jrd.map).text().replace("↓", "v"); // map
             token = btoa(JSON.stringify(token)); // token
@@ -56,8 +56,8 @@
 
             modules.settings.dungeonMap.r[data.t] = data;
 
-            var walk = jsonres.hasOwnProperty("m") && jsonres.m.match(/You walked (east|south|north|west)/);
-            walk = walk ? jsonres.m.match(/You walked (east|south|north|west)/) : false;
+            var walk = requestData.json.hasOwnProperty("m") && jsonres.m.match(/You walked (east|south|north|west)/);
+            walk = walk ? requestData.json.m.match(/You walked (east|south|north|west)/) : false;
             if (walk !== false) {
                 walk = walk[1].match(/^./)[0];
                 if (modules.settings.dungeonMap.ct !== data.t) {
@@ -197,7 +197,7 @@
     function DungeonMap() {
         RoAModule.call(this, "Dungeon Map");
 
-        this.addDependency(modules.dungeonTracker.name);
+        this.addDependency("dungeonTracker");
     }
 
     DungeonMap.prototype = Object.spawn(RoAModule.prototype, {

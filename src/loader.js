@@ -75,7 +75,6 @@
     function initializeOptionals() {
         // Automation
         loadOperations.optionals.push(modules.automateStamina);
-        loadOperations.optionals.push(modules.automateDungeon);
 
         // Chart
         loadOperations.optionals.push(modules.chartWindow);
@@ -90,6 +89,7 @@
         // Dungeon
         loadOperations.optionals.push(modules.dungeonTracker);
         loadOperations.optionals.push(modules.dungeonMap);
+        loadOperations.optionals.push(modules.dungeonAutomate);
 
         // House
         loadOperations.optionals.push(modules.houseMonitor);

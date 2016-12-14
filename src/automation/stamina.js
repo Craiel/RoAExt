@@ -28,10 +28,10 @@
         //console.info("Combat state: " + autoCurr + "/" + autoMax);
     }
 
-    function updateAutoStamina(e, res, req, jsonres) {
-        if(jsonres != null && jsonres.p != null && jsonres.p.autosMax != null)
+    function updateAutoStamina(requestData) {
+        if(requestData.json != null && requestData.json.p != null && requestData.json.p.autosMax != null)
         {
-            updateAutoState(jsonres.p);
+            updateAutoState(requestData.json.p);
             if(!allowAuto) {
                 allowAuto = autoMax > 5 && autoCurr > 0 && autoCurr >= autoMax - 1;
             }
@@ -49,8 +49,8 @@
         }
     }
 
-    function onStaminaReplenish(e, res, req, jsonres) {
-        if (jsonres.captcha) {
+    function onStaminaReplenish(requestData) {
+        if (requestData.json.captcha) {
             modules.session.captchaEncountered();
         }
     }

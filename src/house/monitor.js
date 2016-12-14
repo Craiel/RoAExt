@@ -5,8 +5,8 @@
 
     var timer;
 
-    function updateHouseStatus(e, res, req, jsonres) {
-        var text = jsonres.m;
+    function updateHouseStatus(requestData) {
+        var text = requestData.json.m;
 
         if (text === lastMessage) {
             return;

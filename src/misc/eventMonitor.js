@@ -4,12 +4,12 @@
     var eventTimer;
     var timeSinceEventTimer;
 
-    function updateEventStatus(e, res, req, jsonres) {
-        if(!jsonres || !jsonres.p) {
+    function updateEventStatus(requestData) {
+        if(!requestData.json.p) {
             return;
         }
 
-        if(jsonres.p.event_time && jsonres.p.event_time > 0) {
+        if(requestData.json.p.event_time && requestData.json.p.event_time > 0) {
             modules.settings.settings.lastEventTime = null;
 
             if(timeSinceEventTimer) {
@@ -23,7 +23,7 @@
                 eventTimer.notify = modules.settings.settings.notification.event.show;
             }
 
-            eventTimer.set(jsonres.p.event_time);
+            eventTimer.set(requestData.json.p.event_time);
             eventTimer.resume();
         } else if (eventTimer) {
             eventTimer.delete();

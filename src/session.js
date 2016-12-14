@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function onCaptchaSolved(e, res, req, jsonres) {
+    function onCaptchaSolved(requestData) {
         modules.session.lockAutomation = false;
     }
 

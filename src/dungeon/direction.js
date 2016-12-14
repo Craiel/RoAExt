@@ -45,8 +45,8 @@
         },
         rebuildOpposites: function () {
             for (var key in this.directions) {
-                var direction = modules.dungeonDirections[key];
-                var oppositeDirection = modules.dungeonDirections[direction.oppositeId];
+                var direction = this.directions[key];
+                var oppositeDirection = this.directions[direction.oppositeId];
                 direction.opposite = oppositeDirection;
             }
         }

@@ -96,13 +96,13 @@
         autoToggleButton.text("Auto " + text);
     }
 
-    function AutoDungeon() {
-        RoAModule.call(this, "Auto Dungeon");
+    function DungeonAutomate() {
+        RoAModule.call(this, "Dungeon Automate");
 
-        this.addDependency(modules.dungeonTracker.name);
+        this.addDependency("dungeonTracker");
     }
 
-    AutoDungeon.prototype = Object.spawn(RoAModule.prototype, {
+    DungeonAutomate.prototype = Object.spawn(RoAModule.prototype, {
         load: function () {
 
             // Check dependencies before continuing to load
@@ -128,18 +128,18 @@
             dungeonAutoActionTimer = modules.createInterval("DungeonAutoAction");
             dungeonAutoActionTimer.set(onAutoDungeon, 200);
 
-            modules.ajaxHooks.register("dungeon_leave.php", onDungeonLeave);
+            /*modules.ajaxHooks.register("dungeon_leave.php", onDungeonLeave);
             modules.ajaxHooks.register("dungeon_info.php", onDungeonInfo);
             modules.ajaxHooks.register("dungeon_search.php", onDungeonSearch);
             modules.ajaxHooks.register("dungeon_move.php", onDungeonMove);
-            modules.ajaxHooks.register("dungeon_battle.php", onDungeonBattle);
+            modules.ajaxHooks.register("dungeon_battle.php", onDungeonBattle);*/
 
             RoAModule.prototype.load.apply(this);
         }
     });
 
-    AutoDungeon.prototype.constructor = AutoDungeon;
+    DungeonAutomate.prototype.constructor = DungeonAutomate;
 
-    modules.automateDungeon = new AutoDungeon();
+    modules.dungeonAutomate = new DungeonAutomate();
 
 })(modules.jQuery);

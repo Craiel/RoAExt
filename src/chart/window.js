@@ -7,35 +7,35 @@
     var visibleChart = null;
     var activeCharts = {};
 
-    function onAutoBattle(e, res, req, jsonData) {
-        if(jsonData && jsonData.b) {
-            if(jsonData.b.xp && jsonData.b.xp > 0) {
-                activeCharts['chartPlayerBattleXP'].updateData(jsonData.b.xp);
+    function onAutoBattle(requestData) {
+        if(requestData.json.b) {
+            if(requestData.json.b.xp && requestData.json.b.xp > 0) {
+                activeCharts['chartPlayerBattleXP'].updateData(requestData.json.b.xp);
             }
 
-            if(jsonData.b.g && jsonData.b.g > 0) {
-                activeCharts['chartPlayerGoldLooted'].updateData(jsonData.b.g);
+            if(requestData.json.b.g && requestData.json.b.g > 0) {
+                activeCharts['chartPlayerGoldLooted'].updateData(requestData.json.b.g);
             }
         }
     }
 
-    function onAutoTrade(e, res, req, jsonData) {
-        if(jsonData && jsonData.a && jsonData.a.xp && jsonData.a.xp > 0) {
-            activeCharts['chartPlayerHarvestXP'].updateData(jsonData.a.xp);
+    function onAutoTrade(requestData) {
+        if(requestData.json.a && requestData.json.a.xp && requestData.json.a.xp > 0) {
+            activeCharts['chartPlayerHarvestXP'].updateData(requestData.json.a.xp);
         }
     }
 
-    function onAutoCraft(e, res, req, jsonData) {
-        if(jsonData && jsonData.a && jsonData.a.xp && jsonData.a.xp > 0) {
-            activeCharts['chartPlayerCraftingXP'].updateData(jsonData.a.xp);
+    function onAutoCraft(requestData) {
+        if(requestData.json.a && requestData.json.a.xp && requestData.json.a.xp > 0) {
+            activeCharts['chartPlayerCraftingXP'].updateData(requestData.json.a.xp);
         }
     }
 
-    function onStatsReceived(e, res, req, jsonData) {
+    function onStatsReceived(requestData) {
 
         for (var id in activeCharts) {
             if (activeCharts[id].isGameStatChart) {
-                activeCharts[id].updateDataFromGameStats(jsonData);
+                activeCharts[id].updateDataFromGameStats(requestData.json);
             } else if (activeCharts[id].isElementChart) {
                 activeCharts[id].updateDataFromElement();
             }
