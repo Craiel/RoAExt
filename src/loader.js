@@ -70,6 +70,8 @@
 
         loadOperations.essentials.push(modules.uiScriptMenu);
         loadOperations.essentials.push(modules.uiTimerMenu);
+
+        loadOperations.essentials.push(modules.automateControl);
     }
 
     function initializeOptionals() {

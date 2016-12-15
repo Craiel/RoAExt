@@ -56,7 +56,7 @@
 
             modules.settings.dungeonMap.r[data.t] = data;
 
-            var walk = requestData.json.hasOwnProperty("m") && jsonres.m.match(/You walked (east|south|north|west)/);
+            var walk = requestData.json.hasOwnProperty("m") && requestData.json.m.match(/You walked (east|south|north|west)/);
             walk = walk ? requestData.json.m.match(/You walked (east|south|north|west)/) : false;
             if (walk !== false) {
                 walk = walk[1].match(/^./)[0];

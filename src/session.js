@@ -11,6 +11,7 @@
 
     Session.prototype = Object.spawn(RoAModule.prototype, {
         lockAutomation: false,
+        dungeonNeedsUpdate: true,
         captchaEncountered: function () {
             // TODO: not working properly right now
             // this.lockAutomation = true;

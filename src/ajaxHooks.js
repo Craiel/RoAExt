@@ -12,6 +12,8 @@
     var autoRequests = {};
 
     function onAjaxSuccess(e, res, req, jsonData) {
+        modules.ajaxHooks.idle = false;
+
         var requestData = {
             id: nextId++,
             date: new Date(),
@@ -47,12 +49,18 @@
         for (var i = 0; i < forwards.length; i++) {
             forwards[i](requestData);
         }
+
+        modules.ajaxHooks.idle = true;
     }
     
     function onAjaxSendPending(event, jqxhr, options) {
+        modules.ajaxHooks.idle = false;
+
         for (var i = 0; i < rcvForwards.length; i++) {
             rcvForwards[i](event, jqxhr, options);
         }
+
+        modules.ajaxHooks.idle = true;
     }
 
     function autoSendAjaxRequests() {
@@ -81,6 +89,7 @@
     }
 
     AjaxHooks.prototype = Object.spawn(RoAModule.prototype, {
+        idle: true,
         registerAutoSend: function (url, payload, interval) {
             if(autoRequests[url]) {
                 console.error("Url " + url + " is already registered for auto send!");

@@ -21,6 +21,10 @@
         var moveDown = requestData.json.data.d;
         var canSearch = requestData.json.data.search;
 
+        if(moveDown) {
+            modules.settings.settings.dungeonData.exitRoom = roomData.id;
+        }
+
         // e, n, w, s, d
         var moveFlags = [ moveEast ? 1 : 0, moveNorth ? 1 : 0, moveWest ? 1 : 0, moveSouth ? 1 : 0, moveDown ? 1 : 0 ];
 
@@ -45,15 +49,11 @@
         // Update the room data
         modules.settings.settings.dungeonData.rooms[roomData.id] = roomData;
 
-        console.log("Dungeon Room Update: " + roomData.id);
-        console.log(roomData);
-        console.log(modules.settings.settings.dungeonData);
+        // Set the dungeon to idle
+        modules.session.dungeonNeedsUpdate = false;
     }
 
     function onDungeonSearch(requestData) {
-        console.log("OnDungeonSearch: ");
-        console.log(requestData);
-
         // TODO: see what we found and track
 
         // Forward to dungeon info
@@ -61,15 +61,10 @@
     }
 
     function onDungeonLeave(requestData) {
-        console.log("OnDungeonLeave: ");
-        console.log(requestData);
-
         initializeDungeonData();
     }
 
     function onDungeonMove(requestData) {
-        console.log("OnDungeonMove: ");
-        console.log(requestData);
 
         var previousRoomId = modules.settings.settings.dungeonData.currentRoomId;
         var direction = modules.dungeonDirections.parse(requestData.json.m, true);
@@ -96,8 +91,7 @@
     }
 
     function onDungeonBattle(requestData) {
-        console.log("OnDungeonBattle");
-        console.log(requestData);
+        // Nothing to track so far
     }
 
     function initializeDungeonData() {

@@ -1,62 +1,46 @@
 (function ($) {
     'use strict';
 
-    var locked = true;
     var enabled = false;
-    var autoDelay = 500;
-    var earliestAuto = Date.now();
     var autoToggleButton;
     var dungeonAutoActionTimer;
 
     function onAutoDungeon() {
-        if(locked || !enabled) {
-            return;
-        }
-
-        if(Date.now() < earliestAuto) {
-            // Too early after last call to proceed
+        if(!enabled) {
             return;
         }
 
         continueAuto();
     }
 
-    function continueAuto() {
-        if(locked) {
-            modules.logger.warn("Dungeon Auto is locked!");
-            return;
-        }
+    function continueAutoBattle() {
+        // This room still has enemies, suggest fight
+        modules.session.dungeonNeedsUpdate = true;
 
-        if(!modules.settings.settings.dungeonData.currentRoomId) {
-            modules.logger.warn("Dungeon room is not known yet!");
-            return;
-        }
+        var action = modules.createAutomateAction(modules.automateActionTypes.JQueryClick);
+        action.control = '#dungeonEnemyList';
+        action.findClause = '.dungeon_fight';
+        modules.automateControl.add(action);
+    }
 
-        // TODO
-        var roomData = modules.settings.settings.dungeonData.rooms[modules.settings.settings.dungeonData.currentRoomId];
-        if(roomData.e.length > 0) {
-            // This room still has enemies, suggest fight
-            locked = true;
+    function continueAutoSearch() {
+        // This room was not searched yet
+        modules.session.dungeonNeedsUpdate = true;
 
+        var action = modules.createAutomateAction(modules.automateActionTypes.JQueryClick);
+        action.control = '#dungeonSearch';
+        modules.automateControl.add(action);
+    }
 
-            var battleLink = $('#dungeonEnemyList').find('.dungeon_fight').first();
+    function createMoveAction(direction) {
+        var action = modules.createAutomateAction(modules.automateActionTypes.JQueryClick);
+        action.control = '#dungeonNavigation';
+        action.findClause = '[data-direction="'+ direction.stringValue +'"]';
 
-            modules.logger.log("Dungeon Auto: Battle with ID " + battleLink.attr("data-id"));
-            battleLink.click();
+        modules.automateControl.add(action);
+    }
 
-            return;
-        }
-
-        if(roomData.s) {
-            // This room was not searched yet, suggest search
-            locked = true;
-
-            modules.logger.log("Dungeon Auto: Search");
-            $('#dungeonSearch').click();
-
-            return;
-        }
-
+    function continueAutoMove(roomData) {
         // First check if we have somewhere to move that we have not been yet
         var availableUnexploredDirection = -1;
         for(var i = 0; i < 4; i++) {
@@ -68,22 +52,132 @@
 
         if(availableUnexploredDirection >= 0) {
             var directionToMove = modules.dungeonDirections.parseInt(availableUnexploredDirection);
-            locked = true;
+            modules.session.dungeonNeedsUpdate = true;
 
             modules.logger.log("Dungeon Auto: Moving to unexplored cell on " + directionToMove.key);
+            createMoveAction(directionToMove);
 
-            var moveLink = $('#dungeonNavigation').find('[data-direction="'+ directionToMove.stringValue +'"]');
-            moveLink.click();
             return;
         }
 
         // Nowhere left to go, have to back-track
-        //locked = true;
+        var path = findTargetRoom(FindCondition.UnexploredNeighbor);
+        console.log("BACKTRACK_PATH:");
+        console.log(path);
 
-        console.log("TODO: Dungeon_Backtrack");
         enabled = false;
-        // east, west, north, south, down
-        // $.post("dungeon_move.php", { dir: });
+    }
+
+    var FindCondition = {
+        UnexploredNeighbor: 0,
+        Exit: 1,
+        Id: 2
+    };
+
+    function constructPath(cameFrom, currentId) {
+        var path = [];
+        while (cameFrom[currentId]) {
+            var dir = modules.dungeonDirections.parseInt(cameFrom[currentId].dir);
+            path.push({to: cameFrom[currentId].id, dir: dir.id});
+
+            console.log(dir.key + " -> " + currentId);
+
+            currentId = cameFrom[currentId].id;
+        }
+
+        return path;
+    }
+
+    function findTargetRoom(condition, param) {
+        var openSet = [modules.settings.settings.dungeonData.currentRoomId];
+        var closedSet = [];
+        var cameFrom = {};
+
+        var score = {};
+
+        // Set the initial score
+        score[modules.settings.settings.dungeonData.currentRoomId] = 0;
+
+        var maxIter = 300;
+        var currIter = 0;
+        while (openSet.length > 0) {
+            currIter++;
+            if(currIter >= maxIter) {
+                console.error("findTargetRoom exceeded max iterations!");
+                return;
+            }
+
+            var current = modules.settings.settings.dungeonData.rooms[openSet.pop()];
+            switch (condition) {
+                case FindCondition.UnexploredNeighbor: {
+                    for(var i = 0; i < 4; i++) {
+                        if(current.m[i] === 1 && !current.ml[i]) {
+                            return constructPath(cameFrom, current.id);
+                        }
+                    }
+
+                    break;
+                }
+
+                case FindCondition.Exit: {
+                    if(current.m[4] === 1) {
+                        return constructPath(cameFrom, current.id);
+                    }
+
+                    break;
+                }
+
+                case FindCondition.Id: {
+                    if(current.id === param) {
+                        return constructPath(cameFrom, current.id);
+                    }
+
+                    break;
+                }
+            }
+
+            // This node does not satisfy, move on
+            closedSet[current.id] = 1;
+            for (var i = 0; i < 4; i++) {
+                // See if we know where the direction leads to
+                if(current.m[i] === 0 || !current.ml[i] || closedSet.includes(current.ml[i]) || openSet.includes(current.ml[i])) {
+                    continue;
+                }
+
+                console.log("considering: " + current.ml[i] + "@" + modules.dungeonDirections.parseInt(i).name);
+                openSet.push(current.ml[i]);
+                cameFrom[current.ml[i]] = {id: current.id, dir: i};
+            }
+        }
+    }
+
+    function continueAuto() {
+        if(modules.automateControl.pendingActions.length > 0) {
+            // There are still pending auto actions, nothing to do right now
+            return;
+        }
+
+        if(modules.session.dungeonNeedsUpdate) {
+            return;
+        }
+
+        if(!modules.settings.settings.dungeonData.currentRoomId) {
+            // Dungeon room is not known yet
+            return;
+        }
+
+        var roomData = modules.settings.settings.dungeonData.rooms[modules.settings.settings.dungeonData.currentRoomId];
+        if(roomData.e.length > 0) {
+            continueAutoBattle();
+            return;
+        }
+
+        if(roomData.s) {
+            continueAutoSearch();
+            return;
+        }
+
+        continueAutoMove(roomData);
     }
 
     function toggleAuto() {
