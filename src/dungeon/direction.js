@@ -9,8 +9,6 @@
 
         // Set the opposites
         this.rebuildOpposites();
-
-        console.log(this.directions);
     }
 
     DungeonDirectionMap.prototype = Object.spawn(RoAModule.prototype, {

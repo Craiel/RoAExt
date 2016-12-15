@@ -65,6 +65,12 @@
     }
 
     function onDungeonMove(requestData) {
+        if(!requestData.json) {
+            // Assume we moved down
+            initializeDungeonData();
+            modules.session.dungeonNeedsUpdate = true;
+            return;
+        }
 
         var previousRoomId = modules.settings.settings.dungeonData.currentRoomId;
         var direction = modules.dungeonDirections.parse(requestData.json.m, true);

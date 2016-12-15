@@ -49,7 +49,10 @@
             RoAModule.prototype.load.apply(this);
         },
         add: function (action) {
-            this.pendingActions.push(action);
+            this.pendingActions.unshift(action);
+        },
+        clear: function () {
+            this.pendingActions = [];
         },
         update: function () {
             if(!$( document ).ready() || !modules.ajaxHooks.idle) {

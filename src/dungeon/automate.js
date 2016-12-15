@@ -62,10 +62,17 @@
 
         // Nowhere left to go, have to back-track
         var path = findTargetRoom(FindCondition.UnexploredNeighbor);
-        console.log("BACKTRACK_PATH:");
-        console.log(path);
+        if(path && path.length > 0) {
+            modules.session.dungeonNeedsUpdate = true;
 
-        enabled = false;
+            for(var i = 0; i < path.length; i++) {
+                var step = path[i];
+                createMoveAction(modules.dungeonDirections.parseInt(step.dir));
+            }
+        } else {
+            modules.logger.warn("Could not find Backtrack path!");
+            enabled = false;
+        }
     }
 
     var FindCondition = {
@@ -84,6 +91,9 @@
 
             currentId = cameFrom[currentId].id;
         }
+
+        path = path.reverse();
+        path.pop(); // remove the last entry
 
         return path;
     }
@@ -137,14 +147,13 @@
             }
 
             // This node does not satisfy, move on
-            closedSet[current.id] = 1;
+            closedSet.push(current.id);
             for (var i = 0; i < 4; i++) {
                 // See if we know where the direction leads to
                 if(current.m[i] === 0 || !current.ml[i] || closedSet.includes(current.ml[i]) || openSet.includes(current.ml[i])) {
                     continue;
                 }
 
-                console.log("considering: " + current.ml[i] + "@" + modules.dungeonDirections.parseInt(i).name);
                 openSet.push(current.ml[i]);
                 cameFrom[current.ml[i]] = {id: current.id, dir: i};
             }
@@ -154,15 +163,18 @@
     function continueAuto() {
         if(modules.automateControl.pendingActions.length > 0) {
             // There are still pending auto actions, nothing to do right now
+            console.log("DA: Waiting for AutomateControl");
             return;
         }
 
         if(modules.session.dungeonNeedsUpdate) {
+            console.log("DA: dungeonNeedUpdate");
             return;
         }
 
         if(!modules.settings.settings.dungeonData.currentRoomId) {
             // Dungeon room is not known yet
+            console.log("DA: room unknown");
             return;
         }
 
@@ -183,6 +195,9 @@
     function toggleAuto() {
         enabled = !enabled;
         updateToggleText();
+
+        // Clear any pending automation actions
+        modules.automateControl.clear();
     }
 
     function updateToggleText() {
