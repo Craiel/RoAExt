@@ -48,8 +48,10 @@
             chartWindow: gitHubUrl("res/html/chartWindow.html"),
             clanDonationPercent: gitHubUrl("res/html/clanDonationPercent.html"),
             debugWindow: gitHubUrl("res/html/debugWindow.html"),
+            dungeonWindow: gitHubUrl("res/html/dungeonWindow.html"),
             noteWindow: gitHubUrl("res/html/noteWindow.html"),
             scriptMenu: gitHubUrl("res/html/scriptMenu.html"),
+            settingsWindow: gitHubUrl("res/html/settingsWindow.html"),
             timerEditor: gitHubUrl("res/html/timerEditor.html"),
             timerMenu: gitHubUrl("res/html/timerMenu.html"),
 

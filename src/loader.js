@@ -92,9 +92,11 @@
         loadOperations.optionals.push(modules.dungeonTracker);
         loadOperations.optionals.push(modules.dungeonMap);
         loadOperations.optionals.push(modules.dungeonAutomate);
+        loadOperations.optionals.push(modules.dungeonWindow);
 
         // House
         loadOperations.optionals.push(modules.houseMonitor);
+        loadOperations.optionals.push(modules.houseHarvestRepeater);
 
         // Misc
         loadOperations.optionals.push(modules.uiDebugWindow);
@@ -104,6 +106,7 @@
         loadOperations.optionals.push(modules.effectMonitor);
         loadOperations.optionals.push(modules.eventMonitor);
         loadOperations.optionals.push(modules.sessionTime);
+        loadOperations.optionals.push(modules.settingsWindow);
     }
 
     function Loader() {

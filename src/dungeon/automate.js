@@ -93,7 +93,6 @@
         }
 
         path = path.reverse();
-        path.pop(); // remove the last entry
 
         return path;
     }
@@ -161,7 +160,7 @@
     }
 
     function continueAuto() {
-        if(modules.automateControl.pendingActions.length > 0) {
+        if(!modules.automateControl.isIdle()) {
             // There are still pending auto actions, nothing to do right now
             console.log("DA: Waiting for AutomateControl");
             return;

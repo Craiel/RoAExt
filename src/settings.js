@@ -21,7 +21,7 @@
                     sound: true,
                     show: true
                 },
-                construction: {
+                house: {
                     sound: true,
                     show: true
                 },

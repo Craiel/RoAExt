@@ -8,6 +8,7 @@
     var rcvForwards = [];
     var forwards = [];
     var targetedForwards = {};
+    var targetedRcvForwards = {};
     var requestHistory = {};
     var autoRequests = {};
 
@@ -56,8 +57,26 @@
     function onAjaxSendPending(event, jqxhr, options) {
         modules.ajaxHooks.idle = false;
 
+        var requestData = {
+            id: nextId++,
+            date: new Date(),
+            url: options.url,
+            options: options || {},
+            jqxhr: jqxhr
+        };
+
+        for(var entry in targetedRcvForwards) {
+            if(requestData.url === entry) {
+                for (var i = 0; i < targetedRcvForwards[entry].length; i++) {
+                    targetedRcvForwards[entry][i](requestData);
+                }
+
+                break;
+            }
+        }
+
         for (var i = 0; i < rcvForwards.length; i++) {
-            rcvForwards[i](event, jqxhr, options);
+            rcvForwards[i](requestData);
         }
 
         modules.ajaxHooks.idle = true;
@@ -104,6 +123,13 @@
             }
 
             targetedForwards[site].push(callback);
+        },
+        registerRcv: function (site, callback) {
+            if(!targetedRcvForwards[site]) {
+                targetedRcvForwards[site] = [];
+            }
+
+            targetedRcvForwards[site].push(callback);
         },
         registerAll: function (callback) {
             forwards.push(callback);

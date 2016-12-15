@@ -1,31 +1,68 @@
 (function () {
     'use strict';
 
+    const ConstructionKey = "Construction";
+    const HarvestronKey = "Harvestron";
+
     var lastMessage;
 
-    var timer;
+    var houseTimers = {};
+
+    function clearHouseTimers() {
+        for(var key in houseTimers) {
+            if(houseTimers[key].ended) {
+                houseTimers[key].delete();
+                delete houseTimers[key];
+            }
+        }
+    }
 
     function updateHouseStatus(requestData) {
+        clearHouseTimers();
+
         var text = requestData.json.m;
 
         if (text === lastMessage) {
             return;
         }
 
-        if(!timer) {
-            timer = modules.createUITimer("Construction");
-            timer.sound = modules.settings.settings.notification.construction.sound;
-            timer.notify = modules.settings.settings.notification.construction.show;
-        }
-
         if (text.indexOf("available again") !== -1) { // Working
             var constructionTime = modules.utils.parseTimeStringLong(text) / 1000;
+            setHouseTimer(ConstructionKey, constructionTime);
+        }
+    }
 
-            timer.set(constructionTime);
-            timer.resume();
+    function updateHarvestronStatus(requestData) {
+        var time = parseInt(requestData.json.m.search(/([0-9]+)\sminute/i));
+        if(!time) {
+            return;
+        }
 
-        } else if (text.indexOf("are available")) {
-            timer.end();
+        setHouseTimer(HarvestronKey, time * 60);
+    }
+
+    function setHouseTimer(key, value) {
+        if(!houseTimers[key]) {
+            houseTimers[key] = modules.createUITimer(key);
+            houseTimers[key].sound = modules.settings.settings.notification.house.sound;
+            houseTimers[key].notify = modules.settings.settings.notification.house.show;
+        }
+
+        houseTimers[key].set(value);
+        houseTimers[key].resume();
+    }
+
+    function updateHouseTimers(requestData) {
+        clearHouseTimers();
+
+        if(!requestData.json.p || !requestData.json.p.house_timers || requestData.json.p.house_timers.length <= 0) {
+            return;
+        }
+
+        for (var i = 0; i < requestData.json.p.house_timers.length; i++) {
+            var key = requestData.json.p.house_timers[i].n;
+            var value = requestData.json.p.house_timers[i].next;
+            setHouseTimer(key, value);
         }
     }
 
@@ -36,7 +73,11 @@
     HouseMonitor.prototype = Object.spawn(RoAModule.prototype, {
         load: function () {
             modules.ajaxHooks.register("house.php", updateHouseStatus);
+            modules.ajaxHooks.register("house_harvest_job.php", updateHarvestronStatus);
+
             modules.ajaxHooks.registerAutoSend("house.php", {}, modules.constants.HouseUpdateInterval);
+
+            modules.ajaxRegisterAutoActions(updateHouseTimers);
 
             RoAModule.prototype.load.apply(this);
         }

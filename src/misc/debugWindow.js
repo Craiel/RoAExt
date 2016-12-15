@@ -53,9 +53,9 @@
         updateDebugContent();
     }
 
-    function onAjaxSentPending(event, jqxhr, options) {
-        initEntry(options.url);
-        requestHistory[options.url].dataSent = options;
+    function onAjaxSentPending(requestData) {
+        initEntry(requestData.url);
+        requestHistory[requestData.url].dataSent = requestData;
 
         updateDebugContent();
     }

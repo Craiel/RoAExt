@@ -2,6 +2,8 @@
 
     var interval;
 
+    var inProgress = false;
+
     function executeJQueryClick(action) {
         // Locate the target
         var control = $(action.control);
@@ -12,10 +14,12 @@
         if(control.length === 0 || control.is(":disabled") || control.hasClass("disabled") || control.hasClass("paused")) {
             // Push the action back onto the stack, we are not rdy to execute
             modules.automateControl.pendingActions.push(action);
+            inProgress = false;
             return;
         }
 
         control.click();
+        inProgress = false;
     }
 
     function execute(action) {
@@ -27,6 +31,7 @@
 
             default: {
                 modules.logger.warn("Unknown Automate Action Type: " + action.type);
+                inProgress = false;
             }
         }
     }
@@ -48,6 +53,9 @@
 
             RoAModule.prototype.load.apply(this);
         },
+        isIdle: function () {
+            return this.pendingActions.length <= 0 && !inProgress;
+        },
         add: function (action) {
             this.pendingActions.unshift(action);
         },
@@ -60,6 +68,8 @@
             }
 
             if(this.pendingActions.length > 0) {
+                // Ensure we know that we are executing
+                inProgress = true;
                 execute(this.pendingActions.pop());
             }
         }
