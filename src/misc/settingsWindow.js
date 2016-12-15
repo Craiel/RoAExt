@@ -1,6 +1,11 @@
 (function ($) {
 
     var template;
+    var wnd;
+
+    function onClick() {
+        wnd.toggle();
+    }
 
     function SettingsWindow() {
         RoAModule.call(this, "Settings Window");
@@ -9,7 +14,8 @@
     SettingsWindow.prototype = Object.spawn(RoAModule.prototype, {
         continueLoad: function () {
             $("<style>").text("" +
-                ".settingsWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
+                ".settingsWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}\n" +
+                ".settingsWindowContent{overflow-y: scroll;}")
                 .appendTo("body");
 
             wnd = $(template);

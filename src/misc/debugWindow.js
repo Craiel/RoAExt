@@ -67,7 +67,8 @@
     UIDebugWindow.prototype = Object.spawn(RoAModule.prototype, {
         continueLoad: function () {
             $("<style>").text("" +
-                ".debugWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
+                ".debugWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}\n" +
+                ".debugWindowContent{overflow-y: scroll;}")
                 .appendTo("body");
 
             wnd = $(template);
