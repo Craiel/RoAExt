@@ -40,6 +40,7 @@
         currentDelayAction.elapsed += Date.now() - currentDelayAction.startTime;
         if(currentDelayAction.elapsed >= currentDelayAction.time) {
             inProgress = false;
+            currentDelayAction = null;
         }
     }
 
