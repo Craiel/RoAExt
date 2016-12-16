@@ -1,0 +1,76 @@
+﻿{
+  "Name": "RoAExt",
+  "KeepComments": true,
+  "ExportSourceAsModule": false,
+  "CustomClosureCompilerCommands": "--language_in=ECMASCRIPT6 --language_out=ES5_STRICT",
+  "Data": [
+  ],
+  "Templates": [
+    {
+      "Directory": "data\\templates\\",
+      "FilterStrings": [
+        "*.html"
+      ]
+    }
+  ],
+  "Sources": [
+    {
+      "Directory": ".",
+      "FilterStrings": [
+        "extension_header.js"
+      ]
+    },
+	{
+      "Directory": "src\\core\\",
+      "FilterStrings": [
+        "*.js"
+      ]
+    },
+    {
+      "Directory": "src\\common\\",
+      "FilterStrings": [
+        "*.js"
+      ],
+      "Option": 1
+    },
+    {
+      "Directory": "src\\internal\\",
+      "FilterStrings": [
+        "*.js"
+      ],
+      "Option": 1
+    },
+    {
+      "Directory": ".",
+      "FilterStrings": [
+        "extension.js"
+      ]
+    },
+  ],
+  "StyleSheets": [
+    {
+      "Directory": "data\\css\\",
+      "FilterStrings": [
+        "*.css"
+      ],
+      "Option": 1
+    }
+  ],
+  "Contents": [
+    {
+      "Directory": "www\\",
+      "FilterStrings": [
+        "*"
+      ],
+      "Option": 1
+    }
+  ],
+  "Images": [
+  ],
+  "SourceTarget": "bin\\RoAExtInternal.js",
+  "TemplateTarget": "src\\generated\\templates.js",
+  "DataTarget": "src\\generated\\data.js",
+  "StyleSheetTarget": "bin\\RoAExtInternal.css",
+  "ImageRoot": "www\\img\\",
+  "ContentTarget": "bin\\"
+}

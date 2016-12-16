@@ -1,0 +1,6 @@
+logs/
+
+*.xml
+*.pdb
+*.vshost.*
+i18n

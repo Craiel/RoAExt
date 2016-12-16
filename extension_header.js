@@ -2,15 +2,15 @@
 // @name           RoAExt
 // @namespace      org.craiel.avaburextended
 // @author         Craiel
-// @homepage       https://github.com/Craiel/RoAExt
+// @homepage       https://github.com/Craiel/RoAExtRelease
 // @description    Extension for Avabur
 // @include        https://avabur.com/game.php
 // @include        http://avabur.com/game.php
 // @include        https://www.avabur.com/game.php
 // @include        http://www.avabur.com/game.php
 // @version        0.9
-// @icon           https://cdn.rawgit.com/Craiel/RoAExt/master/res/img/logo-16.png
-// @icon64         https://cdn.rawgit.com/Craiel/RoAExt/master/res/img/logo-64.png
+// @icon           https://cdn.rawgit.com/Craiel/RoAExtRelease/master/img/logo-16.png
+// @icon64         https://cdn.rawgit.com/Craiel/RoAExtRelease/master/img/logo-64.png
 // @run-at         document-end
 // @grant          GM_getValue
 // @grant          GM_setValue

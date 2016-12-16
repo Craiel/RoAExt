@@ -1,0 +1,91 @@
+(function ($) {
+    'use strict';
+
+    var autoMax = 0;
+    var autoCurr = 0;
+    var enabled = true;
+    var allowAuto = true;
+
+    var replenishRequest;
+
+    function toggleAuto(self) {
+        enabled = !enabled;
+        console.log("Toggled auto " + enabled);
+
+        var $this = $(this)
+        if (enabled) {
+            $this.text('ON');
+        } else {
+            $this.text('OFF');
+        }
+    }
+
+    function updateAutoState(json)
+    {
+        autoMax = parseInt(json.autosMax);
+        autoCurr = parseInt(json.autosRemaining);
+
+        //console.info("Combat state: " + autoCurr + "/" + autoMax);
+    }
+
+    function updateAutoStamina(requestData) {
+        if(requestData.json != null && requestData.json.p != null && requestData.json.p.autosMax != null)
+        {
+            updateAutoState(requestData.json.p);
+            if(!allowAuto) {
+                allowAuto = autoMax > 5 && autoCurr > 0 && autoCurr >= autoMax - 1;
+            }
+        }
+
+        if(modules.session.lockAutomation) {
+            return;
+        }
+
+        if(enabled && allowAuto && autoMax > 5 && autoCurr > 0 && autoCurr < autoMax && autoCurr < 3)
+        {
+            allowAuto = false;
+
+            replenishRequest.send();
+        }
+    }
+
+    function onStaminaReplenish(requestData) {
+        if (requestData.json.captcha) {
+            modules.session.captchaEncountered();
+        }
+    }
+
+    function createToggle(target) {
+        var toggleButton = $("<button class='btn btn-primary'/>");
+        toggleButton.click(toggleAuto);
+        toggleButton.text("ON");
+
+        $('#' + target).prepend(toggleButton);
+    }
+
+    function AutoStamina() {
+        RoAModule.call(this, "Auto Stamina");
+    }
+
+    AutoStamina.prototype = Object.spawn(RoAModule.prototype, {
+        load: function () {
+            createToggle('craftingStatusButtons');
+            createToggle('battleStatusButtons');
+            createToggle('harvestStatusButtons');
+            createToggle('harvestBossStatusButtons');
+            createToggle('bossStatusButtons');
+
+            replenishRequest = modules.createAjaxRequest('stamina_replenish.php').post();
+            modules.ajaxHooks.register('stamina_replenish.php', onStaminaReplenish);
+
+            modules.ajaxRegisterAutoActions(updateAutoStamina);
+
+            RoAModule.prototype.load.apply(this);
+        }
+    });
+
+    AutoStamina.prototype.constructor = AutoStamina;
+
+    modules.automateStamina = new AutoStamina();
+
+})(modules.jQuery);
