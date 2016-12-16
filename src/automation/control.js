@@ -4,6 +4,8 @@
 
     var inProgress = false;
 
+    var currentDelayAction;
+
     function executeJQueryClick(action) {
         // Locate the target
         var control = $(action.control);
@@ -22,10 +24,34 @@
         inProgress = false;
     }
 
+    function beginExecuteDelayAction(action) {
+        if(!action.time || action.time <= 0) {
+            modules.logger.error("Invalid Time on Delay Control Action!");
+            inProgress = false;
+            return;
+        }
+
+        currentDelayAction = action;
+        currentDelayAction.startTime = Date.now();
+        currentDelayAction.elapsed = 0;
+    }
+
+    function continueExecuteDelayAction() {
+        currentDelayAction.elapsed += Date.now() - currentDelayAction.startTime;
+        if(currentDelayAction.elapsed >= currentDelayAction.time) {
+            inProgress = false;
+        }
+    }
+
     function execute(action) {
         switch (action.type) {
             case modules.automateActionTypes.JQueryClick: {
                 executeJQueryClick(action);
+                break;
+            }
+
+            case modules.automateActionTypes.Delay: {
+                beginExecuteDelayAction(action);
                 break;
             }
 
@@ -63,6 +89,11 @@
             this.pendingActions = [];
         },
         update: function () {
+            if(currentDelayAction) {
+                continueExecuteDelayAction();
+                return;
+            }
+
             if(!$( document ).ready() || !modules.ajaxHooks.idle) {
                 return;
             }

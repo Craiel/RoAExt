@@ -1,7 +1,8 @@
 (function () {
 
     var actionType = {
-        JQueryClick: 0
+        JQueryClick: 0,
+        Delay: 1
     };
 
     function AutomateControlAction(type) {

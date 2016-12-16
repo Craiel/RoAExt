@@ -69,6 +69,11 @@
                 var step = path[i];
                 createMoveAction(modules.dungeonDirections.parseInt(step.dir));
             }
+
+            // Finally add a delay action to give some time after the pathfinding
+            var action = modules.createAutomateAction(modules.automateActionTypes.Delay);
+            action.time = 500;
+            modules.automateControl.add(action);
         } else {
             modules.logger.warn("Could not find Backtrack path!");
             enabled = false;

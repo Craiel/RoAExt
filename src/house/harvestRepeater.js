@@ -2,13 +2,14 @@
 
     var toggle;
     var timer;
-    var enabled = false;
 
     var selectedSkill;
     var selectedTime;
+    var request;
+    var setting;
 
     function updateHarvestState() {
-        if(!enabled || !selectedSkill || !selectedTime) {
+        if(!setting.value || !selectedSkill || !selectedTime) {
             return;
         }
 
@@ -21,9 +22,8 @@
         request.send();
     }
 
-    function toggleEnable() {
-        enabled = !enabled;
-        toggle.text("Repeat " + enabled === true ? "On" : "Off");
+    function onSettingChanged() {
+        toggle.text("Repeat " + setting.value === true ? "On" : "Off");
     }
 
     function captureHarvestronJob(requestData) {
@@ -38,17 +38,15 @@
     HouseHarvestRepeater.prototype = Object.spawn(RoAModule.prototype, {
         load: function () {
 
-            toggle = $('<div></div>');
-            toggle.click(toggleEnable);
-
-            $('#houseHarvestingJobCancel').before(toggle);
-
             timer = modules.createInterval("HouseHarvestRepeater");
             timer.set(updateHarvestState, 500);
 
             modules.ajaxHooks.registerRcv("house_harvest_job.php", captureHarvestronJob);
 
             request = modules.createAjaxRequest("house_harvest_job.php");
+
+            setting = modules.createSetting("House", "Repeat Harvest", "Repeats the last started Harvestron job until turned off");
+            setting.callback = onSettingChanged;
 
             RoAModule.prototype.load.apply(this);
         }

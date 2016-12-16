@@ -41,6 +41,7 @@
             features: {
                 house_timer: true
             },
+            dynamicSettings: {},
             dungeonMap: {},
             dungeonData: {},
             chartData: {},

@@ -107,6 +107,10 @@
         loadOperations.optionals.push(modules.eventMonitor);
         loadOperations.optionals.push(modules.sessionTime);
         loadOperations.optionals.push(modules.settingsWindow);
+
+        // Player
+        loadOperations.optionals.push(modules.playerGainTracker);
+        loadOperations.optionals.push(modules.playerGainWindow);
     }
 
     function Loader() {

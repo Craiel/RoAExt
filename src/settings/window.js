@@ -1,7 +1,21 @@
 (function ($) {
+    'use strict';
 
     var template;
     var wnd;
+
+    function rebuildSettingWindow() {
+        /*<table class="avi" style="margin:auto">
+         <thead>
+         <tr>
+         <th>Name</th>
+         <th>Control</th>
+         </tr>
+         </thead>
+         <tbody id="settingsWindowContentBody">
+         </tbody>
+         </table>*/
+    }
 
     function onClick() {
         wnd.toggle();
@@ -12,6 +26,7 @@
     }
 
     SettingsWindow.prototype = Object.spawn(RoAModule.prototype, {
+        settings: {},
         continueLoad: function () {
             $("<style>").text("" +
                 ".settingsWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}\n" +
@@ -37,6 +52,15 @@
                 template = x;
                 modules.settingsWindow.continueLoad();
             });
+        },
+        register: function (setting) {
+            if(!this.settings[setting.category]) {
+                this.settings[setting.category] = [];
+            }
+
+            this.settings[setting.category].push(setting);
+
+            rebuildSettingWindow();
         }
     });
 
