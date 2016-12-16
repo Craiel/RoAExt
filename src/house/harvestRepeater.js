@@ -1,12 +1,13 @@
 (function ($) {
 
-    var toggle;
     var timer;
 
     var selectedSkill;
     var selectedTime;
     var request;
     var setting;
+
+    var lastRepeat = Date.now();
 
     function updateHarvestState() {
         if(!setting.value || !selectedSkill || !selectedTime) {
@@ -17,13 +18,19 @@
             return;
         }
 
+        if(Date.now() - lastRepeat < modules.constants.HarvestRepeaterMinDelay) {
+            return;
+        }
+
+        lastRepeat = Date.now();
+
         modules.logger.log("Re-sending Harvest");
         request.post({skill: selectedSkill, minutes: selectedTime});
         request.send();
     }
 
     function onSettingChanged() {
-        toggle.text("Repeat " + setting.value === true ? "On" : "Off");
+        modules.logger.log("Harvest Repeater turned " + (setting.value ? "On" : "Off"));
     }
 
     function captureHarvestronJob(requestData) {

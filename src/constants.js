@@ -16,9 +16,11 @@
         DungeonPlayerColor: "#ffffff",
         DungeonMapVersion: 0.1,
 
-        HouseUpdateInterval: 60 * 3 * 1000, // 2 minutes
+        HouseUpdateInterval: 60 * 3 * 1000, // 3 minutes
 
-        ChartUpdateInterval: 60 * 5 * 1000 // 1 minutes
+        ChartUpdateInterval: 60 * 5 * 1000, // 5 minutes
+
+        HarvestRepeaterMinDelay: 60 * 25 * 1000 // 25 minutes
     });
 
     Constants.prototype.constructor = Constants;
