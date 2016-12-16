@@ -1,6 +1,5 @@
 ﻿{
   "Name": "RoAExt",
-  "KeepComments": true,
   "ExportSourceAsModule": false,
   "CustomClosureCompilerCommands": "--language_in=ECMASCRIPT6 --language_out=ES5_STRICT",
   "Data": [
