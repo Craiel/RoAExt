@@ -51,6 +51,7 @@
             debugWindow: gitHubUrl("res/html/debugWindow.html"),
             dungeonWindow: gitHubUrl("res/html/dungeonWindow.html"),
             noteWindow: gitHubUrl("res/html/noteWindow.html"),
+            playerGainWindow: gitHubUrl("res/html/playerGainWindow.html"),
             scriptMenu: gitHubUrl("res/html/scriptMenu.html"),
             settingsWindow: gitHubUrl("res/html/settingsWindow.html"),
             timerEditor: gitHubUrl("res/html/timerEditor.html"),
