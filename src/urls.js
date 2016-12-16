@@ -32,7 +32,8 @@
         },
         css: {
             jquery_te: "https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css",
-            script: gitHubUrl("res/css/roaext.css")
+            script: gitHubUrl("res/css/roaext.css"),
+            chatTabs: gitHubUrl("res/css/chatTabs.css")
         },
         gif: {
             ajax_loader: gitHubUrl("res/img/ajax-loader.gif")

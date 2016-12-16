@@ -14,10 +14,6 @@
 
     PlayerGainWindow.prototype = Object.spawn(RoAModule.prototype, {
         continueLoad: function () {
-            $("<style>").text("" +
-                ".gainWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}\n" +
-                ".gainWindowContent{overflow-y: scroll;}")
-                .appendTo("body");
 
             wnd = $(template);
             wnd.appendTo("body");

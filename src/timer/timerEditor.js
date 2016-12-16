@@ -57,9 +57,6 @@
             wnd.show();
         },
         continueLoad: function () {
-            $("<style>").text("" +
-                ".timerEditorWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}")
-                .appendTo("body");
 
             wnd = $(template);
             wnd.appendTo("body");

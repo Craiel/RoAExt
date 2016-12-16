@@ -667,42 +667,6 @@
         $("#ToASettingsSaved").hide();
         $(".ToATooltip").tooltip();
         $("#ToASettingsWindow").draggable({handle:"h5"});
-        /**
-         * CSS
-         */
-        $("<style>").text(""+
-            "#channelTabListWrapper{margin-bottom: -1px;position: relative;}#channelTabList{overflow: hidden;border-radius: 4px 4px 0 0;font-size: 9pt;}\n"+
-            ".ToASettings, .channelTab{cursor: pointer;margin: 2px 2px 0 2px;border-radius: 4px 4px 0 0;display: inline-block;padding: 2px 5px;position:relative;}\n"+
-            "#chatMessageList li:not(.processed){display: none;}\n"+
-            "/*#chatMessageList li.processed{display: list-item;}*/\n"+
-            ".ChBadge{display:inline-block;margin-left:3px;padding:1px 4px;font-size:7pt;vertical-align:top;border-color:green!important;color:#fff !important;}\n"+
-            ".muted-badge{position:absolute;left:5px;top:5px;}\n"+
-            ".mCSB_scrollTools.mCSB_scrollTools_horizontal{top:15px!important;}\n"+
-            ".mCSB_horizontal.mCSB_inside>.mCSB_container{margin-bottom: 0 !important;}\n"+
-            "#channelPreviewWrapper{position:absolute;font-size:9pt;min-width:350px;max-width:500px;background-color:rgba(0,0,0,.75)!important;}\n"+
-            "#channelPreviewContent{max-height: 250px;overflow-y: hidden;}\n"+
-            "#channelPreviewActions{position:absolute;right:2px;top:2px;}\n"+
-            ".cpa{display:inline-block;margin-left:2px;padding: 1px 3px;font-size:9pt;vertical-align:top;cursor:pointer;}\n"+
-            "#channelTabContextMenu{position:absolute;width:175px;background-color:rgba(0,0,0,.75)!important;}\n"+
-            ".cctmButton{text-align:left!important;}\n"+
-            "#ToASettingsWindow{position:absolute!important;width:50%;min-width: 500px;top:150px;left:25%;background-color:rgba(0,0,0,.75)!important;z-index:150;}\n"+
-            ".cctmButton>span{margin: 0 15px 0 5px;font-size:8.5pt;padding:2px;}\n"+
-            "#channelTabContextMenu .cctmButton {display:block;width:100%;border-left:0;}\n"+
-            "#ToASettingsWindowContent label{font-size:10pt;}\n"+
-            "#ToASettingsWindowContent {padding-top:5px;}\n"+
-            "#ToASettingsWindowClose{position:absolute;right:2px;top:2px;color:#f00;padding:1px 4px;cursor:pointer;}\n"+
-            ".ToASChannelsHolder{padding: 2px;margin:3px auto;width:97%;}\n"+
-            ".ChMChannelWrapper{display:inline-block;margin:1px 2px;padding:1px 4px;font-size:10pt;}\n"+
-            ".ChMMChX{margin-right:4px;padding:1px 2px;cursor:pointer;}\n"+
-            "#ToASettingsWindow .tooltip{width:350px;}\n"+
-            "#ToASettingsWindow .tooltip-inner{max-width:100%;}\n"+
-            ".hand{curson: pointer;}\n"+
-            "#ToASChMAddGroup, .ToASChMChGRemove{margin-top: 0;}\n"+
-            ".incsort{border-radius: 0 !important; margin: 3px 1px; padding: 2px;}\n"+
-            ".chTabSelected {background-image: " + $("#navigationWrapper > h5").css("background-image")+" !important;}\n"+
-            "#ToASChMMergedChannelsGroupsHolder > .incsort > span:nth-of-type(1) {border-left-width: 7px !important;}\n"+
-            "@media screen and (max-width:768px){#ToASettingsWindow{left:5%;}}")
-            .appendTo("body");
     }
 
     var SSN = 0;

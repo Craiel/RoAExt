@@ -28,10 +28,6 @@
     SettingsWindow.prototype = Object.spawn(RoAModule.prototype, {
         settings: {},
         continueLoad: function () {
-            $("<style>").text("" +
-                ".settingsWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}\n" +
-                ".settingsWindowContent{overflow-y: scroll;}")
-                .appendTo("body");
 
             wnd = $(template);
             wnd.appendTo("body");

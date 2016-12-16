@@ -14,10 +14,6 @@
 
     DungeonWindow.prototype = Object.spawn(RoAModule.prototype, {
         continueLoad: function () {
-            $("<style>").text("" +
-                ".dungeonWindow{width: 800px; height: 500px;position: absolute; top: 0; left: 0;}\n" +
-                ".dungeonWindowContent{overflow-y: scroll;}")
-                .appendTo("body");
 
             wnd = $(template);
             wnd.appendTo("body");

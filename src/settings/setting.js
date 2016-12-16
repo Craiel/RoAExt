@@ -26,6 +26,10 @@
         callback: null,
         value: null,
         load: function() {
+            if(!modules.settings.dynamicSettings) {
+                modules.settings.dynamicSettings = {};
+            }
+
             switch (this.type) {
                 case SettingType.Toggle: {
                     this.value = modules.settings.dynamicSettings[this.name] || false;
@@ -38,6 +42,10 @@
             }
         },
         save: function () {
+            if(!modules.settings.dynamicSettings) {
+                modules.settings.dynamicSettings = {};
+            }
+
             switch (this.type) {
                 case SettingType.Toggle: {
                     modules.settings.dynamicSettings[this.name] = this.value;
