@@ -1,4 +1,5 @@
 // Some core modules go before everything
+console.log("Loading " + GM_info.script.name);
 modules.settings.load();
 modules.logger.load();
 modules.notification.load();

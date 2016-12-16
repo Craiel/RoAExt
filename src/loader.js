@@ -31,6 +31,7 @@
     function beginLoadOptionals() {
         loadTimer.clear();
 
+        modules.logger.log("Loading Optionals");
         for (var i = 0; i < loadOperations.optionals.length; i++) {
             loadOperations.optionals[i].load();
         }
@@ -53,6 +54,7 @@
     function beginLoadEssentials() {
         loadTimer.clear();
 
+        modules.logger.log("Loading Essentials");
         for (var i = 0; i < loadOperations.essentials.length; i++) {
             loadOperations.essentials[i].load();
         }
@@ -72,6 +74,8 @@
         loadOperations.essentials.push(modules.uiTimerMenu);
 
         loadOperations.essentials.push(modules.automateControl);
+
+        loadOperations.essentials.push(modules.settingsWindow);
     }
 
     function initializeOptionals() {
@@ -106,7 +110,6 @@
         loadOperations.optionals.push(modules.effectMonitor);
         loadOperations.optionals.push(modules.eventMonitor);
         loadOperations.optionals.push(modules.sessionTime);
-        loadOperations.optionals.push(modules.settingsWindow);
 
         // Player
         loadOperations.optionals.push(modules.playerGainTracker);
@@ -119,8 +122,7 @@
 
     Loader.prototype = Object.spawn(RoAModule.prototype, {
         load: function () {
-            modules.logger.log("Beginning Load...");
-
+            modules.logger.log("Initializing Module Loader");
             initializeEssentials();
             initializeOptionals();
 
