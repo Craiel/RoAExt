@@ -33,6 +33,13 @@
       "Option": 1
     },
     {
+      "Directory": "src\\generated\\",
+      "FilterStrings": [
+        "*.js"
+      ],
+      "Option": 1
+    },
+    {
       "Directory": "src\\external",
       "FilterStrings": [
         "*.js"
