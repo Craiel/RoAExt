@@ -11,17 +11,14 @@
 
     function updateHarvestState() {
         if(!setting.value || selectedSkill === null || selectedTime === null) {
-            console.log("HHR 1");
             return;
         }
 
-        if(!$('#harvestronNotifier').is(":visible")) {
-            console.log("HHR 2");
+        if($('#harvestronNotifier').css('display') === 'none') {
             return;
         }
 
         if(Date.now() - lastRepeat < modules.constants.HarvestRepeaterMinDelay) {
-            console.log("HHR 3");
             return;
         }
 
@@ -30,6 +27,9 @@
         modules.logger.log("Re-sending Harvest");
         request.post({skill: selectedSkill, minutes: selectedTime});
         request.send();
+
+        // manually hide the notifier since we are bypassing the click
+        $('#harvestronNotifier').css('display', 'none');
     }
 
     function onSettingChanged() {
