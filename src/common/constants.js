@@ -12,10 +12,13 @@
         SettingsSaveVersion: 1,
         SettingsSaveKey: "settings",
 
+        DungeonBackgroundColor: "#333333",
         DungeonWallColor: "#ff0000",
         DungeonRoomSearchedColor: "#ffd700",
         DungeonRoomHasEnemiesColor: "#ff0000",
         DungeonPlayerColor: "#ffffff",
+        DungeonExitColor: "#00ff00",
+        DungeonCanvasBorderColor: "#777777",
         DungeonMapVersion: 0.1,
 
         HouseUpdateInterval: 60 * 3 * 1000, // 3 minutes

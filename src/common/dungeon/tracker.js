@@ -21,10 +21,6 @@
         var moveDown = requestData.json.data.d;
         var canSearch = requestData.json.data.search;
 
-        if(moveDown) {
-            modules.settings.settings.dungeonData.exitRoom = roomData.id;
-        }
-
         // e, n, w, s, d
         var moveFlags = [ moveEast ? 1 : 0, moveNorth ? 1 : 0, moveWest ? 1 : 0, moveSouth ? 1 : 0, moveDown ? 1 : 0 ];
 
@@ -41,6 +37,10 @@
             roomData.m = moveFlags;
             roomData.e = enemyData;
             roomData.s = canSearch;
+        }
+
+        if(moveDown) {
+            modules.settings.settings.dungeonData.exitRoom = roomData.id;
         }
 
         // copy the position we are in to the room position
@@ -75,6 +75,13 @@
         var previousRoomId = modules.settings.settings.dungeonData.currentRoomId;
         var direction = modules.dungeonDirections.parse(requestData.json.m, true);
 
+        if(!direction) {
+            // We don't know where or how we moved, reset all dungeon data
+            initializeDungeonData();
+            modules.session.dungeonNeedsUpdate = true;
+            return;
+        }
+
         // Find the room we moved into
         var previousRoomData = modules.settings.settings.dungeonData.rooms[previousRoomId];
         if (previousRoomData.ml[direction.id]) {
@@ -103,6 +110,7 @@
     function initializeDungeonData() {
         modules.settings.settings.dungeonData = {
             rooms: {},
+            currentRoomId: null,
             nextRoomId: 1,
             exitRoom: null,
             version: DungeonDataVersion,

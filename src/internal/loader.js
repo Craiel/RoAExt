@@ -30,7 +30,6 @@
 
         // Dungeon
         modules.loader.register(modules.dungeonTracker);
-        modules.loader.register(modules.dungeonMap);
         modules.loader.register(modules.dungeonAutomate);
         modules.loader.register(modules.dungeonWindow);
 
