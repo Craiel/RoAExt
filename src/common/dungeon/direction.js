@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     function DungeonDirectionMap() {
         // Create the map of directions
@@ -11,7 +12,7 @@
         this.rebuildOpposites();
     }
 
-    DungeonDirectionMap.prototype = Object.spawn(RoAModule.prototype, {
+    DungeonDirectionMap.prototype = {
         directions: {},
         addDirection: function (direction) {
             if(this.directions[direction.key]) {
@@ -48,7 +49,7 @@
                 this.directions[key].opposite = this.parseInt(this.directions[key].oppositeId);
             }
         }
-    });
+    };
 
     DungeonDirectionMap.prototype.constructor = DungeonDirectionMap;
 
@@ -60,13 +61,13 @@
         this.oppositeId = oppositeId;
     }
 
-    DungeonDirection.prototype = Object.spawn(RoAModule.prototype, {
+    DungeonDirection.prototype = {
         key: null,
         id: null,
         stringValue: "",
         opposite: null,
         oppositeId: null
-    });
+    };
 
     DungeonDirection.prototype.constructor = DungeonDirection;
 
