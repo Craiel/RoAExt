@@ -5,10 +5,13 @@
 
     function GainTypeMap() {
         this.addType(new GainType('XP', 'XP'));
-        this.addType(new GainType('ClanXP', 'Guild XP'));
-
         this.addType(new GainType('Gold', 'Gold'));
-        this.addType(new GainType('ClanGold', 'Guild Gold'));
+
+        this.addType(new GainType('FishingXP', 'Fishing XP'));
+        this.addType(new GainType('WoodCuttingXP', 'Woodcutting XP'));
+        this.addType(new GainType('MiningXP', 'Mining XP'));
+        this.addType(new GainType('StoneCuttingXP', 'Stonecutting XP'));
+        this.addType(new GainType('CraftingXP', 'Crafting XP'));
 
         this.addType(new GainType('Crystal', 'Crystal'));
         this.addType(new GainType('Platinum', 'Platinum'));
@@ -18,6 +21,13 @@
         this.addType(new GainType('Wood', 'Wood'));
         this.addType(new GainType('Iron', 'Iron'));
         this.addType(new GainType('Stone', 'Stone'));
+
+        this.addType(new GainType('ClanXP', 'Clan XP'));
+        this.addType(new GainType('ClanGold', 'Clan Gold'));
+        this.addType(new GainType('ClanFood', 'Clan Food'));
+        this.addType(new GainType('ClanWood', 'Clan Wood'));
+        this.addType(new GainType('ClanIron', 'Clan Iron'));
+        this.addType(new GainType('ClanStone', 'Clan Stone'));
 
         this.addType(new GainType('Strength', 'Strength'));
         this.addType(new GainType('Health', 'Health'));

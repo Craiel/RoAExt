@@ -12,7 +12,6 @@
 
     GainData.prototype = {
         storage: null,
-        additive: false,
         perHour: 0.0,
         perHourAbs: 0.0,
         lastUpdate: Date.now(),
@@ -20,10 +19,10 @@
         valueSinceLastUpdate: 0,
         initialize: function() {
             if(!this.storage || this.storage.version !== GainDataVersion) {
-                this.storage = { version: GainDataVersion, t: 0, e: []};
+                this.storage = { version: GainDataVersion, t: 0, e: [], s: {}};
             }
         },
-        addData: function (value) {
+        addData: function (value, source) {
             if(!value || isNaN(value) || value === 0) {
                 // Ignore empty or zero entries
                 return;
@@ -36,6 +35,15 @@
             while(this.storage.e.length > 0 && time - this.storage.e[this.storage.e.length - 1].t > StorageTimeLimit) {
                 var oldEntry = this.storage.pop();
                 this.storage.t -= oldEntry.v;
+            }
+
+            // Add the value to by source tracking if specified
+            if (source !== null) {
+                if (this.storage.s[source] === null || isNaN(this.storage.s[source])) {
+                    this.storage.s[source] = 0;
+                }
+
+                this.storage.s[source] += value;
             }
 
             this.entriesSinceLastUpdate++;
@@ -54,6 +62,12 @@
         reset: function () {
             this.storage = null;
             this.initialize();
+
+            this.perHour = 0.0;
+            this.perHourAbs = 0.0;
+            this.lastUpdate = Date.now();
+            this.entriesSinceLastUpdate = 0;
+            this.valueSinceLastUpdate = 0;
         },
         update: function () {
             if(!this.storage) {
@@ -77,6 +91,17 @@
         },
         getValue: function () {
             return this.storage.t;
+        },
+        getFilteredValue: function (sourceIdArray) {
+            var result = 0;
+            for (var i = 0; i < sourceIdArray.length; i++) {
+                var id = isNaN(sourceIdArray[i]) ? parseInt(sourceIdArray[i]) : sourceIdArray[i];
+                if(this.storage.s[id]) {
+                    result += this.storage.s[id];
+                }
+            }
+
+            return result;
         },
         getCurrentPerHourValue: function () {
             return this.perHour;

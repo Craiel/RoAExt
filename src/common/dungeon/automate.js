@@ -167,18 +167,15 @@
     function continueAuto() {
         if(!modules.automateControl.isIdle()) {
             // There are still pending auto actions, nothing to do right now
-            console.log("DA: Waiting for AutomateControl");
             return;
         }
 
         if(modules.session.dungeonNeedsUpdate) {
-            console.log("DA: dungeonNeedUpdate");
             return;
         }
 
         if(!modules.settings.settings.dungeonData.currentRoomId) {
             // Dungeon room is not known yet
-            console.log("DA: room unknown");
             return;
         }
 

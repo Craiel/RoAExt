@@ -73,6 +73,10 @@
             return;
         }
 
+        if (requestData.json.m === "You cannot go that way.") {
+            return;
+        }
+
         var previousRoomId = modules.settings.settings.dungeonData.currentRoomId;
         var direction = modules.dungeonDirections.parse(requestData.json.m, true);
 
