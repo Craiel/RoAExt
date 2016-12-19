@@ -54,7 +54,7 @@
             var directionToMove = modules.dungeonDirections.parseInt(availableUnexploredDirection);
             modules.session.dungeonNeedsUpdate = true;
 
-            modules.logger.log("Dungeon Auto: Moving to unexplored cell on " + directionToMove.key);
+            // modules.logger.log("Dungeon Auto: Moving to unexplored cell on " + directionToMove.key);
             createMoveAction(directionToMove);
 
             return;

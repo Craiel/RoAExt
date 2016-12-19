@@ -5,29 +5,44 @@
     var updateTimer;
     var saveTimer;
 
+    function processMaterialDrop(name, value, source) {
+        switch (name) {
+            case "gold": {
+                activeData[modules.gainTypes.types.Gold.id].addData(value || 0, source);
+                return;
+            }
+
+            case "platinum": {
+                activeData[modules.gainTypes.types.Platinum.id].addData(value || 0, source);
+                return;
+            }
+
+            case "crafting": {
+                activeData[modules.gainTypes.types.Material.id].addData(value || 0, source);
+                return;
+            }
+
+            case "gem": {
+                activeData[modules.gainTypes.types.Fragment.id].addData(value || 0, source);
+                return;
+            }
+
+            default: {
+                console.warn("Unhandled Material Drop: " + name + "@" + value + " from " + source);
+                return;
+            }
+        }
+    }
+
     function handleActivityDrop(string) {
         if(string === null) {
             return;
         }
 
-        var match = string.match(/>([0-9,]+) gold .*?</);
-        if(match && match.length == 2) {
+        var match = string.match(/>[\(]*([0-9,]+)[\)]* ([\w]+) .*?</);
+        if(match && match.length == 3) {
             var value = parseInt(match[1].replace(/,/g, ''));
-            activeData[modules.gainTypes.types.Gold.id].addData(value || 0, modules.gainSources.sources.ActivityDrop.id);
-            return;
-        }
-
-        match = string.match(/>([0-9,]+) platinum .*?</);
-        if(match && match.length == 2) {
-            var value = parseInt(match[1].replace(/,/g, ''));
-            activeData[modules.gainTypes.types.Platinum.id].addData(value || 0, modules.gainSources.sources.ActivityDrop.id);
-            return;
-        }
-
-        match = string.match(/>([0-9,]+) crafting material.*?</);
-        if(match && match.length == 2) {
-            var value = parseInt(match[1].replace(/,/g, ''));
-            activeData[modules.gainTypes.types.Material.id].addData(value || 0, modules.gainSources.sources.ActivityDrop.id);
+            processMaterialDrop(match[2], value, modules.gainSources.sources.ActivityDrop.id);
             return;
         }
 
@@ -42,7 +57,46 @@
         console.warn("Unhandled Activity Drop: " + string);
     }
 
-    function handleStatDrop(string) {
+    function processStatDrop(name, value, source) {
+        switch (name) {
+            case "health": {
+                activeData[modules.gainTypes.types.Health.id].addData(value, source);
+                return;
+            }
+
+            case "agility": {
+                activeData[modules.gainTypes.types.Agility.id].addData(value, source);
+                return;
+            }
+
+            case "healing": {
+                activeData[modules.gainTypes.types.Healing.id].addData(value, source);
+                return;
+            }
+
+            case "evasion": {
+                activeData[modules.gainTypes.types.Evasion.id].addData(value, source);
+                return;
+            }
+
+            case "coordination": {
+                activeData[modules.gainTypes.types.Coordination.id].addData(value, source);
+                return;
+            }
+
+            case "ranged weapons": {
+                activeData[modules.gainTypes.types.RangedWeapon.id].addData(value, source);
+                return;
+            }
+
+            default: {
+                console.warn("Unhandled Stat Drop - " + name + "@" + value + " from " + source);
+                return;
+            }
+        }
+    }
+
+    function handleStatDrop(string, source) {
         if(string === null) {
             return;
         }
@@ -50,29 +104,11 @@
         var match = string.match(/>(.*?)<.*?improved by ([0-9]+)/);
         if(match && match.length == 3) {
             var value = parseInt(match[2].replace(/,/g, ''));
-
-
-            switch (match[1]) {
-                case "coordination": {
-                    activeData[modules.gainTypes.types.Coordination.id].addData(value, modules.gainSources.sources.Battle.id);
-                    return;
-                }
-
-                case "ranged weapons": {
-                    activeData[modules.gainTypes.types.RangedWeapon.id].addData(value, modules.gainSources.sources.Battle.id);
-                    return;
-                }
-
-                default: {
-                    console.warn("Unhandled Stat Drop - " + match[1] + "@" + match[2]);
-                    return;
-                }
-            }
+            processStatDrop(match[1], value, source);
+            return;
         }
 
         console.warn("Unknown Stat Drop string: " + string);
-
-        // "Your <span class="ruby">strength</span> improved by 1."
     }
 
     function onActivityBattle(requestData) {
@@ -86,8 +122,8 @@
         activeData[modules.gainTypes.types.Gold.id].addData(requestData.json.b.g || 0, modules.gainSources.sources.Battle.id);
         activeData[modules.gainTypes.types.ClanGold.id].addData(requestData.json.b.cg || 0, modules.gainSources.sources.Battle.id);
 
-        handleActivityDrop(requestData.json.b.dr);
-        handleStatDrop(requestData.json.b.sr);
+        handleActivityDrop(requestData.json.b.dr, modules.gainSources.sources.Battle.id);
+        handleStatDrop(requestData.json.b.sr, modules.gainSources.sources.Battle.id);
 
     }
 
@@ -118,8 +154,8 @@
             activeData[modules.gainTypes.types.StoneCuttingXP.id].addData(requestData.json.a.xp || 0, modules.gainSources.sources.Tradeskill.id);
         }
 
-        handleActivityDrop(requestData.json.a.dr);
-        handleStatDrop(requestData.json.a.sr);
+        handleActivityDrop(requestData.json.a.dr, modules.gainSources.sources.Tradeskill.id);
+        handleStatDrop(requestData.json.a.sr, modules.gainSources.sources.Tradeskill.id);
     }
 
     function onActivityCraft(requestData) {
@@ -129,8 +165,8 @@
 
         activeData[modules.gainTypes.types.CraftingXP.id].addData(requestData.json.a.xp || 0, modules.gainSources.sources.Crafting.id);
 
-        handleActivityDrop(requestData.json.a.dr);
-        handleStatDrop(requestData.json.a.sr);
+        handleActivityDrop(requestData.json.a.dr, modules.gainSources.sources.Crafting.id);
+        handleStatDrop(requestData.json.a.sr, modules.gainSources.sources.Crafting.id);
     }
 
     function onDungeonBattle(requestData) {
@@ -146,8 +182,8 @@
 
         activeData[modules.gainTypes.types.DungeonPoint.id].addData(requestData.json.b.dp || 0, modules.gainSources.sources.Dungeon.id);
 
-        handleActivityDrop(requestData.json.b.dr);
-        handleStatDrop(requestData.json.b.sr);
+        handleActivityDrop(requestData.json.b.dr, modules.gainSources.sources.Dungeon.id);
+        handleStatDrop(requestData.json.b.sr, modules.gainSources.sources.Dungeon.id);
     }
 
     function onDungeonSearch(requestData) {
@@ -155,15 +191,16 @@
             return;
         }
 
-        var match = requestData.json.m.match(/found ([0-9,]+) gold/);
+        var match = requestData.json.m.match(/found a (.*?)!/);
         if(match && match.length === 2) {
-            var value = parseInt(match[1].replace(/,/g, ''));
-            activeData[modules.gainTypes.types.Gold.id].addData(value || 0, modules.gainSources.sources.DungeonSearch.id);
+            processMaterialDrop(match[1], 1, modules.gainSources.sources.DungeonSearch.id);
+            return;
         }
 
-        match = requestData.json.m.match(/found a (.*?)!/);
+        match = requestData.json.m.match(/found ([0-9,]+) (.*?)!/);
         if(match && match.length === 2) {
-            console.log("TODO: Dungeon Search Drop of '" + match[1] + "'");
+            var value = parseInt(match[1].replace(/,/g, ''));
+            processMaterialDrop(match[2], value, modules.gainSources.sources.DungeonSearch.id);
             return;
         }
 

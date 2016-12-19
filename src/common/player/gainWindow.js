@@ -108,7 +108,7 @@
         inputWrapper.append(input);
 
         input.change(function() {
-            for(var key in enabledSources) {
+            for(var key in enabledTypes) {
                 enabledTypes[key] = $(this).is(':checked');
                 $('#gainTypeFilter_' + key).prop("checked", enabledSources[key]);
             }
