@@ -5,10 +5,10 @@
 
     function GainTypeMap() {
         this.addType(new GainType('XP', 'XP'));
-        this.addType(new GainType('GuildXP', 'Guild XP'));
+        this.addType(new GainType('ClanXP', 'Guild XP'));
 
         this.addType(new GainType('Gold', 'Gold'));
-        this.addType(new GainType('GuildGold', 'Guild Gold'));
+        this.addType(new GainType('ClanGold', 'Guild Gold'));
 
         this.addType(new GainType('Crystal', 'Crystal'));
         this.addType(new GainType('Platinum', 'Platinum'));

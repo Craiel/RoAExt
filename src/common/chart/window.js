@@ -158,7 +158,6 @@
             $('#gameChartReset').click(resetCharts);
             $('#gameChartRedraw').click(redrawChart);
             $('#gameChartDebugData').click(debugChart);
-            $('#gameChartTimeMinute').click(function () { setChartTimeScale(modules.chartTimeScale.Minute); });
             $('#gameChartTimeHour').click(function () { setChartTimeScale(modules.chartTimeScale.Hour); });
             $('#gameChartTimeDay').click(function () { setChartTimeScale(modules.chartTimeScale.Day); });
             $('#gameChartTimeMonth').click(function () { setChartTimeScale(modules.chartTimeScale.Month); });

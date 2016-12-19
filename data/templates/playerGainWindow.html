@@ -1,8 +1,26 @@
 <div id="roaPlayerGains" class="border2 ui-component gainWindow">
-    <div id="gainWindow" class="ui-element border2" style="height: 100%">
+    <div id="gainWindow" class="ui-element border2 moduleWindowContent">
         <h5 id="gainWindowTitle" class="center toprounder">Gains</h5>
         <span class="closeModal"><a id="gainWindowClose">×</a></span>
         <div id="gainWindowContent" class="mCSB_container" style="height: 100%">
+            <div id="gainSourceFilters" class="center"></div>
+            <div id="gainTypeFilters" class="center"></div>
+            <div id="gainContentTableWrapper">
+                <table id="gainContentTable" class="tablesorter">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Type</th>
+                        <th>Source</th>
+                        <th>Amount</th>
+                        <th>#/hour</th>
+                        <th>#/hour (abs)</th>
+                    </tr>
+                    </thead>
+                    <tbody id="gainContentTableBody">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

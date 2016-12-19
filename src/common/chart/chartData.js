@@ -18,7 +18,6 @@
             var dataPointDay = dataPointTime.getDate();
             var dataPointMonth = dataPointTime.getMonth() + 1;
 
-            this.addData("mi", dataPointMinute, dataPoint, 60); // 1 hour
             this.addData("h", dataPointHour, dataPoint, 24 * 30); // 30 days
             this.addData("d", dataPointDay, dataPoint, 356); // 1 year
             this.addData("mo", dataPointMonth, dataPoint, 12 * 5); // 5 years
@@ -56,12 +55,10 @@
             return JSON.stringify(this.storage);
         },
         reset: function () {
-            this.storage = {version:CURRENT_STORAGE_VERSION, mi: [], h:[], d:[], mo:[]};
+            this.storage = {version:CURRENT_STORAGE_VERSION, h:[], d:[], mo:[]};
         },
         getData: function (scale) {
-            if(scale === modules.chartTimeScale.Minute) {
-                return this.storage.mi;
-            } else if (scale === modules.chartTimeScale.Hour) {
+            if (scale === modules.chartTimeScale.Hour) {
                 return this.storage.h;
             } else if (scale === modules.chartTimeScale.Day) {
                 return this.storage.d;

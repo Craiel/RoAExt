@@ -128,6 +128,9 @@ ul.avi {
   top: 0;
   left: 0;
 }
+.moduleWindowContent {
+  height: 100%;
+}
 .chartWindow {
   width: 800px;
   height: 500px;
@@ -198,4 +201,7 @@ ul.avi {
   position: absolute;
   top: 0;
   left: 0;
+}
+.gainFilterCheckbox {
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
 }

@@ -2,7 +2,6 @@
     'use strict';
 
     modules.chartTimeScale = {
-        Minute: {title: "Minutes"},
         Hour: {title: "Hours"},
         Day: {title: "Days"},
         Month: {title: "Months"}
@@ -24,7 +23,7 @@
         isElementChart: false,
         gameStatDataPoint: null,
         elementDataPoint: null,
-        scale: modules.chartTimeScale.Minute,
+        scale: modules.chartTimeScale.Hour,
         data: null,
         initialize: function (toggleDiv, targetDiv, title, type) {
             var type = type || "line";

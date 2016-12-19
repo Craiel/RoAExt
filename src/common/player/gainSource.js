@@ -8,6 +8,7 @@
         this.addSource(new GainSource('Harvest', 'Harvest'));
         this.addSource(new GainSource('Crafting', 'Crafting'));
         this.addSource(new GainSource('Dungeon', 'Dungeon'));
+        this.addSource(new GainSource('ActivityDrop', 'ActivityDrop'));
     }
 
     GainSourceMap.prototype = {
