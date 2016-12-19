@@ -12,13 +12,13 @@
     };
 
     var createListEntry = function (title, canEdit) {
-        var $label = $('<div class="col-xs-6 col-md-12 col-lg-5 gold timerLabel">' + title + '</div>');
+        var $label = $('<div class="col-xs-6 col-md-12 col-lg-5 gold">' + title + '</div>');
         var $wrapper = $('<div class="col-xs-6 col-md-12 col-lg-7"/>');
-        var $span = $('<span id="avi-house-construction" class="timerValue"/>');
+        var $span = $('<span id="roaext-house-construction"/>');
         $wrapper.append($span);
 
         if (canEdit) {
-            var $delete = $('<a href="javascript:;" class="timerDelete"><span>[X]</span></a>');
+            var $delete = $('<a href="javascript:;" class="roaext-timer-delete"><span>[X]</span></a>');
             $delete.click({name: title}, deleteTimer);
             $wrapper.append($delete);
         }

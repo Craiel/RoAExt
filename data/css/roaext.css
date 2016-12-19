@@ -1,43 +1,189 @@
-.avi-margin-auto {
+.roaext-gradient-background {
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
+}
+.roaext-module-window {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.roaext-margin-auto {
   margin-left: auto;
   margin-right: auto;
 }
-.avi-highlight {
+.roaext-highlight {
   animation: pulsate-inner 0.5s infinite alternate;
 }
-.avi-force-hide {
+.roaext-force-hide {
   display: none !important;
 }
-.avi-force-block {
+.roaext-force-block {
   display: block !important;
 }
-.avi-table {
+.roaext-table {
   display: table;
 }
-.avi-table > * {
+.roaext-table > * {
   display: table-row;
 }
-.avi-table > * > * {
+.roaext-table > * > * {
   display: table-cell;
   padding: 2px;
 }
-.avi-link {
+.roaext-link {
   text-decoration: underline;
   cursor: pointer;
 }
-.avi-tip {
+.roaext-tip {
   border-bottom: 1px dotted;
 }
-.avi-menu-shortcut {
+.roaext-menu-shortcut {
   line-height: initial !important;
 }
-.avi-menu-shortcut > svg {
+.roaext-menu-shortcut > svg {
   border: 1px solid;
   padding: 2px;
   width: 24px;
   height: 24px;
 }
-table.avi {
+.roaext-menu {
+  text-align: center;
+}
+.roaext-menu > :not(:last-child) {
+  margin-right: 5px;
+}
+.roaext-menu a {
+  display: inline-block !important;
+  width: auto;
+}
+.roaext-menu-content {
+  margin: 0;
+  display: table;
+  width: 100%;
+  padding: 0;
+}
+.roaext-menu-content a {
+  display: block;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none!important;
+  line-height: 26px;
+  border-top: 1px solid #01b0aa;
+  background: #025251;
+  width: 100%;
+  background-image: -moz-linear-gradient(top, #025251 0, #012625 100%);
+  background-image: -webkit-gradient(left top, left bottom, color-stop(0, #025251), color-stop(100%, #012625));
+  background-image: -webkit-linear-gradient(top, #025251 0, #012625 100%);
+  background-image: -o-linear-gradient(top, #025251 0, #012625 100%);
+  background-image: -ms-linear-gradient(top, #025251 0, #012625 100%);
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
+}
+.roaext-timer-input {
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
+}
+.roaext-timer-input-time {
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
+  width: 20px;
+}
+.roaext-timer-checkbox {
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
+}
+.roaext-timer-feedback {
+  margin-top: 10px;
+  font-size: large;
+  text-align: center;
+  color: red;
+}
+.roaext-timer-delete {
+  text-decoration: none!important;
+  margin-left: 1px;
+}
+.roaext-module-window-content {
+  height: 100%;
+}
+.roaext-chart-window {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.roaext-chart-tab {
+  width: 100%;
+  height: 250px;
+  top: 240px;
+  position: absolute;
+}
+.roaext-chart-category-tab {
+  width: 100%;
+  height: 100%;
+}
+.roaext-dungeon-window {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.roaext-dungeon-window-content {
+  overflow-y: scroll;
+}
+.roaext-debug-window {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.roaext-debug-window-content {
+  overflow-y: scroll;
+}
+.roaext-note-window {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.roaext-gain-window {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.roaext-gain-window-content {
+  overflow-y: scroll;
+}
+.roaext-gain-window-filter {
+  float: left;
+  width: 120px;
+}
+.roaext-gain-window-filter-last {
+  width: 120px;
+}
+.roaext-settings-window {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.roaext-settings-window-content {
+  overflow-y: scroll;
+}
+.roaext-time-editor-window {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.roaext-gain-filter-checkbox {
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
+}
+table.roaext {
   margin-left: auto;
   margin-right: auto;
   border-collapse: collapse;
@@ -45,13 +191,13 @@ table.avi {
   font-weight: normal;
   width: auto;
 }
-table.avi > thead > tr > *,
-table.avi > tbody > tr > * {
+table.roaext > thead > tr > *,
+table.roaext > tbody > tr > * {
   border: 1px solid;
   padding: 2px;
   text-align: center;
 }
-ul.avi {
+ul.roaext {
   list-style: none;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
@@ -59,149 +205,14 @@ ul.avi {
   -webkit-margin-end: 0;
   -webkit-padding-start: 0;
 }
-.bold {
+/*.bold {
   font-weight: bold;
 }
+
 .popover {
   background-color: rgba(0, 0, 0, 0.8);
-}
-.popover > .arrow {
-  display: none;
-}
-.avi-menu {
-  text-align: center;
-}
-.avi-menu > :not(:last-child) {
-  margin-right: 5px;
-}
-.avi-menu a {
-  display: inline-block !important;
-  width: auto;
-}
-#roaMenuContent {
-  margin: 0;
-  display: table;
-  width: 100%;
-}
-#roaMenuContent {
-  padding: 0;
-  list-style-type: none;
-}
-#roaMenuContent a {
-  display: block;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none!important;
-}
-.gradientBackground {
-  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
-}
-#roaMenuContent a {
-  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
-  line-height: 26px;
-  border-top: 1px solid #01b0aa;
-}
-.createTimerInput {
-  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
-}
-.createTimerInputTime {
-  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
-  width: 20px;
-}
-.createTimerCheckbox {
-  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
-}
-.createTimerFeedback {
-  margin-top: 10px;
-  font-size: large;
-  text-align: center;
-  color: red;
-}
-.timerDelete {
-  text-decoration: none!important;
-  margin-left: 1px;
-}
-.moduleWindow {
-  width: 800px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.moduleWindowContent {
-  height: 100%;
-}
-.chartWindow {
-  width: 800px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.chartTab {
-  width: 100%;
-  height: 250px;
-  top: 240px;
-  position: absolute;
-}
-.chartCategoryTab {
-  width: 100%;
-  height: 100%;
-}
-.dungeonWindow {
-  width: 800px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.dungeonWindowContent {
-  overflow-y: scroll;
-}
-.debugWindow {
-  width: 800px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.debugWindowContent {
-  overflow-y: scroll;
-}
-.noteWindow {
-  width: 800px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.gainWindow {
-  width: 800px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.gainWindowContent {
-  overflow-y: scroll;
-}
-.settingsWindow {
-  width: 800px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.settingsWindowContent {
-  overflow-y: scroll;
-}
-.timerEditorWindow {
-  width: 800px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.gainFilterCheckbox {
-  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
-}
+
+  > .arrow {
+    display: none
+  }
+}*/

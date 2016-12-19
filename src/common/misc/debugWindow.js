@@ -82,6 +82,8 @@
 
             modules.uiScriptMenu.addLink("Debug", onClick);
 
+            $('#debugWindowTable').tablesorter();
+
             RoAModule.prototype.load.apply(this);
         },
         load: function () {

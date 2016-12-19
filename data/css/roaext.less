@@ -1,8 +1,21 @@
-.avi-margin-auto {
+.roaext-gradient-background {
+  background-image: linear-gradient(to bottom,rgba(2,82,81,1) 0,rgba(1,38,37,1) 100%);
+}
+
+.roaext-module-window {
+  width: 800px;
+  height: 500px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.roaext-margin-auto {
   margin-left: auto;
   margin-right: auto;
 }
-.avi {
+
+.roaext {
   &-highlight {
     animation: pulsate-inner 0.5s infinite alternate;
   }
@@ -48,10 +61,147 @@
       height: 24px;
     }
   }
+
+  &-menu {
+    text-align: center;
+
+    > :not(:last-child) {
+      margin-right: 5px;
+    }
+
+    a {
+      display: inline-block !important;
+      width: auto;
+    }
+  }
+
+  &-menu-content {
+    margin: 0;
+    display: table;
+    width: 100%;
+    padding: 0;
+
+    a {
+      .roaext-gradient-background;
+      display: block;
+      text-align: center;
+      vertical-align: middle;
+      text-decoration: none!important;
+      line-height: 26px;
+      border-top: 1px solid #01b0aa;
+
+      background: rgba(2,82,81,1);
+      width: 100%;
+      background-image: -moz-linear-gradient(top,rgba(2,82,81,1) 0,rgba(1,38,37,1) 100%);
+      background-image: -webkit-gradient(left top,left bottom,color-stop(0,rgba(2,82,81,1)),color-stop(100%,rgba(1,38,37,1)));
+      background-image: -webkit-linear-gradient(top,rgba(2,82,81,1) 0,rgba(1,38,37,1) 100%);
+      background-image: -o-linear-gradient(top,rgba(2,82,81,1) 0,rgba(1,38,37,1) 100%);
+      background-image: -ms-linear-gradient(top,rgba(2,82,81,1) 0,rgba(1,38,37,1) 100%);
+      background-image: linear-gradient(to bottom,rgba(2,82,81,1) 0,rgba(1,38,37,1) 100%);
+    }
+  }
+
+  &-timer-input {
+    .roaext-gradient-background;
+  }
+
+  &-timer-input-time {
+    .roaext-gradient-background;
+    width: 20px;
+  }
+
+  &-timer-checkbox {
+    .roaext-gradient-background;
+  }
+
+  &-timer-feedback {
+    margin-top: 10px;
+    font-size: large;
+    text-align: center;
+    color: red;
+  }
+
+  &-timer-delete {
+    text-decoration: none!important;
+    margin-left: 1px;
+  }
+
+  &-module-window-content {
+    height: 100%
+  }
+
+  &-chart-window {
+    .roaext-module-window;
+  }
+
+  &-chart-tab {
+    width: 100%;
+    height: 250px;
+    top: 240px;
+    position: absolute
+  }
+
+  &-chart-category-tab {
+    width: 100%;
+    height: 100%
+  }
+
+  &-dungeon-window {
+    .roaext-module-window;
+  }
+
+  &-dungeon-window-content {
+    overflow-y: scroll;
+  }
+
+  &-debug-window {
+    .roaext-module-window;
+  }
+
+  &-debug-window-content {
+    overflow-y: scroll;
+  }
+
+  &-note-window {
+    .roaext-module-window;
+  }
+
+  &-gain-window {
+    .roaext-module-window;
+  }
+
+  &-gain-window-content {
+    overflow-y: scroll;
+  }
+
+  &-gain-window-filter {
+    float: left;
+    width: 120px;
+  }
+
+  &-gain-window-filter-last {
+    width: 120px;
+  }
+
+  &-settings-window {
+    .roaext-module-window;
+  }
+
+  &-settings-window-content {
+    overflow-y: scroll;
+  }
+
+  &-time-editor-window {
+    .roaext-module-window;
+  }
+
+  &-gain-filter-checkbox {
+    .roaext-gradient-background;
+  }
 }
 
-table.avi {
-  .avi-margin-auto;
+table.roaext {
+  .roaext-margin-auto;
   border-collapse: collapse;
   font-size: small;
   font-weight: normal;
@@ -66,7 +216,7 @@ table.avi {
   }
 }
 
-ul.avi {
+ul.roaext {
   list-style: none;
   -webkit-margin-before: 0;
   -webkit-margin-after: 0;
@@ -75,7 +225,7 @@ ul.avi {
   -webkit-padding-start: 0;
 }
 
-.bold {
+/*.bold {
   font-weight: bold;
 }
 
@@ -85,148 +235,4 @@ ul.avi {
   > .arrow {
     display: none
   }
-}
-
-.avi-menu {
-  text-align: center;
-
-  > :not(:last-child) {
-    margin-right: 5px;
-  }
-
-  a {
-    display: inline-block !important;
-    width: auto;
-  }
-}
-
-#roaMenuContent {
-  margin: 0;
-  display: table;
-  width: 100%;
-}
-#roaMenuContent {
-  padding: 0;
-  list-style-type: none;
-}
-
-#roaMenuContent a {
-  display: block;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none!important;
-}
-
-.gradientBackground {
-  background-image: linear-gradient(to bottom,rgba(2,82,81,1) 0,rgba(1,38,37,1) 100%);
-}
-
-#roaMenuContent a {
-  .gradientBackground;
-
-  line-height: 26px;
-  border-top: 1px solid #01b0aa;
-}
-
-.createTimerInput {
-  .gradientBackground;
-}
-
-.createTimerInputTime {
-  .createTimerInput;
-  width: 20px;
-}
-
-.createTimerCheckbox {
-  .gradientBackground;
-}
-
-.createTimerFeedback {
-  margin-top: 10px;
-  font-size: large;
-  text-align: center;
-  color: red;
-}
-
-.timerLabel {
-}
-
-.timerValue {
-}
-
-.timerDelete {
-  text-decoration: none!important;
-  margin-left: 1px;
-}
-
-.moduleWindow {
-  width: 800px;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.moduleWindowContent {
-  height: 100%
-}
-
-.chartWindow {
-  .moduleWindow;
-}
-
-.chartTab {
-  width: 100%;
-  height: 250px;
-  top: 240px;
-  position: absolute
-}
-
-.chartCategoryTab {
-  width: 100%;
-  height: 100%
-}
-
-.dungeonWindow{
-  .moduleWindow;
-}
-
-.dungeonWindowContent {
-  overflow-y: scroll;
-}
-
-.debugWindow{
-  .moduleWindow;
-}
-
-.debugWindowContent {
-  overflow-y: scroll;
-}
-
-.noteWindow {
-  .moduleWindow;
-}
-
-.gainWindow{
-  .moduleWindow;
-}
-
-.gainWindowContent {
-  overflow-y: scroll;
-}
-
-.settingsWindow{
-  .moduleWindow;
-}
-
-.settingsWindowContent {
-  overflow-y: scroll;
-}
-
-.timerEditorWindow{
-  .moduleWindow;
-}
-
-.gainFilterCheckbox {
-  .gradientBackground;
-}
+}*/

@@ -12,16 +12,16 @@
 
             // Side shortcuts
             var $appends = {
-                battle: $("<a href='javascript:;' data-delegate-click='#loadMobList' class='avi-tip avi-menu-shortcut' title='Open Battle'/>"),
-                fishing: $("<a href='javascript:;' data-delegate-click='#loadFishing' class='avi-tip avi-menu-shortcut' title='Open Fishing'/>"),
-                wc: $("<a href='javascript:;' data-delegate-click='#loadWoodcutting' class='avi-tip avi-menu-shortcut' title='Open Lumber Mill'/>"),
-                mine: $("<a href='javascript:;' data-delegate-click='#loadMining' class='avi-tip avi-menu-shortcut' title='Open Mine'/>"),
-                quarry: $("<a href='javascript:;' data-delegate-click='#loadStonecutting' class='avi-tip avi-menu-shortcut' title='Open Quarry'/>")
+                battle: $("<a href='javascript:;' data-delegate-click='#loadMobList' class='roaext-tip roaext-menu-shortcut' title='Open Battle'/>"),
+                fishing: $("<a href='javascript:;' data-delegate-click='#loadFishing' class='roaext-tip roaext-menu-shortcut' title='Open Fishing'/>"),
+                wc: $("<a href='javascript:;' data-delegate-click='#loadWoodcutting' class='roaext-tip roaext-menu-shortcut' title='Open Lumber Mill'/>"),
+                mine: $("<a href='javascript:;' data-delegate-click='#loadMining' class='roaext-tip roaext-menu-shortcut' title='Open Mine'/>"),
+                quarry: $("<a href='javascript:;' data-delegate-click='#loadStonecutting' class='roaext-tip roaext-menu-shortcut' title='Open Quarry'/>")
             };
 
             $("#navigationWrapper").css("padding-top", $menuLink.height()).find("ul")
                 .append(
-                    $('<li class="avi-menu"/>')
+                    $('<li class="roaext-menu"/>')
                         .append($appends.battle)
                         .append($appends.fishing)
                         .append($appends.wc)
