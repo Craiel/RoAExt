@@ -89,6 +89,11 @@
                 return;
             }
 
+            case "counter attacking": {
+                activeData[modules.gainTypes.types.CounterAttack.id].addData(value, source);
+                return;
+            }
+
             default: {
                 console.warn("Unhandled Stat Drop - " + name + "@" + value + " from " + source);
                 return;
