@@ -64,6 +64,11 @@
                 return;
             }
 
+            case "strength": {
+                activeData[modules.gainTypes.types.Strength.id].addData(value, source);
+                return;
+            }
+
             case "agility": {
                 activeData[modules.gainTypes.types.Agility.id].addData(value, source);
                 return;
