@@ -92,8 +92,6 @@
             var dir = modules.dungeonDirections.parseInt(cameFrom[currentId].dir);
             path.push({to: cameFrom[currentId].id, dir: dir.id});
 
-            console.log(dir.key + " -> " + currentId);
-
             currentId = cameFrom[currentId].id;
         }
 
