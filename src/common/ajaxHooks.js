@@ -92,7 +92,6 @@
             var timeSinceReceive = new Date() - (requestHistory[url] || 0);
 
             if(timeSinceReceive >= request.interval) {
-                console.log("Auto-sending ajax for " + url);
                 request.locked = true;
                 if(!request.ajax) {
                     request.ajax = modules.createAjaxRequest(url).post(request.payload);

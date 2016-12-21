@@ -44,8 +44,6 @@
 
         selectedSkill = parseInt(match[1]);
         selectedTime = parseInt(match[2]);
-
-        console.log("Harvest Repeater Set to: " + selectedSkill + "@" + selectedTime);
     }
 
     function HouseHarvestRepeater() {
