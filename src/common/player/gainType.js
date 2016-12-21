@@ -43,6 +43,14 @@
         this.addType(new GainType('EventPoint', 'Event Point'));
         this.addType(new GainType('DungeonPoint', 'Dungeon Point'));
 
+        this.addType(new GainType('Battles', 'Battles'));
+        this.addType(new GainType('Harvests', 'Harvests'));
+        this.addType(new GainType('Crafts', 'Crafts'));
+
+        this.addType(new GainType('EnemiesKilled', 'Enemies Killed'));
+
+        this.addType(new GainType('DungeonRoomsSearched', 'Dungeon Rooms Searched'));
+
         this.addType(new GainType('Ingredient', 'Ingredient'));
         this.addType(new GainType('Item', 'Item'));
     }

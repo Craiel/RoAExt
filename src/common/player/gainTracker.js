@@ -27,7 +27,16 @@
                 return;
             }
 
+            case "Crystals": {
+                activeData[modules.gainTypes.types.Crystal.id].addData(value || 0, source);
+                return;
+            }
+
             default: {
+                // TODO:
+                /*
+                    - "Bland Jupiterian Symbol"
+                 */
                 console.warn("Unhandled Material Drop: " + name + "@" + value + " from " + source);
                 return;
             }
@@ -121,20 +130,38 @@
         console.warn("Unknown Stat Drop string: " + string);
     }
 
+    function handleIngredientDrop(string, source) {
+        if(string === null) {
+            return;
+        }
+
+        activeData[modules.gainTypes.types.Ingredient.id].addData(value, source);
+
+        console.warn("Unhandled Ingredient Drop: " + string);
+    }
+
     function onActivityBattle(requestData) {
         if(!requestData.json.b) {
             return;
         }
 
+        // Some general stats
+        activeData[modules.gainTypes.types.Battles.id].addData(1, modules.gainSources.sources.Battle.id);
+        if(requestData.json.b.xp && requestData.json.b.xp > 0) {
+            activeData[modules.gainTypes.types.EnemiesKilled.id].addData(1, modules.gainSources.sources.Battle.id);
+        }
+
+        // The result values
         activeData[modules.gainTypes.types.XP.id].addData(requestData.json.b.xp || 0, modules.gainSources.sources.Battle.id);
         activeData[modules.gainTypes.types.ClanXP.id].addData(requestData.json.b.cxp || 0, modules.gainSources.sources.Battle.id);
 
         activeData[modules.gainTypes.types.Gold.id].addData(requestData.json.b.g || 0, modules.gainSources.sources.Battle.id);
         activeData[modules.gainTypes.types.ClanGold.id].addData(requestData.json.b.cg || 0, modules.gainSources.sources.Battle.id);
 
+        // Drops and effects
         handleActivityDrop(requestData.json.b.dr, modules.gainSources.sources.Battle.id);
         handleStatDrop(requestData.json.b.sr, modules.gainSources.sources.Battle.id);
-
+        handleIngredientDrop(requestData.json.b.ir, modules.gainSources.sources.Battle.id);
     }
 
     function onActivityEvent(requestData) {
@@ -145,6 +172,8 @@
         if(!requestData.json.a) {
             return;
         }
+
+        activeData[modules.gainTypes.types.Harvests.id].addData(1, modules.gainSources.sources.Tradeskill.id);
 
         if (requestData.json.a.s === "fishing") {
             activeData[modules.gainTypes.types.Food.id].addData(requestData.json.a.a || 0, modules.gainSources.sources.Tradeskill.id);
@@ -166,6 +195,7 @@
 
         handleActivityDrop(requestData.json.a.dr, modules.gainSources.sources.Tradeskill.id);
         handleStatDrop(requestData.json.a.sr, modules.gainSources.sources.Tradeskill.id);
+        handleIngredientDrop(requestData.json.a.ir, modules.gainSources.sources.Tradeskill.id);
     }
 
     function onActivityCraft(requestData) {
@@ -173,15 +203,24 @@
             return;
         }
 
+        activeData[modules.gainTypes.types.Crafts.id].addData(1, modules.gainSources.sources.Tradeskill.id);
+
         activeData[modules.gainTypes.types.CraftingXP.id].addData(requestData.json.a.xp || 0, modules.gainSources.sources.Crafting.id);
 
         handleActivityDrop(requestData.json.a.dr, modules.gainSources.sources.Crafting.id);
         handleStatDrop(requestData.json.a.sr, modules.gainSources.sources.Crafting.id);
+        handleIngredientDrop(requestData.json.a.ir, modules.gainSources.sources.Crafting.id);
     }
 
     function onDungeonBattle(requestData) {
         if(!requestData.json.b) {
             return;
+        }
+
+        // Some general stats
+        activeData[modules.gainTypes.types.Battles.id].addData(1, modules.gainSources.sources.Dungeon.id);
+        if(requestData.json.b.xp && requestData.json.b.xp > 0) {
+            activeData[modules.gainTypes.types.EnemiesKilled.id].addData(1, modules.gainSources.sources.Dungeon.id);
         }
 
         activeData[modules.gainTypes.types.XP.id].addData(requestData.json.b.xp || 0, modules.gainSources.sources.Dungeon.id);
@@ -194,10 +233,20 @@
 
         handleActivityDrop(requestData.json.b.dr, modules.gainSources.sources.Dungeon.id);
         handleStatDrop(requestData.json.b.sr, modules.gainSources.sources.Dungeon.id);
+        handleIngredientDrop(requestData.json.b.ir, modules.gainSources.sources.Dungeon.id);
     }
 
     function onDungeonSearch(requestData) {
         if(!requestData.json.m) {
+            return;
+        }
+
+        activeData[modules.gainTypes.types.DungeonRoomsSearched.id].addData(1, modules.gainSources.sources.DungeonSearch.id);
+
+        // Ignore some general flavor strings that give nothing
+        if(requestData.json.m.includes(". . . lost . . .")
+        || requestData.json.m.includes("best to just leave")
+        || requestData.json.m.includes("found nothing of importance")) {
             return;
         }
 
@@ -208,15 +257,13 @@
         }
 
         match = requestData.json.m.match(/found ([0-9,]+) (.*?)!/);
-        if(match && match.length === 2) {
+        if(match && match.length === 3) {
             var value = parseInt(match[1].replace(/,/g, ''));
             processMaterialDrop(match[2], value, modules.gainSources.sources.DungeonSearch.id);
             return;
         }
 
-        //** You searched the room and found 6,464 gold!
-
-        // You searched the room and found a Bland Jupiterian Symbol!
+        console.log('Unhandled Dungeon Search String: ' + requestData.json.m);
     }
 
     function onUpdate() {

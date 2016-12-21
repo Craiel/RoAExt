@@ -10,6 +10,8 @@
         modules.loader.register(modules.uiTimerMenu, true);
 
         modules.loader.register(modules.settingsWindow, true);
+
+        modules.loader.register(modules.playerGainTracker, true);
     }
 
     function initializeOptionals() {
@@ -40,8 +42,8 @@
         modules.loader.register(modules.sessionTime);
 
         // Player
-        modules.loader.register(modules.playerGainTracker);
         modules.loader.register(modules.playerGainWindow);
+        modules.loader.register(modules.gainPerHourDisplay);
     }
     
     modules.loader.loadCallback = function () {        

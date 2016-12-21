@@ -21,6 +21,9 @@
         DungeonCanvasBorderColor: "#777777",
         DungeonMapVersion: 0.1,
 
+        PerHourColor: "#99cc99",
+        PerHourSize: "12px",
+
         HouseUpdateInterval: 60 * 3 * 1000, // 3 minutes
 
         ChartUpdateInterval: 60 * 5 * 1000, // 5 minutes
