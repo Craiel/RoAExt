@@ -1,9 +1,16 @@
 (function ($) {
     'use strict';
 
-    var activeData = {};
     var updateTimer;
     var saveTimer;
+
+    var activeData = {};
+    var ingredientData = {};
+    var ingredientRegister = {};
+    var mobRegister = {};
+
+    var nextIngredientId = 1;
+    var nextMobId = 1;
 
     function processMaterialDrop(name, value, source) {
         switch (name) {
@@ -27,6 +34,7 @@
                 return;
             }
 
+            case "crystals":
             case "Crystals": {
                 activeData[modules.gainTypes.types.Crystal.id].addData(value || 0, source);
                 return;
@@ -48,14 +56,21 @@
             return;
         }
 
-        var match = string.match(/>[\(]*([0-9,]+)[\)]* ([\w]+) .*?</);
+        var match = string.match(/>[\(]*([0-9,]+)[\)]* ([\w]+) .*?</i);
         if(match && match.length == 3) {
             var value = parseInt(match[1].replace(/,/g, ''));
             processMaterialDrop(match[2], value, modules.gainSources.sources.ActivityDrop.id);
             return;
         }
 
-        match = string.match(/ Trash Compactor .*? ([0-9,]+) Crafting Material/);
+        match = string.match(/>[\(]*([0-9,]+)[\)]* ([\w]+)</i);
+        if(match && match.length == 3) {
+            var value = parseInt(match[1].replace(/,/g, ''));
+            processMaterialDrop(match[2], value, modules.gainSources.sources.ActivityDrop.id);
+            return;
+        }
+
+        match = string.match(/ Trash Compactor .*? ([0-9,]+) Crafting Material/i);
         if(match && match.length == 2) {
             var value = parseInt(match[1].replace(/,/g, ''));
             activeData[modules.gainTypes.types.Material.id].addData(value || 0, modules.gainSources.sources.TrashCompactor.id)
@@ -120,7 +135,7 @@
             return;
         }
 
-        var match = string.match(/>(.*?)<.*?improved by ([0-9]+)/);
+        var match = string.match(/>(.*?)<.*?improved by ([0-9]+)/i);
         if(match && match.length == 3) {
             var value = parseInt(match[2].replace(/,/g, ''));
             processStatDrop(match[1], value, source);
@@ -130,12 +145,52 @@
         console.warn("Unknown Stat Drop string: " + string);
     }
 
+    function registerIngredientDrop(item, mob) {
+        console.log("Registering Ingredient drop: '" + item + "' from '" + mob + "'");
+
+        if(!ingredientRegister[item]){
+            ingredientRegister[item] = nextIngredientId++;
+        }
+
+        if(!mobRegister[mob]){
+            mobRegister[mob] = nextMobId++;
+        }
+
+        var ingredientId = ingredientRegister[item];
+        var mobId = mobRegister[mob];
+
+        if(!ingredientData.dropTableByMob[mobId]) {
+            ingredientData.dropTableByMob[mobId] = {};
+        }
+
+        if(!ingredientData.dropTableByMob[mobId][ingredientId]) {
+            ingredientData.dropTableByMob[mobId][ingredientId] = 1;
+        }
+
+        if(!ingredientData.dropTableByItem[ingredientId]) {
+            ingredientData.dropTableByItem[ingredientId] = {};
+        }
+
+        if(!ingredientData.dropTableByItem[ingredientId][mobId]) {
+            ingredientData.dropTableByItem[ingredientId][mobId] = 1;
+        }
+    }
+
     function handleIngredientDrop(string, source) {
         if(string === null) {
             return;
         }
 
-        activeData[modules.gainTypes.types.Ingredient.id].addData(value, source);
+        var match = string.match(/took a[n]* (.*?) from the (.*?)('s)* remains/i);
+        console.log(match);
+        if(match && match.length == 4) {
+            // TODO: do something with the actual ingredient
+
+            registerIngredientDrop(match[1], match[2]);
+
+            activeData[modules.gainTypes.types.Ingredient.id].addData(1, source);
+            return;
+        }
 
         console.warn("Unhandled Ingredient Drop: " + string);
     }
@@ -250,13 +305,13 @@
             return;
         }
 
-        var match = requestData.json.m.match(/found a (.*?)!/);
+        var match = requestData.json.m.match(/found a (.*?)!/i);
         if(match && match.length === 2) {
             processMaterialDrop(match[1], 1, modules.gainSources.sources.DungeonSearch.id);
             return;
         }
 
-        match = requestData.json.m.match(/found ([0-9,]+) (.*?)!/);
+        match = requestData.json.m.match(/found ([0-9,]+) (.*?)!/i);
         if(match && match.length === 3) {
             var value = parseInt(match[1].replace(/,/g, ''));
             processMaterialDrop(match[2], value, modules.gainSources.sources.DungeonSearch.id);
@@ -273,19 +328,51 @@
     }
 
     function save() {
-        var data = {};
+        var data = {
+            g: {},
+            drt: {},
+            ir: {},
+            mr: {}
+        };
 
         for (var key in activeData) {
-            data[key] = activeData[key].save();
+            data.g[key] = activeData[key].save();
+        }
+
+        for (var key in ingredientRegister) {
+            data.ir[key] = ingredientRegister[key];
+        }
+
+        for (var key in mobRegister) {
+            data.mr[key] = mobRegister[key];
+        }
+
+        for (var mobId in ingredientData.dropTableByMob) {
+            data.drt[mobId] = [];
+            for (var itemId in ingredientData.dropTableByMob[mobId]) {
+                data.drt[mobId].push(itemId);
+            }
         }
 
         modules.settings.settings.gainData = data;
     }
 
     function load() {
-        for (var key in modules.settings.settings.gainData) {
+        // gain data
+        for (var key in modules.settings.settings.gainData.g) {
             if(activeData[key]) {
-                activeData[key].load(modules.settings.settings.gainData[key]);
+                activeData[key].load(modules.settings.settings.gainData.g[key]);
+            }
+        }
+
+        // ingredient data
+        for (var mobId in modules.settings.settings.gainData.drt) {
+            var mobName = modules.settings.settings.gainData.mr[mobId];
+            for (var i = 0; i < modules.settings.settings.gainData.drt[mobId].length; i++) {
+                var itemId = modules.settings.settings.gainData.drt[mobId][i];
+                var itemName = modules.settings.settings.gainData.ir[itemId];
+
+                registerIngredientDrop(itemName, mobName);
             }
         }
     }
