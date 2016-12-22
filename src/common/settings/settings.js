@@ -51,10 +51,12 @@
             notes: ""
         },
         save: function () {
-            GM_setValue(modules.constants.SettingsSaveKey, JSON.stringify(this.settings));
+            var data = JSON.stringify(this.settings);
+            GM_setValue(modules.constants.SettingsSaveKey, data);
         },
         load: function () {
-            var data = JSON.parse(GM_getValue(modules.constants.SettingsSaveKey) || "{}");
+            var dataString = GM_getValue(modules.constants.SettingsSaveKey) || "{}";
+            var data = JSON.parse(dataString);
             if(data.version === modules.constants.SettingsSaveVersion) {
                 this.settings = $.extend(true, this.defaults, data);
             }

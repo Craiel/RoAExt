@@ -8,7 +8,7 @@
     Constants.prototype = Object.spawn(RoAModule.prototype, {
         BaseResourceUrl: "https://cdn.rawgit.com/Craiel/RoAExtRelease/master/",
 
-        SettingsAutoSaveInterval: 1000,
+        SettingsAutoSaveInterval: 5000,
         SettingsSaveVersion: 1,
         SettingsSaveKey: "settings",
 
@@ -23,6 +23,8 @@
 
         PerHourColor: "#99cc99",
         PerHourSize: "12px",
+
+        GainTrackerAutoSaveInterval: 60 * 5 * 1000, // 5 minutes
 
         HouseUpdateInterval: 60 * 3 * 1000, // 3 minutes
 

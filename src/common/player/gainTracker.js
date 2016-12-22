@@ -1,16 +1,18 @@
 (function () {
     'use strict';
 
+    const UpdateInterval = 100;
+
     var updateTimer;
     var saveTimer;
 
     var activeData = {};
     var ingredientData = { dropTableByMob: {}, dropTableByItem: {} };
     var ingredientRegister = {};
-    var mobRegister = {};
+    var dropRegister = {};
 
     var nextIngredientId = 1;
-    var nextMobId = 1;
+    var nextDropId = 1;
 
     function processMaterialDrop(name, value, source) {
         switch (name) {
@@ -71,6 +73,14 @@
         }
 
         match = string.match(/ Trash Compactor .*? ([0-9,]+) Crafting Material/i);
+        if(match && match.length == 2) {
+            var value = parseInt(match[1].replace(/,/g, ''));
+            activeData[modules.gainTypes.types.Material.id].addData(value || 0, modules.gainSources.sources.TrashCompactor.id)
+            activeData[modules.gainTypes.types.Item.id].addData(1, modules.gainSources.sources.ActivityDrop.id);
+            return;
+        }
+
+        match = string.match(/\+([0-9]+) Crafting Materials \(<span/i);
         if(match && match.length == 2) {
             var value = parseInt(match[1].replace(/,/g, ''));
             activeData[modules.gainTypes.types.Material.id].addData(value || 0, modules.gainSources.sources.TrashCompactor.id)
@@ -142,56 +152,71 @@
             return;
         }
 
-        console.warn("Unknown Stat Drop string: " + string);
-    }
-
-    function registerIngredientDrop(item, mob) {
-        if(!item || item === "undefined" || !mob || mob === "undefined") {
+        match = string.match(/\+([0-9\.]+)[%]* .*?>([\w\s]+)</i);
+        if(match && match.length == 3) {
+            var value = parseFloat(match[1].replace(/,/g, ''));
+            processStatDrop(match[2], value, source);
             return;
         }
 
-        console.log("Registering Ingredient drop: '" + item + "' from '" + mob + "'");
+        console.warn("Unknown Stat Drop string: " + string);
+    }
+
+    function registerIngredientDrop(item, source) {
+        if(!item || item === "undefined" || !source || source === "undefined") {
+            return;
+        }
+
+        console.log("Registering Ingredient drop: '" + item + "' from '" + source + "'");
 
         if(!ingredientRegister[item]){
             ingredientRegister[item] = nextIngredientId++;
         }
 
-        if(!mobRegister[mob]){
-            mobRegister[mob] = nextMobId++;
+        if(!dropRegister[source]){
+            dropRegister[source] = nextDropId++;
         }
 
         var ingredientId = ingredientRegister[item];
-        var mobId = mobRegister[mob];
+        var dropId = dropRegister[source];
 
-        if(!ingredientData.dropTableByMob[mobId]) {
-            ingredientData.dropTableByMob[mobId] = {};
+        if(!ingredientData.dropTableByMob[dropId]) {
+            ingredientData.dropTableByMob[dropId] = {};
         }
 
-        if(!ingredientData.dropTableByMob[mobId][ingredientId]) {
-            ingredientData.dropTableByMob[mobId][ingredientId] = 1;
+        if(!ingredientData.dropTableByMob[dropId][ingredientId]) {
+            ingredientData.dropTableByMob[dropId][ingredientId] = 1;
         }
 
         if(!ingredientData.dropTableByItem[ingredientId]) {
             ingredientData.dropTableByItem[ingredientId] = {};
         }
 
-        if(!ingredientData.dropTableByItem[ingredientId][mobId]) {
-            ingredientData.dropTableByItem[ingredientId][mobId] = 1;
+        if(!ingredientData.dropTableByItem[ingredientId][dropId]) {
+            ingredientData.dropTableByItem[ingredientId][dropId] = 1;
         }
     }
 
-    function handleIngredientDrop(string, source) {
+    function handleIngredientDrop(string, source, dropSource) {
         if(string === null) {
             return;
         }
 
-        var match = string.match(/took a[n]* (.*?) from the (.*?)('s)* remains/i);
-        console.log(match);
-        if(match && match.length == 4) {
-            // TODO: do something with the actual ingredient
+        if(!dropSource) {
+            console.warn("Ingredient drop from unknown source: " + string);
+            dropSource = "Unknown";
+        }
 
-            registerIngredientDrop(match[1], match[2]);
+        var match = string.match(/took a[n]* (.*?) from /i);
+        if(match && match.length == 2) {
+            registerIngredientDrop(match[1], dropSource);
+            activeData[modules.gainTypes.types.Ingredient.id].addData(1, source);
+            return;
+        }
 
+        match = string.match(/\+a[n]* ([\w\s]+)/i);
+        if(match && match.length == 2) {
+            registerIngredientDrop(match[1], dropSource);
             activeData[modules.gainTypes.types.Ingredient.id].addData(1, source);
             return;
         }
@@ -220,7 +245,7 @@
         // Drops and effects
         handleActivityDrop(requestData.json.b.dr, modules.gainSources.sources.Battle.id);
         handleStatDrop(requestData.json.b.sr, modules.gainSources.sources.Battle.id);
-        handleIngredientDrop(requestData.json.b.ir, modules.gainSources.sources.Battle.id);
+        handleIngredientDrop(requestData.json.b.ir, modules.gainSources.sources.Battle.id, requestData.json.b.m.n);
     }
 
     function onActivityEvent(requestData) {
@@ -292,7 +317,7 @@
 
         handleActivityDrop(requestData.json.b.dr, modules.gainSources.sources.Dungeon.id);
         handleStatDrop(requestData.json.b.sr, modules.gainSources.sources.Dungeon.id);
-        handleIngredientDrop(requestData.json.b.ir, modules.gainSources.sources.Dungeon.id);
+        handleIngredientDrop(requestData.json.b.ir, modules.gainSources.sources.Dungeon.id, requestData.json.b.m.n);
     }
 
     function onDungeonSearch(requestData) {
@@ -347,8 +372,8 @@
             data.ir[key] = ingredientRegister[key];
         }
 
-        for (var key in mobRegister) {
-            data.mr[key] = mobRegister[key];
+        for (var key in dropRegister) {
+            data.mr[key] = dropRegister[key];
         }
 
         for (var mobId in ingredientData.dropTableByMob) {
@@ -410,10 +435,10 @@
             modules.ajaxHooks.register("dungeon_search.php", onDungeonSearch);
 
             updateTimer = modules.createInterval("GainTrackerUpdate");
-            updateTimer.set(onUpdate, 100);
+            updateTimer.set(onUpdate, UpdateInterval);
 
             saveTimer = modules.createInterval("GainTackerSave");
-            saveTimer.set(save, 1000);
+            saveTimer.set(save, modules.constants.GainTrackerAutoSaveInterval);
 
             createDataEntries();
 
