@@ -37,7 +37,6 @@
         modules.loader.register(modules.marketWindowEnhancements);
 
         // Misc
-        modules.loader.register(modules.uiDebugWindow);
         modules.loader.register(modules.uiNoteWindow);
         modules.loader.register(modules.uiTimerEditor);
         modules.loader.register(modules.uiActionShortcuts);
