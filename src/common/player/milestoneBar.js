@@ -12,6 +12,10 @@
         }
 
         var entryData = requestData.json[0];
+        if(!entryData.name) {
+            return;
+        }
+
         var entry = template.replace(/%NAME%/g, entryData.name);
         entry = entry.replace(/%VALUECUR%/g, entryData.current);
         entry = entry.replace(/%VALUEMAX%/g, entryData.next);
