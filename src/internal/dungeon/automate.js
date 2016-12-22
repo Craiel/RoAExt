@@ -224,23 +224,10 @@
 
             var wrapper = $('<div class="bt1 mt10 center"></div>');
             wrapper.append(autoToggleButton);
-            $('#dungeonInfo').append(wrapper);
-
-            var manualContinueButton = $('<a>(A) Next</a>');
-            manualContinueButton.click(continueAuto);
-
-            var wrapper = $('<div class="bt1 mt10 center"></div>');
-            wrapper.append(manualContinueButton);
-            $('#dungeonInfo').append(wrapper);
+            $('#dungeonInfo').children().first().append(wrapper);
 
             dungeonAutoActionTimer = modules.createInterval("DungeonAutoAction");
             dungeonAutoActionTimer.set(onAutoDungeon, 200);
-
-            /*modules.ajaxHooks.register("dungeon_leave.php", onDungeonLeave);
-            modules.ajaxHooks.register("dungeon_info.php", onDungeonInfo);
-            modules.ajaxHooks.register("dungeon_search.php", onDungeonSearch);
-            modules.ajaxHooks.register("dungeon_move.php", onDungeonMove);
-            modules.ajaxHooks.register("dungeon_battle.php", onDungeonBattle);*/
 
             RoAModule.prototype.load.apply(this);
         }
