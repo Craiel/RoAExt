@@ -14,6 +14,7 @@
     var template;
     var wnd;
 
+    var tabList = [];
     var tabMap;
     var tabStatistics;
     var tabData;
@@ -151,7 +152,7 @@
         // Map Container
         var container = $('<div id="dungeonMapContainer"></div>');
         var title = $('<h5 class="center" style="margin: 10px"><span>Dungeon Map</span></h5>');
-        mapCanvas = $('<canvas id="dungeonMapCanvas" style="margin-left: 10px" width="' + DungeonMapSize + '" height="' + DungeonMapSize + '"></canvas>');
+        mapCanvas = $('<canvas id="dungeonMapCanvas" style="margin-left: 20%" width="' + DungeonMapSize + '" height="' + DungeonMapSize + '"></canvas>');
         container.append(title);
         container.append(mapCanvas);
 
@@ -162,11 +163,23 @@
     function createTab(contentId, toggleId) {
         var tab = $('#' + contentId);
         var toggle = $('#' + toggleId);
-        toggle.click({id: contentId}, function (e) {
+        toggle.click({id: contentId, t: toggleId}, function (e) {
+            for(var i = 0; i < tabList.length; i++) {
+                tabList[i].ta.hide();
+                tabList[i].to.removeClass("active");
+            }
+
             $('#' + e.data.id).toggle();
+
+            if($('#' + e.data.id).is(":visible")) {
+                $('#' + e.data.t).addClass("active");
+            } else {
+                $('#' + e.data.t).removeClass("active");
+            }
         });
 
         tab.hide();
+        tabList.push({ta: tab, to: toggle});
         return tab;
     }
 
