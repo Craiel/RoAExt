@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const DungeonDataVersion = 4;
+    const DungeonDataVersion = 5;
 
     function onDungeonInfo(requestData) {
         if (!requestData.json.data) {
@@ -55,7 +55,7 @@
     }
 
     function onDungeonSearch(requestData) {
-        modules.settings.settings.dungeonData.statistics.RoomsSearched++;
+        addStatisic("RoomsSearched");
 
         // Forward to dungeon info
         onDungeonInfo(requestData);
@@ -107,16 +107,40 @@
         previousRoomData.ml[direction.id] = modules.settings.settings.dungeonData.currentRoomId;
         modules.settings.settings.dungeonData.rooms[modules.settings.settings.dungeonData.currentRoomId].ml[direction.opposite.id] = previousRoomId;
 
-        modules.settings.settings.dungeonData.statistics.TimesMoved++;
+        addStatisic("TimesMoved");
     }
 
     function onDungeonBattle(requestData) {
-        if(requestData.json.b && requestData.json.b.xp > 0) {
-            modules.settings.settings.dungeonData.statistics.MonstersKilled++;
+        if(!requestData.json.b) {
+            return;
+        }
+
+        if(requestData.json.b.xp > 0) {
+            addStatisic("MonstersKilled");
+        }
+
+        if(requestData.json.b.dp > 0) {
+            addStatisic("DungeonPointsGained", requestData.json.b.dp);
         }
     }
 
+    function addStatisic(key, value) {
+        value = value || 1;
+        if(!value || isNaN(value) || value <= 0) {
+            return;
+        }
+
+        if(!modules.settings.settings.dungeonData.statistics[key]) {
+            modules.settings.settings.dungeonData.statistics[key] = 0;
+        }
+
+        modules.settings.settings.dungeonData.statistics[key] += value;
+    }
+
     function initializeDungeonData() {
+        // Keep the statistics if we have any
+        var statistics = modules.settings.settings.dungeonData.statistics || {};
+
         modules.settings.settings.dungeonData = {
             rooms: {},
             currentRoomId: null,
@@ -124,11 +148,7 @@
             exitRoom: null,
             version: DungeonDataVersion,
             position: [0, 0],
-            statistics: {
-                TimesMoved: 0,
-                RoomsSearched: 0,
-                MonstersKilled: 0
-            }
+            statistics: statistics
         };
     }
 

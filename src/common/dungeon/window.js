@@ -159,7 +159,7 @@
 
             var $row = $('<tr></tr>');
             $row.append($('<td>' + key + '</td>'));
-            $row.append($('<td>' + value + '</td>'));
+            $row.append($('<td>' + value.toFixed(0) + '</td>'));
 
             $tableBody.append($row);
         }
