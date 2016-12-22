@@ -37,13 +37,13 @@
         var data = modules.playerGainTracker.getDropInfoByItem();
 
         for(var dropName in data) {
-            if(dropFilter && dropFilter.length > 0 && dropName.toLowerCase().includes(dropFilter.toLowerCase())) {
+            if(dropFilter && dropFilter.length > 0 && !dropName.toLowerCase().includes(dropFilter.toLowerCase())) {
                 continue;
             }
 
             for(var i = 0; i < data[dropName].length; i++) {
                 var sourceName = data[dropName][i];
-                if(sourceFilter && sourceFilter.length > 0 && sourceName.toLowerCase().includes(sourceFilter.toLowerCase())) {
+                if(sourceFilter && sourceFilter.length > 0 && !sourceName.toLowerCase().includes(sourceFilter.toLowerCase())) {
                     continue;
                 }
 

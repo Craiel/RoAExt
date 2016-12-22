@@ -80,6 +80,10 @@
   background-image: -ms-linear-gradient(top, #025251 0, #012625 100%);
   background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
 }
+.roaext-gain-drop-filter-input {
+  background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
+  width: 150px;
+}
 .roaext-timer-input {
   background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
 }
