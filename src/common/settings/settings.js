@@ -15,7 +15,7 @@
         defaults: {
             version: modules.constants.SettingsSaveVersion,
             notification: {
-                enable: false,
+                enable: true,
                 enableSound: false,
                 whisper: {
                     sound: true,
