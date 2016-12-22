@@ -42,9 +42,8 @@
                 house_timer: true
             },
             dynamicSettings: {},
-            dungeonMap: {},
             dungeonData: {},
-            chartData: {},
+            chartData: null,
             timerData: {},
             gainData: "",
             lastEventTime: null,

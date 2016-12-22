@@ -40,6 +40,7 @@
         modules.loader.register(modules.effectMonitor);
         modules.loader.register(modules.eventMonitor);
         modules.loader.register(modules.sessionTime);
+        modules.loader.register(modules.notificationSettings);
 
         // Player
         modules.loader.register(modules.playerGainWindow);

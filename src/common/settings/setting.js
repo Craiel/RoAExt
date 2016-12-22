@@ -6,6 +6,7 @@
     };
 
     const Setting = function (category, name, description, type) {
+        this.key = category + "_" + name;
         this.category = category;
         this.name = name;
         this.description = description;
@@ -19,20 +20,33 @@
     };
 
     Setting.prototype = {
+        key: null,
         category: null,
         name: null,
         description: null,
         type: null,
         callback: null,
         value: null,
+        setValue: function (newValue) {
+            if(this.value === newValue) {
+                return;
+            }
+
+            this.value = newValue;
+            this.save();
+
+            if(this.callback) {
+                this.callback(this);
+            }
+        },
         load: function() {
-            if(!modules.settings.dynamicSettings) {
-                modules.settings.dynamicSettings = {};
+            if(!modules.settings.settings.dynamicSettings) {
+                modules.settings.settings.dynamicSettings = {};
             }
 
             switch (this.type) {
                 case SettingType.Toggle: {
-                    this.value = modules.settings.dynamicSettings[this.name] || false;
+                    this.value = modules.settings.settings.dynamicSettings[this.key] || false;
                     break;
                 }
 
@@ -42,13 +56,13 @@
             }
         },
         save: function () {
-            if(!modules.settings.dynamicSettings) {
-                modules.settings.dynamicSettings = {};
+            if(!modules.settings.settings.dynamicSettings) {
+                modules.settings.settings.dynamicSettings = {};
             }
 
             switch (this.type) {
                 case SettingType.Toggle: {
-                    modules.settings.dynamicSettings[this.name] = this.value;
+                    modules.settings.settings.dynamicSettings[this.key] = this.value;
                     break;
                 }
 

@@ -7,28 +7,44 @@
     var visibleChart = null;
     var activeCharts = {};
 
+    function processActivityGeneralResult(data) {
+        if(!data) {
+            return;
+        }
+
+        if(data.gold) {
+            activeCharts.chartPlayerGold.updateData(data.gold.t);
+        }
+    }
+
     function onAutoBattle(requestData) {
         if(requestData.json.b) {
             if(requestData.json.b.xp && requestData.json.b.xp > 0) {
-                activeCharts['chartPlayerBattleXP'].updateData(requestData.json.b.xp);
+                activeCharts.chartPlayerBattleXP.updateData(requestData.json.b.xp);
             }
 
             if(requestData.json.b.g && requestData.json.b.g > 0) {
-                activeCharts['chartPlayerGoldLooted'].updateData(requestData.json.b.g);
+                activeCharts.chartPlayerGoldLooted.updateData(requestData.json.b.g);
             }
         }
+
+        processActivityGeneralResult(requestData.json.p);
     }
 
     function onAutoTrade(requestData) {
         if(requestData.json.a && requestData.json.a.xp && requestData.json.a.xp > 0) {
-            activeCharts['chartPlayerHarvestXP'].updateData(requestData.json.a.xp);
+            activeCharts.chartPlayerHarvestXP.updateData(requestData.json.a.xp);
         }
+
+        processActivityGeneralResult(requestData.json.p);
     }
 
     function onAutoCraft(requestData) {
         if(requestData.json.a && requestData.json.a.xp && requestData.json.a.xp > 0) {
-            activeCharts['chartPlayerCraftingXP'].updateData(requestData.json.a.xp);
+            activeCharts.chartPlayerCraftingXP.updateData(requestData.json.a.xp);
         }
+
+        processActivityGeneralResult(requestData.json.p);
     }
 
     function onStatsReceived(requestData) {
@@ -50,7 +66,7 @@
             return;
         }
 
-        var data = JSON.parse(localStorage.chartData);
+        var data = JSON.parse(modules.settings.settings.chartData);
         for (var id in data) {
             if(activeCharts[id]) {
                 activeCharts[id].load(data[id]);
@@ -64,8 +80,8 @@
             data[id] = activeCharts[id].save();
         }
 
-        localStorage.chartData = JSON.stringify(data);
-        $('#gameChartStorageSize').text(localStorage.chartData.length * 2);
+        modules.settings.settings.chartData = localStorage.chartData;
+        $('#gameChartStorageSize').text(modules.settings.settings.chartData.length * 2);
     }
 
     function resetCharts() {
@@ -173,7 +189,7 @@
             setupChart("toggleChartPlayerBattleXP", "chartPlayerBattleXP", "Battle XP", "column").asAdditive();
             setupChart("toggleChartPlayerHarvestXP", "chartPlayerHarvestXP", "Harvest XP", "column").asAdditive();
             setupChart("toggleChartPlayerCraftingXP", "chartPlayerCraftingXP", "Crafting XP", "column").asAdditive();
-            setupChart("toggleChartPlayerGold", "chartPlayerGold", "Gold").asElementChart("gold");
+            setupChart("toggleChartPlayerGold", "chartPlayerGold", "Gold");
             setupChart("toggleChartPlayerGoldLooted", "chartPlayerGoldLooted", "Gold Looted", "column").asAdditive();
             setupChart("toggleChartPlayerPlatinum", "chartPlayerPlatinum", "Platinum").asElementChart("platinum");
             setupChart("toggleChartPlayerCrystal", "chartPlayerCrystal", "Crystals").asElementChart("premium");

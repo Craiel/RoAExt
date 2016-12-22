@@ -8,12 +8,6 @@
         return $('<div class="row"><div class="col-xs-12"><h4 class="nobg center">' + title + '</h4></div></div>');
     }
 
-    function notifySettingChange(category, name) {
-        if(modules.settingsWindow.settings[category][name].callback) {
-            modules.settingsWindow.settings[category][name].callback();
-        }
-    }
-
     function buildToggleEntry(setting) {
 
         var optionOff = $('<option value="0">Disabled</option>');
@@ -22,9 +16,13 @@
         var select = $('<select></select>');
         select.append(optionOff);
         select.append(optionOn);
+
+        if(setting.value === true) {
+            select.val("1");
+        }
+
         select.change({cat: setting.category, name: setting.name}, function (e) {
-            modules.settingsWindow.settings[e.data.cat][e.data.name].value = parseInt(this.value) === 1;
-            notifySettingChange(e.data.cat, e.data.name);
+            modules.settingsWindow.settings[e.data.cat][e.data.name].setValue(parseInt(this.value) === 1);
         });
 
         var selectWrapper = $('<div class="col-xs-4 col-md-2"></div>');
