@@ -3,26 +3,50 @@
         <h5 id="gainWindowTitle" class="center toprounder">Gains & Loot</h5>
         <span class="closeModal"><a id="gainWindowClose">×</a></span>
         <div id="gainWindowContent" class="mCSB_container roaext-gain-window-content" style="height: 100%">
-            <h5 class="center">Source Filters</h5>
-            <div id="gainSourceFilters" class="center" style="margin-top: 10px; margin-bottom: 20px;"></div>
-            <h5 class="center">Type Filters</h5>
-            <div id="gainTypeFilters" class="center" style="margin-bottom: 20px;"></div>
-            <div id="gainControls" class="col-xs-12 col-md-12 center mt10" style="margin-bottom: 20px; display: block"></div>
-            <div id="gainContentTableWrapper">
-                <table id="gainContentTable" class="sorted_table" style="width: 90%; margin: 20px;">
+            <div id="dungeonLinksWrapper" class="center">
+                <a id="gainCtrlList" class="active"><button class="btn btn-primary">List</button></a>
+                <a id="gainCtrlDropMap" class=""><button class="btn btn-primary">Drop Map</button></a>
+            </div>
+            <div id="gainWndList" style="margin: 10px;">
+                <h5 class="center">Source Filters</h5>
+                <div id="gainSourceFilters" class="center" style="margin-top: 10px; margin-bottom: 20px;"></div>
+                <h5 class="center">Type Filters</h5>
+                <div id="gainTypeFilters" class="center" style="margin-bottom: 20px;"></div>
+                <div id="gainControls" class="col-xs-12 col-md-12 center mt10" style="margin-bottom: 20px; display: block"></div>
+                <div id="gainContentTableWrapper">
+                    <table id="gainContentTable" class="sorted_table" style="width: 90%; margin: 20px;">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>#/hour</th>
+                            <th>#/hour (over 24h)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="gainContentTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="gainWndDropMap" style="margin-top: 20px">
+                <div class="center">
+                    <input id="gainDropMapFilterDropValue" style="width: 50px">Filter by Drop</input>
+                    <input id="gainDropMapFilterSourceValue" style="width: 50px">Filter by Source</input>
+                </div>
+                <table id="gainWndDropMapTable" class="sorted_table" style="width: 80%; margin-left: 10%">
                     <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>#/hour</th>
-                        <th>#/hour (over 24h)</th>
+                        <th>Item</th>
+                        <th>Source</th>
                     </tr>
                     </thead>
-                    <tbody id="gainContentTableBody">
+                    <tbody id="gainWndDropMapTableContent">
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 </div>

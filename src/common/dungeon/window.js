@@ -21,6 +21,7 @@
 
     var mapCanvas;
     var dungeonPositionInfo;
+    var dungeonExitInfo;
 
     var mapNeedsUpdate = true;
 
@@ -142,11 +143,19 @@
 
         if(!modules.settings.settings.dungeonData.currentRoomId) {
             dungeonPositionInfo.text("Not in Dungeon!");
+            dungeonExitInfo.text("");
             return;
         }
 
         var currentRoom = modules.settings.settings.dungeonData.rooms[modules.settings.settings.dungeonData.currentRoomId];
         dungeonPositionInfo.text("Room " + currentRoom.id + " (x: " + currentRoom.pos[0] + " y: " + currentRoom.pos[1] + ")");
+
+        if(modules.settings.settings.dungeonData.exitRoom) {
+            var exitRoom = modules.settings.settings.dungeonData.rooms[modules.settings.settings.dungeonData.exitRoom];
+            dungeonExitInfo.text("Exit Room " + modules.settings.settings.dungeonData.exitRoom + " (x: " + exitRoom.pos[0] + " y: " + exitRoom.pos[1] + ")");
+        } else {
+            dungeonExitInfo.text("Exit not found!");
+        }
 
         var dataSize = JSON.stringify(modules.settings.settings.dungeonData).length * 4;
         $('#dungeonDataSize').text("Data Size: " + dataSize);
@@ -171,6 +180,11 @@
         dungeonPositionInfo = $('<span></span>');
         dungeonInfoWrapper.append(dungeonPositionInfo);
 
+        // Dungeon Info
+        var dungeonExitWrapper = $('<div class="center" style="margin-top: 10px"></div>')
+        dungeonExitInfo = $('<span></span>');
+        dungeonExitWrapper.append(dungeonExitInfo);
+
         // Map Container
         var container = $('<div id="dungeonMapContainer"></div>');
         var title = $('<h5 class="center" style="margin: 10px"><span>Dungeon Map</span></h5>');
@@ -179,6 +193,7 @@
         container.append(mapCanvas);
 
         tabMap.append(dungeonInfoWrapper);
+        tabMap.append(dungeonExitWrapper);
         tabMap.append(container);
     }
 

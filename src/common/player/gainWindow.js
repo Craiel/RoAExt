@@ -9,9 +9,49 @@
     var enabledTypes = {};
     var enabledSources = {};
 
+    var tabList = [];
+    var tabGainList;
+    var tabDropMap;
+
     function update() {
         if(wnd.is(":visible")) {
-            rebuildGainTable();
+            if($('#gainWndList').is(":visible")) {
+                rebuildGainTable();
+                return;
+            }
+
+            if($('#gainWndDropMap').is(":visible")) {
+                rebuildDropMapTable();
+                return;
+            }
+        }
+    }
+
+    function rebuildDropMapTable() {
+        var $tableBody = $('#gainWndDropMapTableContent');
+
+        var dropFilter = $('#gainDropMapFilterDropValue').val();
+        var sourceFilter = $('#gainDropMapFilterSourceValue').val();
+
+        var data = modules.playerGainTracker.getDropInfoByItem();
+
+        for(var dropName in data) {
+            if(dropFilter && dropFilter.length > 0 && dropName.toLowerCase().includes(dropFilter.toLowerCase())) {
+                continue;
+            }
+
+            for(var i = 0; i < data[dropName].length; i++) {
+                var sourceName = data[dropName][i];
+                if(sourceFilter && sourceFilter.length > 0 && sourceName.toLowerCase().includes(sourceFilter.toLowerCase())) {
+                    continue;
+                }
+
+                var $row = $('<tr></tr>');
+                $row.append($('<td>' + dropName + '</td>'));
+                $row.append($('<td>' + sourceName + '</td>'));
+
+                $tableBody.append($row);
+            }
         }
     }
 
@@ -157,6 +197,29 @@
         wnd.toggle();
     }
 
+    function createTab(contentId, toggleId) {
+        var tab = $('#' + contentId);
+        var toggle = $('#' + toggleId);
+        toggle.click({id: contentId, t: toggleId}, function (e) {
+            for(var i = 0; i < tabList.length; i++) {
+                tabList[i].ta.hide();
+                tabList[i].to.removeClass("active");
+            }
+
+            $('#' + e.data.id).toggle();
+
+            if($('#' + e.data.id).is(":visible")) {
+                $('#' + e.data.t).addClass("active");
+            } else {
+                $('#' + e.data.t).removeClass("active");
+            }
+        });
+
+        tab.hide();
+        tabList.push({ta: tab, to: toggle});
+        return tab;
+    }
+
     function PlayerGainWindow() {
         RoAModule.call(this, "Player Gain Window");
     }
@@ -173,6 +236,12 @@
             $('#gainWindowClose').click(function () {
                 wnd.hide();
             });
+
+            tabGainList = createTab('gainWndList', 'gainCtrlList');
+            tabDropMap = createTab('gainWndDropMap', 'gainCtrlDropMap');
+
+            // Start with the map active by default
+            tabGainList.show();
 
             modules.uiScriptMenu.addLink("Gains & Loot", onClick);
 

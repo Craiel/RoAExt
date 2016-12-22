@@ -12,7 +12,7 @@
         }
 
         var entryData = requestData.json[0];
-        if(!entryData.name) {
+        if(!entryData || !entryData.name) {
             return;
         }
 

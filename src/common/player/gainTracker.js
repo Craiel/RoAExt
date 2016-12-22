@@ -7,9 +7,11 @@
     var saveTimer;
 
     var activeData = {};
-    var ingredientData = { dropTableByMob: {}, dropTableByItem: {} };
-    var ingredientRegister = {};
+    var dropData = { dropTableBySource: {}, dropTableByItem: {} };
     var dropRegister = {};
+    var dropRegisterById = {};
+    var dropSourceRegister = {};
+    var dropSourceRegisterById = {};
 
     var nextIngredientId = 1;
     var nextDropId = 1;
@@ -43,10 +45,13 @@
             }
 
             default: {
-                // TODO:
-                /*
-                    - "Bland Jupiterian Symbol"
-                 */
+
+                if (name.includes(" Symbol")) {
+                   // Symbols are ingredients but are tracked in here so we forward it
+                    registerIngredientDrop(name, "Dungeon");
+                    return;
+                }
+
                 console.warn("Unhandled Material Drop: " + name + "@" + value + " from " + source);
                 return;
             }
@@ -128,6 +133,7 @@
                 return;
             }
 
+            case "counter attack":
             case "counter attacking": {
                 activeData[modules.gainTypes.types.CounterAttack.id].addData(value, source);
                 return;
@@ -169,31 +175,33 @@
 
         console.log("Registering Ingredient drop: '" + item + "' from '" + source + "'");
 
-        if(!ingredientRegister[item]){
-            ingredientRegister[item] = nextIngredientId++;
+        if(!dropRegister[item]){
+            dropRegister[item] = nextIngredientId++;
+            dropRegisterById[dropRegister[item]] = item;
         }
 
-        if(!dropRegister[source]){
-            dropRegister[source] = nextDropId++;
+        if(!dropSourceRegister[source]){
+            dropSourceRegister[source] = nextDropId++;
+            dropSourceRegisterById[dropSourceRegister[source]] = source;
         }
 
-        var ingredientId = ingredientRegister[item];
-        var dropId = dropRegister[source];
+        var dropId = dropRegister[item];
+        var sourceId = dropSourceRegister[source];
 
-        if(!ingredientData.dropTableByMob[dropId]) {
-            ingredientData.dropTableByMob[dropId] = {};
+        if(!dropData.dropTableBySource[sourceId]) {
+            dropData.dropTableBySource[sourceId] = {};
         }
 
-        if(!ingredientData.dropTableByMob[dropId][ingredientId]) {
-            ingredientData.dropTableByMob[dropId][ingredientId] = 1;
+        if(!dropData.dropTableBySource[sourceId][dropId]) {
+            dropData.dropTableBySource[sourceId][dropId] = 1;
         }
 
-        if(!ingredientData.dropTableByItem[ingredientId]) {
-            ingredientData.dropTableByItem[ingredientId] = {};
+        if(!dropData.dropTableByItem[dropId]) {
+            dropData.dropTableByItem[dropId] = {};
         }
 
-        if(!ingredientData.dropTableByItem[ingredientId][dropId]) {
-            ingredientData.dropTableByItem[ingredientId][dropId] = 1;
+        if(!dropData.dropTableByItem[dropId][sourceId]) {
+            dropData.dropTableByItem[dropId][sourceId] = 1;
         }
     }
 
@@ -368,18 +376,18 @@
             data.g[key] = activeData[key].save();
         }
 
-        for (var key in ingredientRegister) {
-            data.ir[key] = ingredientRegister[key];
+        for (var key in dropRegisterById) {
+            data.ir[key] = dropRegisterById[key];
         }
 
-        for (var key in dropRegister) {
-            data.mr[key] = dropRegister[key];
+        for (var key in dropSourceRegisterById) {
+            data.mr[key] = dropSourceRegisterById[key];
         }
 
-        for (var mobId in ingredientData.dropTableByMob) {
-            data.drt[mobId] = [];
-            for (var itemId in ingredientData.dropTableByMob[mobId]) {
-                data.drt[mobId].push(itemId);
+        for (var sourceId in dropData.dropTableBySource) {
+            data.drt[sourceId] = [];
+            for (var itemId in dropData.dropTableBySource[sourceId]) {
+                data.drt[sourceId].push(itemId);
             }
         }
 
@@ -395,10 +403,10 @@
         }
 
         // ingredient data
-        for (var mobId in modules.settings.settings.gainData.drt) {
-            var mobName = modules.settings.settings.gainData.mr[mobId];
-            for (var i = 0; i < modules.settings.settings.gainData.drt[mobId].length; i++) {
-                var itemId = modules.settings.settings.gainData.drt[mobId][i];
+        for (var sourceId in modules.settings.settings.gainData.drt) {
+            var mobName = modules.settings.settings.gainData.mr[sourceId];
+            for (var i = 0; i < modules.settings.settings.gainData.drt[sourceId].length; i++) {
+                var itemId = modules.settings.settings.gainData.drt[sourceId][i];
                 var itemName = modules.settings.settings.gainData.ir[itemId];
 
                 registerIngredientDrop(itemName, mobName);
@@ -456,6 +464,22 @@
             for(var key in activeData) {
                 activeData[key].reset();
             }
+        },
+        getDropInfoByItem: function () {
+            var result = {};
+            for(var itemId in dropData.dropTableByItem) {
+                var name = dropRegisterById[itemId];
+                if(!result[name]) {
+                    result[name] = [];
+                }
+
+                for(var sourceId in dropData.dropTableByItem[itemId]) {
+                    var item = dropSourceRegisterById[sourceId];
+                    result[name].push(item);
+                }
+            }
+
+            return result;
         }
     });
 
