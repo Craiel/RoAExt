@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const DungeonDataVersion = 3;
+    const DungeonDataVersion = 4;
 
     function onDungeonInfo(requestData) {
         if (!requestData.json.data) {
@@ -55,7 +55,7 @@
     }
 
     function onDungeonSearch(requestData) {
-        // TODO: see what we found and track
+        modules.settings.settings.dungeonData.statistics.RoomsSearched++;
 
         // Forward to dungeon info
         onDungeonInfo(requestData);
@@ -106,10 +106,14 @@
         // Now we have updated this room we need to ensure they are linked together properly
         previousRoomData.ml[direction.id] = modules.settings.settings.dungeonData.currentRoomId;
         modules.settings.settings.dungeonData.rooms[modules.settings.settings.dungeonData.currentRoomId].ml[direction.opposite.id] = previousRoomId;
+
+        modules.settings.settings.dungeonData.statistics.TimesMoved++;
     }
 
     function onDungeonBattle(requestData) {
-        // Nothing to track so far
+        if(requestData.json.b && requestData.json.b.xp > 0) {
+            modules.settings.settings.dungeonData.statistics.MonstersKilled++;
+        }
     }
 
     function initializeDungeonData() {
@@ -120,6 +124,11 @@
             exitRoom: null,
             version: DungeonDataVersion,
             position: [0, 0],
+            statistics: {
+                TimesMoved: 0,
+                RoomsSearched: 0,
+                MonstersKilled: 0
+            }
         };
     }
 

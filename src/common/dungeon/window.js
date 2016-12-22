@@ -128,6 +128,12 @@
         }
     }
 
+    function resetData() {
+        if(window.confirm("Reset Dungeon data?")) {
+
+        }
+    }
+
     function onUpdate() {
         if(mapNeedsUpdate) {
             redrawMap();
@@ -141,6 +147,22 @@
 
         var currentRoom = modules.settings.settings.dungeonData.rooms[modules.settings.settings.dungeonData.currentRoomId];
         dungeonPositionInfo.text("Room " + currentRoom.id + " (x: " + currentRoom.pos[0] + " y: " + currentRoom.pos[1] + ")");
+
+        var dataSize = JSON.stringify(modules.settings.settings.dungeonData).length * 4;
+        $('#dungeonDataSize').text("Data Size: " + dataSize);
+
+        // Rebuild the statistics panel
+        var $tableBody = $('#dungeonWndStatisticsTableContent');
+        $tableBody.empty();
+        for(var key in modules.settings.settings.dungeonData.statistics) {
+            var value = modules.settings.settings.dungeonData.statistics[key];
+
+            var $row = $('<tr></tr>');
+            $row.append($('<td>' + key + '</td>'));
+            $row.append($('<td>' + value + '</td>'));
+
+            $tableBody.append($row);
+        }
     }
 
     function createMap() {
@@ -212,6 +234,9 @@
             tabMap.show();
 
             createMap();
+
+            $('#dungeonWndStatisticsTable').tablesorter();
+            $('#dungeonResetDataBtn').click(resetData);
 
             modules.uiScriptMenu.addLink("Dungeon", onClick);
 

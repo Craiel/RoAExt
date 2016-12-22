@@ -9,8 +9,26 @@
                 <a id="dungeonCtrlData" class=""><button class="btn btn-primary">Data</button></a>
             </div>
             <div id="dungeonWndMap"></div>
-            <div id="dungeonWndStatistics"></div>
-            <div id="dungeonWndData"></div>
+            <div id="dungeonWndStatistics" style="margin-top: 20px; width: 60%; margin-left: 20%;">
+                <table id="dungeonWndStatisticsTable" class="sorted_table" style="width: 100%;">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                    </tr>
+                    </thead>
+                    <tbody id="dungeonWndStatisticsTableContent">
+                    </tbody>
+                </table>
+            </div>
+            <div id="dungeonWndData" style="margin-top: 20px">
+                <div class="center">
+                    <span id="dungeonDataSize"></span>
+                </div>
+                <div class="center">
+                    <a id="dungeonResetDataBtn"><button class="btn btn-primary">Reset</button></a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
