@@ -135,12 +135,26 @@
         }
     }
 
-    function onUpdate() {
-        if(mapNeedsUpdate) {
-            redrawMap();
-            mapNeedsUpdate = false;
-        }
+    function updateDataTab() {
+        var dataSize = JSON.stringify(modules.settings.settings.dungeonData).length * 4;
+        $('#dungeonDataSize').text("Data Size: " + dataSize);
+    }
 
+    function updateStatisticsTab() {
+        var $tableBody = $('#dungeonWndStatisticsTableContent');
+        $tableBody.empty();
+        for(var key in modules.settings.settings.dungeonData.statistics) {
+            var value = modules.settings.settings.dungeonData.statistics[key];
+
+            var $row = $('<tr></tr>');
+            $row.append($('<td>' + key + '</td>'));
+            $row.append($('<td>' + value.toFixed(0) + '</td>'));
+
+            $tableBody.append($row);
+        }
+    }
+
+    function updateDungeonMapTab() {
         if(!modules.settings.settings.dungeonData.currentRoomId) {
             dungeonPositionInfo.text("Not in Dungeon!");
             dungeonExitInfo.text("");
@@ -156,21 +170,24 @@
         } else {
             dungeonExitInfo.text("Exit not found!");
         }
+    }
 
-        var dataSize = JSON.stringify(modules.settings.settings.dungeonData).length * 4;
-        $('#dungeonDataSize').text("Data Size: " + dataSize);
+    function onUpdate() {
+        if(mapNeedsUpdate) {
+            redrawMap();
+            mapNeedsUpdate = false;
+        }
 
-        // Rebuild the statistics panel
-        var $tableBody = $('#dungeonWndStatisticsTableContent');
-        $tableBody.empty();
-        for(var key in modules.settings.settings.dungeonData.statistics) {
-            var value = modules.settings.settings.dungeonData.statistics[key];
+        if(tabMap.is(":visible")) {
+            updateDungeonMapTab();
+        }
 
-            var $row = $('<tr></tr>');
-            $row.append($('<td>' + key + '</td>'));
-            $row.append($('<td>' + value.toFixed(0) + '</td>'));
+        if(tabStatistics.is(":visible")) {
+            updateStatisticsTab();
+        }
 
-            $tableBody.append($row);
+        if(tabData.is(":visible")) {
+            updateDataTab();
         }
     }
 
