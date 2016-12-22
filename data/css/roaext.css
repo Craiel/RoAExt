@@ -2,6 +2,7 @@
   background-image: linear-gradient(to bottom, #025251 0, #012625 100%);
 }
 .roaext-module-window {
+  z-index: 9999;
   width: 800px;
   height: 500px;
   position: absolute !important;
@@ -103,6 +104,7 @@
   height: 100%;
 }
 .roaext-chart-window {
+  z-index: 9999;
   width: 800px;
   height: 500px;
   position: absolute !important;
@@ -120,6 +122,7 @@
   height: 100%;
 }
 .roaext-dungeon-window {
+  z-index: 9999;
   width: 800px;
   height: 500px;
   position: absolute !important;
@@ -130,6 +133,7 @@
   overflow-y: scroll;
 }
 .roaext-debug-window {
+  z-index: 9999;
   width: 800px;
   height: 500px;
   position: absolute !important;
@@ -140,6 +144,7 @@
   overflow-y: scroll;
 }
 .roaext-note-window {
+  z-index: 9999;
   width: 800px;
   height: 500px;
   position: absolute !important;
@@ -147,6 +152,7 @@
   left: 0;
 }
 .roaext-gain-window {
+  z-index: 9999;
   width: 800px;
   height: 500px;
   position: absolute !important;
@@ -164,6 +170,7 @@
   width: 120px;
 }
 .roaext-settings-window {
+  z-index: 9999;
   width: 800px;
   height: 500px;
   position: absolute !important;
@@ -174,6 +181,7 @@
   overflow-y: scroll;
 }
 .roaext-time-editor-window {
+  z-index: 9999;
   width: 800px;
   height: 500px;
   position: absolute !important;
