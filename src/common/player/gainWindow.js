@@ -36,7 +36,9 @@
 
         var data = modules.playerGainTracker.getDropInfoByItem();
 
-        for(var dropName in data) {
+        var sortedDropNames = Object.keys(data).sort();
+        for(var n = 0; n < sortedDropNames.length; n++) {
+            var dropName = sortedDropNames[n];
             if(dropFilter && dropFilter.length > 0 && !dropName.toLowerCase().includes(dropFilter.toLowerCase())) {
                 continue;
             }
