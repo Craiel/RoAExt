@@ -1,10 +1,9 @@
 (function ($) {
     'use strict';
 
-    const DungeonRoomSize = 10;
+    const DungeonRoomSize = 20;
     const DungeonRoomHalfSize = DungeonRoomSize / 2;
-    const DungeonMapSize = DungeonRoomSize * 40;
-    const DungeonMapHalfSize = DungeonMapSize / 2;
+    const DungeonMapSize = DungeonRoomSize * 20;
     const DungeonPlayerIndicatorSize = 2;
     const DungeonSearchIndicatorSize = 2;
     const DungeonEnemyIndicatorSize = 2;
@@ -78,12 +77,27 @@
             return;
         }
 
+        var tlCoord = { x: null, y: null};
+        for (var key in modules.settings.settings.dungeonData.rooms) {
+            var room = modules.settings.settings.dungeonData.rooms[key];
+            if(tlCoord.x === null || room.pos[0] < tlCoord.x) {
+                tlCoord.x = room.pos[0];
+            }
+
+            var adjustedY = room.pos[1] * -1;
+            if(tlCoord.y === null || adjustedY < tlCoord.y) {
+                tlCoord.y = adjustedY;
+            }
+        }
+
         for (var key in modules.settings.settings.dungeonData.rooms) {
             var room = modules.settings.settings.dungeonData.rooms[key];
             var isCurrent = room.id === modules.settings.settings.dungeonData.currentRoomId;
 
-            var centerX = DungeonMapHalfSize + (room.pos[0] * DungeonRoomSize);
-            var centerY = DungeonMapHalfSize + ((room.pos[1] * -1) * DungeonRoomSize);
+            var xDiff = room.pos[0] - tlCoord.x;
+            var yDiff = ((room.pos[1] * -1) - tlCoord.y);
+            var centerX = DungeonRoomSize + (xDiff * DungeonRoomSize);
+            var centerY = DungeonRoomSize + (yDiff * DungeonRoomSize);
 
             // Draw this room
             context.fillStyle = modules.constants.DungeonBackgroundColor;
