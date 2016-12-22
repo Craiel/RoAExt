@@ -1,8 +1,9 @@
 // Some core modules go before everything
 console.log("Loading " + GM_info.script.name);
-modules.settings.load();
 modules.logger.load();
 modules.notification.load();
+modules.intervalHandler.load();
+modules.settings.load();
 
 //Check if the user can even support the bot
 if (typeof(window.sessionStorage) === "undefined") {

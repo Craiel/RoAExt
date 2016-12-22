@@ -1,33 +1,59 @@
 (function () {
     'use strict';
 
+    const IntervalUpdateFrequency = 10;
+
+    var intervals = {};
+
     const Interval = function (n) {
         this.name = n;
     };
 
     Interval.prototype = {
-        intervals: {},
         isRunning: function () {
-            return typeof(this.intervals[this.name]) !== "undefined"
+            return typeof(intervals[this.name]) !== "undefined"
         },
         clear: function () {
-            if (this.isRunning()) {
-                clearInterval(this.intervals[this.name]);
-                delete this.intervals[this.name];
-                return true;
-            }
-
-            return false;
+            delete intervals[this.name];
         },
         set: function (callback, frequency) {
-            this.clear();
-            this.intervals[this.name] = setInterval(callback, frequency);
-            return this.intervals[this.name];
+            intervals[this.name] = { c: callback, f: frequency, l: Date.now() };
         }
     };
+
+    function updateIntervalHandler() {
+        modules.intervalHandler.update();
+    }
+
+    function IntervalHandler() {
+        RoAModule.call(this, "Interval Handler");
+    }
+
+    IntervalHandler.prototype = Object.spawn(RoAModule.prototype, {
+        update: function () {
+            var time = Date.now();
+            for(var key in intervals) {
+                var interval = intervals[key];
+                if(time - interval.l > interval.f) {
+                    interval.c();
+                    interval.l = time;
+                }
+            }
+        },
+        load: function () {
+
+            setInterval(updateIntervalHandler, IntervalUpdateFrequency);
+
+            RoAModule.prototype.load.apply(this);
+        }
+    });
+
+    IntervalHandler.prototype.constructor = IntervalHandler;
 
     modules.createInterval = function (n) {
         return new Interval(n);
     };
+
+    modules.intervalHandler = new IntervalHandler();
 
 })();
