@@ -90,7 +90,7 @@
             data[id] = activeCharts[id].save();
         }
 
-        modules.settings.settings.chartData = localStorage.chartData;
+        modules.settings.settings.chartData = JSON.stringify(data);
         $('#gameChartStorageSize').text(modules.settings.settings.chartData.length * 2);
     }
 
