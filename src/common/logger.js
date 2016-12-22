@@ -21,6 +21,9 @@
         },
         error: function (msg) {
             console.log(this.formatMessage(msg));
+        },
+        load: function () {
+            RoAModule.prototype.load.apply(this);
         }
     });
 
