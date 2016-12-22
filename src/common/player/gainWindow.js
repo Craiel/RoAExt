@@ -174,7 +174,7 @@
                 wnd.hide();
             });
 
-            modules.uiScriptMenu.addLink("Player Gains", onClick);
+            modules.uiScriptMenu.addLink("Gains & Loot", onClick);
 
             createSourceFilters();
             createTypeFilters();
