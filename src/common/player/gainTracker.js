@@ -5,7 +5,7 @@
     var saveTimer;
 
     var activeData = {};
-    var ingredientData = {};
+    var ingredientData = { dropTableByMob: {}, dropTableByItem: {} };
     var ingredientRegister = {};
     var mobRegister = {};
 
