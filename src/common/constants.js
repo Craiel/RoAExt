@@ -24,13 +24,13 @@
         PerHourColor: "#99cc99",
         PerHourSize: "12px",
 
-        GainTrackerAutoSaveInterval: 60 * 5 * 1000, // 5 minutes
+        GainTrackerAutoSaveInterval: 60 * 2 * 1000, // 5 minutes
 
         HouseUpdateInterval: 60 * 3 * 1000, // 3 minutes
 
         ChartUpdateInterval: 60 * 5 * 1000, // 5 minutes
 
-        HarvestRepeaterMinDelay: 60 * 25 * 1000, // 25 minutes
+        HarvestRepeaterMinDelay: 60 * 28 * 1000, // 28 minutes
 
         MilestoneUpdateInterval: 60 * 5 * 1000, // 5 minutes
     });

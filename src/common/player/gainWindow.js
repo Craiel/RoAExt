@@ -29,6 +29,7 @@
 
     function rebuildDropMapTable() {
         var $tableBody = $('#gainWndDropMapTableContent');
+        $tableBody.empty();
 
         var dropFilter = $('#gainDropMapFilterDropValue').val();
         var sourceFilter = $('#gainDropMapFilterSourceValue').val();
