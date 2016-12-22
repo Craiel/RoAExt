@@ -45,6 +45,7 @@
             dungeonData: {},
             chartData: null,
             timerData: {},
+            tradeData: {},
             gainData: "",
             lastEventTime: null,
             notes: ""

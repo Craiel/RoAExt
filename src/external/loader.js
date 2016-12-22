@@ -32,6 +32,10 @@
         // House
         modules.loader.register(modules.houseMonitor);
 
+        // Market
+        modules.loader.register(modules.marketTracker);
+        modules.loader.register(modules.marketWindowEnhancements);
+
         // Misc
         modules.loader.register(modules.uiDebugWindow);
         modules.loader.register(modules.uiNoteWindow);

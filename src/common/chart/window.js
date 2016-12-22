@@ -61,6 +61,16 @@
         saveChartData();
     }
 
+    function onMarketReceived(requestData) {
+        activeCharts.chartMarketCrystals.updateData(modules.marketTracker.getAverage("Crystals"));
+        activeCharts.chartMarketPlatinum.updateData(modules.marketTracker.getAverage("Platinum"));
+
+        activeCharts.chartMarketFood.updateData(modules.marketTracker.getAverage("Food"));
+        activeCharts.chartMarketWood.updateData(modules.marketTracker.getAverage("Wood"));
+        activeCharts.chartMarketIron.updateData(modules.marketTracker.getAverage("Iron"));
+        activeCharts.chartMarketStone.updateData(modules.marketTracker.getAverage("Stone"));
+    }
+
     function loadChartData() {
         if(!localStorage.chartData) {
             return;
@@ -226,6 +236,7 @@
             modules.ajaxHooks.register("autotrade.php", onAutoTrade);
             modules.ajaxHooks.register("autocraft.php", onAutoCraft);
             modules.ajaxHooks.register("game_stats.php", onStatsReceived);
+            modules.ajaxHooks.register("market.php", onMarketReceived);
             modules.ajaxHooks.registerAutoSend("game_stats.php", {}, modules.constants.ChartUpdateInterval);
 
             modules.uiScriptMenu.addLink("Charts", toggleWindow);
