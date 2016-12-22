@@ -100,16 +100,6 @@
             displayClanGold = createDisplay("gainsClanGold", "RoAExt_goldHourClan");
             displayClanResources = createDisplay("gainsClanResources", "RoAExt_resHourClan");
 
-            /*$('#battleGains').find('td').first().removeAttr('colspan').after('<td class="timeCounter" title="' + Date.now() + '"><span class="timeCounterHr">00</span>:<span class="timeCounterMin">00</span>:<span class="timeCounterSec">00</span></td>');
-            $('#tradeskillGains').find('td').first().removeAttr('colspan').after('<td class="timeCounter" title="' + Date.now() + '"><span class="timeCounterHr">00</span>:<span class="timeCounterMin">00</span>:<span class="timeCounterSec">00</span></td>');
-            $('#gainsXP').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"></td><td id="xpPerHr" colspan="2" style="text-align: center;"></td></tr>');
-            $('#gainsGold').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="goldPerHr" colspan="2" style="text-align: center;"></td></tr>');
-            $('#gainsClanXP').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="clanXpPerHr" colspan="2" style="text-align: center;"></td></tr>');
-            $('#gainsClanGold').parent().after('<tr class="hidden-xs hidden-sm visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="clanGoldPerHr" colspan="2" style="text-align: center;"></td></tr>');
-            $('#gainsResources').parent().after('<tr class="visible-xs-inline-block visible-sm-inline-block visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="resPerHr" colspan="2" style="text-align: center;"></td></tr>');
-            $('#gainsClanResources').parent().after('<tr class="visible-xs-inline-block visible-sm-inline-block visible-md visible-lg" style="color: #' + modules.constants.perHourColor + '; font-size: ' + modules.constants.perHourSize+ 'px"><td id="clanResPerHr" colspan="2" style="text-align: center;"></td></tr>');
-*/
-
             timer = modules.createInterval("GainPerHourDisplay");
             timer.set(updateDisplay, 500);
 

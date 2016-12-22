@@ -1,4 +1,4 @@
-(function ($) {
+(function () {
     'use strict';
 
     var updateTimer;
@@ -146,6 +146,10 @@
     }
 
     function registerIngredientDrop(item, mob) {
+        if(!item || item === "undefined" || !mob || mob === "undefined") {
+            return;
+        }
+
         console.log("Registering Ingredient drop: '" + item + "' from '" + mob + "'");
 
         if(!ingredientRegister[item]){
@@ -434,4 +438,4 @@
 
     modules.playerGainTracker = new PlayerGainTracker();
 
-})(modules.jQuery);
+})();
