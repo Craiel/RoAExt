@@ -28,7 +28,9 @@
 
         ChartUpdateInterval: 60 * 5 * 1000, // 5 minutes
 
-        HarvestRepeaterMinDelay: 60 * 25 * 1000 // 25 minutes
+        HarvestRepeaterMinDelay: 60 * 25 * 1000, // 25 minutes
+
+        MilestoneUpdateInterval: 60 * 5 * 1000, // 5 minutes
     });
 
     Constants.prototype.constructor = Constants;

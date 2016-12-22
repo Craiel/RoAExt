@@ -49,6 +49,7 @@
         // Player
         modules.loader.register(modules.playerGainWindow);
         modules.loader.register(modules.gainPerHourDisplay);
+        modules.loader.register(modules.playerMilestoneBar);
     }
     
     modules.loader.loadCallback = function () {        
