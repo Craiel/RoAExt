@@ -1,10 +1,13 @@
 (function ($) {
     'use strict';
 
+    const CaptchaWarningInterval = 60 * 5 * 1000; // warn every 5 minutes
+
     var autoMax = 0;
     var autoCurr = 0;
     var enabled = true;
     var allowAuto = true;
+    var lastWarningTime = Date.now();
 
     var replenishRequest;
 
@@ -44,13 +47,20 @@
         if(enabled && allowAuto && autoMax > 5 && autoCurr > 0 && autoCurr < autoMax && autoCurr < 3)
         {
             allowAuto = false;
-
             replenishRequest.send();
+        }
+
+        if(enabled && autoCurr < 0) {
+            if(Date.now() - lastWarningTime > CaptchaWarningInterval) {
+                lastWarningTime = Date.now();
+                modules.notification.warn("Auto Stamina requires Captcha Attention!");
+            }
         }
     }
 
     function onStaminaReplenish(requestData) {
         if (requestData.json.captcha) {
+            lastWarningTime = Date.now();
             modules.session.captchaEncountered();
         }
     }
