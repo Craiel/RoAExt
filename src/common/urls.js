@@ -24,6 +24,7 @@
         css: {
             jquery_ui: "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.css",
             jquery_te: "https://cdnjs.cloudflare.com/ajax/libs/jquery-te/1.4.0/jquery-te.min.css",
+            spectrum: "https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css",
             script: "https://rawgit.com/Craiel/RoAExtRelease/master/RoAExt.css"
         },
         gif: {
