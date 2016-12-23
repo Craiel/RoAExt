@@ -99,7 +99,7 @@
             $row.append($('<td>' + modules.gainTypes.parseInt(keys[i]).stringValue + '</td>'));
             $row.append($('<td>' + modules.utils.formatNumber(count, 0) + '</td>'));
             $row.append($('<td>' + modules.utils.formatNumber(value, fractionCount) + '</td>'));
-            if(average === 1) {
+            if(count === 1 || average === 1.00) {
                 $row.append($('<td></td>'));
             } else {
                 $row.append($('<td>' + modules.utils.formatNumber(average, fractionCount) + '</td>'));
