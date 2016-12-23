@@ -50,7 +50,8 @@
             var cost = auction.price * auction.v;
             var average = modules.marketTracker.getAverage(key);
             var wrapper = $('<div style="margin-left: 10px"></div>');
-            wrapper.append($('<span>' + key + ': ' + modules.utils.formatNumber(auction.v, 0) + ' @ ' + modules.utils.formatNumber(auction.price, 0) +  ' </span>'));
+            wrapper.append($('<span>' + key + ': </span>'));
+            wrapper.append($('<span>' + modules.utils.formatNumber(auction.price, 0) + '</span>'));
 
             if(auction.nprice) {
                 wrapper.append($('<span> -> ' + modules.utils.formatNumber(auction.nprice, 0) + ' </span>'));
@@ -69,6 +70,8 @@
                 link.click({tid: auction.tid, v: auction.v}, snipeAuction);
                 wrapper.append(link);
             }
+
+            wrapper.append($('<span style="margin-left: 5px">(' + modules.utils.formatNumber(auction.v, 0) + ')</span>'));
 
             contentPanel.append(wrapper);
         }
