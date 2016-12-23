@@ -19,8 +19,12 @@
 
     var request;
 
-    function onMarketDataReceived() {
+    function onMarketDataReceived(requestData) {
         buildSniperArea();
+    }
+
+    function onMarketBuy(requestData) {
+        modules.logger.log(requestData.json.result);
     }
 
     function snipeAuction(e) {
@@ -92,6 +96,7 @@
             request = modules.createAjaxRequest("market_buy.php");
 
             modules.ajaxHooks.register("market.php", onMarketDataReceived);
+            modules.ajaxHooks.register("market_buy.php", onMarketBuy);
 
             RoAModule.prototype.load.apply(this);
         }
