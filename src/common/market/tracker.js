@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const AutoSendDelay = 30 * 1000; // 30 seconds between each market query
+    const AutoSendDelay = 10 * 1000; // 20 seconds between each market query
 
     var request;
 

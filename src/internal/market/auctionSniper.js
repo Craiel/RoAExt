@@ -17,6 +17,8 @@
     var template;
     var contentPanel;
 
+    var request;
+
     function onMarketDataReceived() {
         buildSniperArea();
     }
@@ -24,6 +26,8 @@
     function snipeAuction(e) {
         if(window.confirm("Buy?")) {
             modules.logger.log("Sniping Trade " + e.data.tid);
+            request.post({id: e.data.tid, amount: e.data.v});
+            request.send();
         }
     }
 
@@ -40,11 +44,23 @@
             var auction = auctions[key];
 
             var cost = auction.price * auction.v;
-            var wrapper = $('<div></div>');
-            wrapper.append($('<span>' + key + ': ' + auction.v + ' @ ' + auction.price +  ' </span>'));
+            var average = modules.marketTracker.getAverage(key);
+            var wrapper = $('<div style="margin-left: 10px"></div>');
+            wrapper.append($('<span>' + key + ': ' + modules.utils.formatNumber(auction.v, 0) + ' @ ' + modules.utils.formatNumber(auction.price, 0) +  ' </span>'));
 
-            var link = $('<a>' + cost + '</a>');
-            link.click({tid: auction.tid }, snipeAuction);
+            var link = $('<a></a>');
+            link.click({tid: auction.tid, v: auction.v }, snipeAuction);
+
+            var pct = ((auction.price / average) * 100).toFixed(0);
+            var text = modules.utils.formatNumber(cost, 0) + " (" + pct + "%)";
+            if(pct <= 100) {
+                link.empty();
+                link.append($('<span style="color:greenyellow">' + text + '</span>'));
+            } else {
+                link.empty();
+                link.append($('<span style="color:red">' + text + '</span>'));
+            }
+
             wrapper.append(link);
             contentPanel.append(wrapper);
         }
@@ -67,6 +83,8 @@
             contentPanel = $('#' + IdString + "_content");
 
             buildSniperArea();
+
+            request = modules.createAjaxRequest("market_buy.php");
 
             modules.ajaxHooks.register("market.php", onMarketDataReceived);
 
