@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const AutoSendDelay = 10 * 1000; // 20 seconds between each market query
+    const AutoSendDelay = 5 * 1000; // 5 seconds between each market query
 
     var request;
 
@@ -147,6 +147,9 @@
             var data = {};
             for (var key in tradeData.trades) {
                 data[key] = tradeData.trades[key][0];
+                if(tradeData.trades[key].length > 1) {
+                    data[key].nprice = tradeData.trades[key][1].price;
+                }
             }
 
             return data;

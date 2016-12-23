@@ -10,8 +10,8 @@
         "Wood": 1,
         "Iron": 1,
         "Stone": 1,
-        "Crafting Materials": 1,
-        "Gem Fragments": 1,
+        //"Crafting Materials": 1,
+        //"Gem Fragments": 1,
     };
 
     var template;
@@ -53,15 +53,20 @@
 
             var pct = ((auction.price / average) * 100).toFixed(0);
             var text = modules.utils.formatNumber(cost, 0) + " (" + pct + "%)";
-            if(pct <= 100) {
+            if(pct <= 95) {
                 link.empty();
                 link.append($('<span style="color:greenyellow">' + text + '</span>'));
             } else {
                 link.empty();
-                link.append($('<span style="color:red">' + text + '</span>'));
+                link.append($('<span style="color:orange">' + text + '</span>'));
             }
 
             wrapper.append(link);
+
+            if(auction.nprice) {
+                wrapper.append($('<span> -> ' + modules.utils.formatNumber(auction.nprice, 0) + ' </span>'));
+            }
+
             contentPanel.append(wrapper);
         }
     }
