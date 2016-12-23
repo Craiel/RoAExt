@@ -48,6 +48,7 @@
             tradeData: {},
             gainData: "",
             lastEventTime: null,
+            peopleColorData: {},
             notes: ""
         },
         save: function () {
