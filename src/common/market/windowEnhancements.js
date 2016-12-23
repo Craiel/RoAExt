@@ -31,6 +31,11 @@
 
         priceColumns.each(function() {
             var text = $( this ).text();
+            if(text.includes("%)")) {
+                // Already processed this column
+                return;
+            }
+
             var value = parseInt(text.replace(/\,/g, ''));
             var pct = ((value / average) * 100).toFixed(0);
             text = text + " (" + pct + "%)";
