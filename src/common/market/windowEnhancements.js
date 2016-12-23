@@ -55,7 +55,7 @@
 
             modules.ajaxHooks.register("market.php", onMarketDataReceived);
 
-            updateTimer = modules.createInterval("MarketTrackerUpdate");
+            updateTimer = modules.createInterval("MarketWindowEnhancementUpdate");
             updateTimer.set(update, 500);
 
             RoAModule.prototype.load.apply(this);

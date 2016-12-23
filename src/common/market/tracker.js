@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const AutoSendDelay = 60 * 1000; // 1 minute between each market query
+    const AutoSendDelay = 30 * 1000; // 30 seconds between each market query
 
     var request;
 
@@ -112,7 +112,7 @@
     }
 
     function MarketTracker() {
-        RoAModule.call(this, "Player Gain-Tracker");
+        RoAModule.call(this, "Market Tracker");
     }
 
     MarketTracker.prototype = Object.spawn(RoAModule.prototype, {
@@ -142,6 +142,14 @@
             }
 
             return 0;
+        },
+        getTopAuctions: function () {
+            var data = {};
+            for (var key in tradeData.trades) {
+                data[key] = tradeData.trades[key][0];
+            }
+
+            return data;
         }
     });
 

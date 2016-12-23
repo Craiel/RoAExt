@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     function initializeEssentials() {
         // utility and core modules go first

@@ -1,4 +1,5 @@
 (function () {
+    'use strict';
 
     function initializeEssentials() {
         // utility and core modules go first
@@ -42,6 +43,7 @@
         // Market
         modules.loader.register(modules.marketTracker);
         modules.loader.register(modules.marketWindowEnhancements);
+        modules.loader.register(modules.auctionSniper);
 
         // Misc
         modules.loader.register(modules.uiDebugWindow);
