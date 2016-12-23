@@ -52,23 +52,22 @@
             var wrapper = $('<div style="margin-left: 10px"></div>');
             wrapper.append($('<span>' + key + ': ' + modules.utils.formatNumber(auction.v, 0) + ' @ ' + modules.utils.formatNumber(auction.price, 0) +  ' </span>'));
 
-            var link = $('<a></a>');
-            link.click({tid: auction.tid, v: auction.v }, snipeAuction);
+            if(auction.nprice) {
+                wrapper.append($('<span> -> ' + modules.utils.formatNumber(auction.nprice, 0) + ' </span>'));
+            }
 
             var pct = ((auction.price / average) * 100).toFixed(0);
             var text = modules.utils.formatNumber(cost, 0) + " (" + pct + "%)";
             if(pct <= 95) {
-                link.empty();
-                link.append($('<span style="color:greenyellow">' + text + '</span>'));
+                wrapper.append($('<span style="color:greenyellow">' + text + '</span>'));
             } else {
-                link.empty();
-                link.append($('<span style="color:orange">' + text + '</span>'));
+                wrapper.append($('<span style="color:orange">' + text + '</span>'));
             }
 
-            wrapper.append(link);
-
-            if(auction.nprice) {
-                wrapper.append($('<span> -> ' + modules.utils.formatNumber(auction.nprice, 0) + ' </span>'));
+            if(!auction.owner) {
+                var link = $('<a style="margin-left: 5px">Buy</a>');
+                link.click({tid: auction.tid, v: auction.v}, snipeAuction);
+                wrapper.append(link);
             }
 
             contentPanel.append(wrapper);
