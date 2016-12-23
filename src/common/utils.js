@@ -51,6 +51,10 @@
             + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
     };
 
+    module.hasFraction = function (n) {
+        return (n % 1) > 0;
+    };
+
     modules.utils = module;
 
 })(modules.jQuery);

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    const GainDataVersion = 1;
+    const GainDataVersion = 2;
     const StorageTimeLimit = 24 * 60 * 60 * 1000; // track the value over 24 hours
     const PerHourUpdateInterval = 60 * 1000; // update every minute
     const PerHourTime = 60 * 60 * 1000;
@@ -19,7 +19,7 @@
         valueSinceLastUpdate: 0,
         initialize: function() {
             if(!this.storage || this.storage.version !== GainDataVersion) {
-                this.storage = { version: GainDataVersion, t: 0, e: [], s: {}};
+                this.storage = { version: GainDataVersion, t: 0, tc: 0, e: [], s: {}};
             }
         },
         addData: function (value, source) {
@@ -30,6 +30,7 @@
 
             var time = Date.now();
             this.storage.t += value;
+            this.storage.tc++;
             this.storage.e.unshift({v: value, t: time});
 
             while(this.storage.e.length > 0 && time - this.storage.e[this.storage.e.length - 1].t > StorageTimeLimit) {
@@ -88,6 +89,9 @@
                 this.entriesSinceLastUpdate = 0;
                 this.lastUpdate = time;
             }
+        },
+        getEntryCount: function () {
+            return this.storage.tc;
         },
         getValue: function () {
             return this.storage.t;

@@ -84,18 +84,29 @@
 
             var data = modules.playerGainTracker.getData(keys[i]);
 
+            var count = data.getEntryCount();
             var value = data.getFilteredValue(sourceFilterArray);
             if(value === 0) {
                 // We will not show 0 entries
                 continue;
             }
 
+            var fractionCount = modules.utils.hasFraction(value) ? 2 : 0;
+            var average = (value / count).toFixed(2);
+
             var $row = $('<tr></tr>');
             $row.append($('<td>' + keys[i] + '</td>'));
             $row.append($('<td>' + modules.gainTypes.parseInt(keys[i]).stringValue + '</td>'));
-            $row.append($('<td>' + value.toFixed(2) + '</td>'));
-            $row.append($('<td>' + data.getCurrentPerHourValue().toFixed(2) + '</td>'));
-            $row.append($('<td>' + data.getAbsolutePerHourValue().toFixed(2) + '</td>'));
+            $row.append($('<td>' + modules.utils.formatNumber(count, 0) + '</td>'));
+            $row.append($('<td>' + modules.utils.formatNumber(value, fractionCount) + '</td>'));
+            if(average === 1) {
+                $row.append($('<td></td>'));
+            } else {
+                $row.append($('<td>' + modules.utils.formatNumber(average, fractionCount) + '</td>'));
+            }
+
+            $row.append($('<td>' + modules.utils.formatNumber(data.getCurrentPerHourValue(), fractionCount) + '</td>'));
+            $row.append($('<td>' + modules.utils.formatNumber(data.getAbsolutePerHourValue(), fractionCount) + '</td>'));
 
             tableBody.append($row);
         }
