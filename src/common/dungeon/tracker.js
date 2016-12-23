@@ -77,6 +77,13 @@
             return;
         }
 
+        if(requestData.json.m === "You walked down.") {
+            // We moved down, reset dungeon data
+            initializeDungeonData();
+            modules.session.dungeonNeedsUpdate = true;
+            return;
+        }
+
         var previousRoomId = modules.settings.settings.dungeonData.currentRoomId;
         var direction = modules.dungeonDirections.parse(requestData.json.m, true);
 
