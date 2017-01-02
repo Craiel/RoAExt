@@ -41,6 +41,27 @@
             features: {
                 house_timer: true
             },
+            chat: {
+                purge: true,
+                channel_remove: false,
+                preview: true,
+                preview_reset: false,
+                group_wires: false,
+                at_username: true,
+                join_channel_link: true,
+                auto_join: false,
+                profile_tooltip_nickname: true,
+                profile_tooltip_mention: true,
+                profile_tooltip_quickscope: true,
+                channels: {
+                    merger: {
+                        groups: [],
+                        mapping: {},
+                        defaultChannels: {}
+                    },
+                    mutedChannels   : []
+                }
+            },
             dynamicSettings: {},
             dungeonData: {},
             chartData: null,

@@ -26,7 +26,11 @@
 
         // Chat
         modules.loader.register(modules.chatPeopleColor);
-        modules.loader.register(modules.chatTabs);
+        modules.loader.register(modules.chatTabsCore);
+        modules.loader.register(modules.chatTabsUI);
+        modules.loader.register(modules.chatTabsUIContext);
+        modules.loader.register(modules.chatTabsUISettings);
+        modules.loader.register(modules.chatTabsUITooltip);
 
         // Clan
         modules.loader.register(modules.clanDonations);

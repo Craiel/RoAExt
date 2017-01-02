@@ -1,0 +1,68 @@
+<div id="ToASettingsWindow" class="border2 ui-element">
+    <h5 style="text-align: center">Chat Tab Settings</h5>
+    <div id="ToASWMenu">
+        <div class="col-sm-6 text-center">
+            <button id="ToAScriptOptions" type="button" class="btn btn-primary btn-block">Script options</button>
+        </div>
+        <div class="col-sm-6 text-center">
+            <button id="ToAChannelMerger" type="button" class="btn btn-primary btn-block">(WIP) Channel Manager</button>
+        </div>
+        <div class="clearfix"></div>
+        <div id="ToASettingsWindowContent">
+            <div id="ToASettingsScriptSettings">
+                <h6 class="text-center">Script settings</h6>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="purge"/> Allow channel message purging</label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="channel_remove"/> Allow removing channel form tabs</label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="preview"/> Preview channel on tab hover</label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="preview_reset"/> Allow marking channels as read</label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="group_wires"/> Group wires into their own channel</label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="at_username"/> Make @username clickable</label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="join_channel_link"/> Make "/join channel" clickable. <span class="fa fa-info-circle ToATooltip" title="After you click on the link, the chat message will be filled with a /join channel text." data-toggle="tooltip" data-placement="top" data-html="true"></span></label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="auto_join"/> Autojoin clicked channel. <span class="fa fa-info-circle ToATooltip" title="This is designed to work with the previous option to replace the /join <a>channel</a> message.<br>If this option is enabled, the prefilled message to join a channel will be automatically sent." data-toggle="tooltip" data-placement="top" data-html="true"></span></label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="profile_tooltip_nickname"/> Enable Ni[c]kname shortcut</label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="profile_tooltip_mention"/> Enable @m[e]ntion shortcut</label>
+                </div>
+                <div class="col-sm-6">
+                    <label><input type="checkbox" class="settingsChanger" data-setting="profile_tooltip_quickscope"/> Enable [Q]uickscope shortcut</label>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="ToASettingsChannelMerger">
+                <h6 class="text-center">Muted channels</h6>
+                <div id="ToASChMMutedChannelsHolder" class="border2 ui-element ToASChannelsHolder">
+                </div>
+                <h6 class="text-center">Channel Merger</h6>
+                <label>Available Channels:</label>
+                <div id="ToASChMMergedChannelsHolder" class="border2 ui-element ToASChannelsHolder incsort">
+                </div>
+                <label>Channel Groups:</label>
+                <button id="ToASChMAddGroup" class="fa fa-plus btn btn-primary emerald pull-right btn-xs"></button>
+                <div id="ToASChMMergedChannelsGroupsHolder" class="ui-element ToASChannelsHolder">
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <span id="ToASettingsWindowClose" class="fa fa-times border2 ui-element"></span>
+    </div>
+</div>
