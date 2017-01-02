@@ -61,14 +61,23 @@
         saveChartData();
     }
 
-    function onMarketReceived(requestData) {
-        activeCharts.chartMarketCrystals.updateData(modules.marketTracker.getAverage("Crystals"));
-        activeCharts.chartMarketPlatinum.updateData(modules.marketTracker.getAverage("Platinum"));
+    function updateMarketChart(chart, key) {
+        var stats = modules.marketTracker.getStats(key);
+        if(!stats || !stats.avg || stats.avg <= 0) {
+            return;
+        }
 
-        activeCharts.chartMarketFood.updateData(modules.marketTracker.getAverage("Food"));
-        activeCharts.chartMarketWood.updateData(modules.marketTracker.getAverage("Wood"));
-        activeCharts.chartMarketIron.updateData(modules.marketTracker.getAverage("Iron"));
-        activeCharts.chartMarketStone.updateData(modules.marketTracker.getAverage("Stone"));
+        chart.updateData(stats.avg);
+    }
+
+    function onMarketReceived(requestData) {
+        updateMarketChart(activeCharts.chartMarketCrystals, "Crystals");
+        updateMarketChart(activeCharts.chartMarketPlatinum, "Platinum");
+
+        updateMarketChart(activeCharts.chartMarketFood, "Food");
+        updateMarketChart(activeCharts.chartMarketWood, "Wood");
+        updateMarketChart(activeCharts.chartMarketIron, "Iron");
+        updateMarketChart(activeCharts.chartMarketStone, "Stone");
     }
 
     function loadChartData() {
