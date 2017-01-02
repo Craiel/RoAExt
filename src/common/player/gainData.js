@@ -34,7 +34,7 @@
             this.storage.e.unshift({v: value, t: time});
 
             while(this.storage.e.length > 0 && time - this.storage.e[this.storage.e.length - 1].t > StorageTimeLimit) {
-                var oldEntry = this.storage.pop();
+                var oldEntry = this.storage.e.pop();
                 this.storage.t -= oldEntry.v;
             }
 
