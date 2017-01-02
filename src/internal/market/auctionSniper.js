@@ -5,13 +5,14 @@
 
     const AllowedSnipeTargets = {
         "Crystals": 1,
+        "Crystal": 1,
         "Platinum": 1,
         "Food": 1,
         "Wood": 1,
         "Iron": 1,
         "Stone": 1,
-        //"Crafting Materials": 1,
-        //"Gem Fragments": 1,
+        "Crafting Materials": 1,
+        "Gem Fragments": 1,
     };
 
     var template;
@@ -35,6 +36,11 @@
         }
     }
 
+    // 141 - Lucky coin
+    // 131 - Rainbow shard
+
+    // "type=ingredient&page=0&q=0&ll=0&hl=0&st=141"
+
     function buildSniperArea() {
         contentPanel.empty();
 
@@ -48,18 +54,20 @@
             var auction = auctions[key];
 
             var cost = auction.price * auction.v;
-            var average = modules.marketTracker.getAverage(key);
+
             var wrapper = $('<div style="margin-left: 10px"></div>');
             wrapper.append($('<span>' + key + ': </span>'));
             wrapper.append($('<span>' + modules.utils.formatNumber(auction.price, 0) + '</span>'));
 
+            var isDeal = auction.avg <= 95 || auction.avgAbs <= 90;
             if(auction.nprice) {
+                // Only deal if the next auction is more expensive
+                isDeal = isDeal && auction.nprice > auction.price;
                 wrapper.append($('<span> -> ' + modules.utils.formatNumber(auction.nprice, 0) + ' </span>'));
             }
 
-            var pct = ((auction.price / average) * 100).toFixed(0);
-            var text = modules.utils.formatNumber(cost, 0) + " (" + pct + "%)";
-            if(pct <= 95) {
+            var text = modules.utils.formatNumber(cost, 0) + " (T:" + auction.avg + "%, TA:" + auction.avgAbs + "%)";
+            if (isDeal) {
                 wrapper.append($('<span style="color:greenyellow">' + text + '</span>'));
             } else {
                 wrapper.append($('<span style="color:orange">' + text + '</span>'));

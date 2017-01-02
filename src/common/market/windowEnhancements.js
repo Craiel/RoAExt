@@ -24,8 +24,8 @@
             return;
         }
 
-        var average = modules.marketTracker.getAverage(type);
-        if(average <= 0) {
+        var stats = modules.marketTracker.getStats(type);
+        if(stats.avg <= 0) {
             return;
         }
 
@@ -37,7 +37,7 @@
             }
 
             var value = parseInt(text.replace(/\,/g, ''));
-            var pct = ((value / average) * 100).toFixed(0);
+            var pct = ((value / stats.avg) * 100).toFixed(0);
             text = text + " (" + pct + "%)";
             if(pct <= 100) {
                 $(this).empty();

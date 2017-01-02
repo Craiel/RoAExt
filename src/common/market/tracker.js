@@ -9,7 +9,7 @@
     var saveTimer;
 
     var lastRcvTime = Date.now();
-    var autoSendList = [ "premium", "platinum", "food", "wood", "iron", "stone" ];
+    var autoSendList = [ "premium", "platinum", "food", "wood", "iron", "stone", "weapon_scraps", "gem_fragments" ];
     var autoSendIndex = 0;
     var autoSendEnabled = true;
 
@@ -40,9 +40,13 @@
         var min = null;
         var max = null;
         var avg = 0;
+        var avgPerItem = 0;
+        var avgPerItemCount = 0;
         for (var i = 0; i < requestData.json.l.length; i++) {
             var trade = requestData.json.l[i];
             var price = parseInt(trade.price);
+            var amount = parseInt(trade.v);
+
             if(!min || min > price) {
                 min = price;
             }
@@ -53,12 +57,24 @@
 
             avg += price;
 
-            tradeData.trades[type].push(trade);
+            avgPerItem += (price * amount);
+            avgPerItemCount += amount;
         }
 
         avg = (avg / requestData.json.l.length).toFixed(0);
+        avgPerItem = (avgPerItem / avgPerItemCount).toFixed(0);
 
-        tradeData.stats[type] = { min: min, max: max, avg: avg };
+        tradeData.stats[type] = { min: min, max: max, avg: avg, avgp: avgPerItem };
+
+        for (var i = 0; i < requestData.json.l.length; i++) {
+            var trade = requestData.json.l[i];
+            var price = parseInt(trade.price);
+
+            trade.avg = ((price / avg) * 100).toFixed(0);
+            trade.avgAbs = ((price / avgPerItem) * 100).toFixed(0);
+
+            tradeData.trades[type].push(trade);
+        }
 
         // Type:
         // requestData.json.cn
@@ -135,13 +151,13 @@
         reset: function () {
             initializeData();
         },
-        getAverage: function (key) {
-            if(tradeData.stats[key])
+        getStats: function (key) {
+            if (tradeData.stats[key])
             {
-                return tradeData.stats[key].avg;
+                return tradeData.stats[key];
             }
 
-            return 0;
+            return {};
         },
         getTopAuctions: function () {
             var data = {};

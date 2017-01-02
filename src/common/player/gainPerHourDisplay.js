@@ -17,6 +17,34 @@
     var displayClanGold;
     var displayClanResources;
 
+    function getTimeToLevelText(xpHourValue) {
+        var ttlh = 0;
+        var ttlm = 0;
+        var ttld = 0;
+
+        if(xpHourValue > 0) {
+            var xpCurrent = modules.utils.getElementIntValue("currentXP");
+            var xpRequired = modules.utils.getElementIntValue("levelCost");
+            var ttl = ((xpRequired - xpCurrent) / xpHourValue).toFixed(2);
+            ttlh = Math.floor(ttl);
+            ttlm = Math.floor((ttl % 1).toFixed(2) * 60);
+            ttld = Math.floor(ttl / 24);
+        } else {
+            return "";
+        }
+
+        var ttlText = ttlm + "m";
+        if(ttlh > 0) {
+            ttlText = ttlh + "h " + ttlText;
+        }
+
+        if(ttld > 0) {
+            ttlText = ttld + "d " + ttlText;
+        }
+
+        return " (TTL: " + ttlText + ")";
+    }
+
     function updateDisplay() {
         var data = modules.playerGainTracker.getData(modules.gainTypes.types.EnemiesKilled.id);
         displayKills.text(data.getCurrentPerHourValue().toFixed(0) + " / Hr");
@@ -29,17 +57,9 @@
 
         data = modules.playerGainTracker.getData(modules.gainTypes.types.XP.id);
         var xpHourValue = data.getCurrentPerHourValue();
-        var ttlh = 0;
-        var ttlm = 0;
-        if(xpHourValue > 0) {
-            var xpCurrent = modules.utils.getElementIntValue("currentXP");
-            var xpRequired = modules.utils.getElementIntValue("levelCost");
-            var ttl = ((xpRequired - xpCurrent) / xpHourValue).toFixed(2);
-            ttlh = Math.floor(ttl);
-            ttlm = Math.floor((ttl % 1).toFixed(2) * 60);
-        }
 
-        displayXP.text(xpHourValue.toFixed(0) + " / Hr (TTL: " + ttlh + "h " + ttlm + "m)");
+        var ttlText = getTimeToLevelText(xpHourValue);
+        displayXP.text(xpHourValue.toFixed(0) + " / Hr" + ttlText);
 
         data = modules.playerGainTracker.getData(modules.gainTypes.types.Gold.id);
         displayGold.text(data.getCurrentPerHourValue().toFixed(0) + " / Hr");
