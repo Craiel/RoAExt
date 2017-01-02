@@ -55,6 +55,43 @@
         return (n % 1) > 0;
     };
 
+    module.randomInt = function(min, max) {
+        return Math.round(Math.random() * ( max - min )) + min;
+    };
+
+    module.randomColor = function() {
+        var color = "#";
+        for (var i = 0; i < 6; i++) {
+            color += Math.floor(Math.random() * 15).toString(16);
+        }
+
+        return color;
+    };
+
+    module.randomName = function(min, max) {
+        var a = "aeiou".split("");
+        var b = "rtzpsdfghklmnbvc".split("");
+        var l = modules.utils.randomInt(min, max);
+        var name = "";
+        for (var i = 0; i < l; i++)
+        {
+            var charset = i % 2 === 0 ? a : b;
+            if ( i === 0 )
+            {
+                charset = Math.random() < 0.5 ? a : b;
+            }
+
+            var letter = charset[modules.utils.randomInt(0, charset.length - 1)];
+            name += i === 0 ? letter.toUpperCase() : letter;
+        }
+
+        return name;
+    };
+
+    module.capitalizeFirstLetter = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     modules.utils = module;
 
 })(modules.jQuery);
