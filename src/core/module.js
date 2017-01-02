@@ -1,5 +1,6 @@
 function RoAModule(name) {
     this.name = name;
+    this.dependencies = [];
 }
 
 RoAModule.prototype = {
