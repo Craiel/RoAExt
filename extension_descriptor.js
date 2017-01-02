@@ -8,7 +8,7 @@
 // @include        http://avabur.com/game.php
 // @include        https://www.avabur.com/game.php
 // @include        http://www.avabur.com/game.php
-// @version        0.9
+// @version        1.0
 // @icon           https://cdn.rawgit.com/Craiel/RoAExtRelease/master/img/logo-16.png
 // @icon64         https://cdn.rawgit.com/Craiel/RoAExtRelease/master/img/logo-64.png
 // @run-at         document-end
