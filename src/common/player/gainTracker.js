@@ -38,6 +38,7 @@
                 return;
             }
 
+            case "crystal":
             case "crystals":
             case "Crystals": {
                 activeData[modules.gainTypes.types.Crystal.id].addData(value || 0, source);
@@ -172,8 +173,6 @@
         if(!item || item === "undefined" || !source || source === "undefined") {
             return;
         }
-
-        console.log("Registering Ingredient drop: '" + item + "' from '" + source + "'");
 
         if(!dropRegister[item]){
             dropRegister[item] = nextIngredientId++;
