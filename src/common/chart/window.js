@@ -88,7 +88,12 @@
         var data = JSON.parse(modules.settings.settings.chartData);
         for (var id in data) {
             if(activeCharts[id]) {
-                activeCharts[id].load(data[id]);
+                try {
+                    activeCharts[id].load(data[id]);
+                } catch(e){
+                    modules.logger.error("Failed to load Chart Data for " + id +": " + e);
+                    delete data[id];
+                }
             }
         }
     }
